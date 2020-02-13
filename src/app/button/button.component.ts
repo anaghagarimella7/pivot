@@ -253,6 +253,7 @@ onClickFormatCategoryCancel(){
     onTextColor2(event:Event){
       this.textcolor2=(<HTMLInputElement>event.target).value; 
     }
+    
    
     onFont2(event:Event){
     this.font2=(<HTMLInputElement>event.target).value; 
