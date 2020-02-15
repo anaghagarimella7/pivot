@@ -6,22 +6,27 @@ import { AppComponent } from './app.component';
 import {FormsModule } from '@angular/forms'
 import { ButtonComponent } from './button/button.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TableComponent } from './table/table.component';
 import {format} from './button/format.pipe';
+import {Routes,RouterModule} from '@angular/router';
+import { ColumnComponent } from './column/column.component';
 
+const appRoutes:Routes=[
+  { path : 'add', component:ColumnComponent } 
+]
 @NgModule({
   declarations: [
     AppComponent,
     ButtonComponent,
-    TableComponent,
-    format
+    format,
+    ColumnComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatTableModule,
-    FormsModule
+    FormsModule,
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [],
   bootstrap: [AppComponent]
