@@ -7,6 +7,7 @@ import {data } from './data';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  childTitle:string="Parent Child";
   title = 'Conditional Formatting';
   category=['FruitPreserves','Soups','BreakfastCereals','Bakery','Confectionery','FruitPreserves','Condiments','BreakfastCereals','Bakery'];
   month=['April','April','April','April','April','April','March','March','March'];
@@ -28,6 +29,6 @@ export class AppComponent {
   ];
   
   d=this.dat[0];
-  columnNames=['Category','Month','Revenue'];
+  displayedColumns=['category','month','revenue'];
 
 }

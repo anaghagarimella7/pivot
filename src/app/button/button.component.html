@@ -1,13 +1,28 @@
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-      input[type=text] {
-  width: 20%;
+     
  
+.btn {
+  background-color: DodgerBlue;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: RoyalBlue;
 }
 
 table{
-  width:80%;
+  width:100%;
+  border:1px solid black;
 }
       .lessvalue{
         background-color: #df3800;
@@ -30,8 +45,8 @@ table{
           <img src="assets/images/format.jpg" width="40px" height="40px;">
               
             
-              <button class="btn btn-primary" (click)="onClick();">Formatting</button> <br><br>
-            
+              <button class="btn btn-primary" (click)="onClick();"><i class="fa fa-bars"> Format </i></button> <br><br>
+             
         </div>
       </div>
 </div>
@@ -66,11 +81,14 @@ table{
 </ng-template>
 <p *ngIf="!format; else form"></p>
 <ng-template #form>
-    <table class="table table-bordered">
+    <table class="table table-striped">
       <tr>
-        <th><button class="btn btn-primary" (click)="onButtonCategory();">Category</button></th>
-        <th><button class="btn btn-primary" (click)="onButtonMonth();">Month</button></th>
-        <th><button class="btn btn-primary" (click)="onButtonRevenue();">Revenue</button></th>
+        <th>Category <br><button class="btn btn-primary" (click)="onButtonCategory();"><i class="fa fa-eercast"></i></button></th>
+        
+        <th>Month <br><button class="btn btn-primary" (click)="onButtonMonth();"><i class="fa fa-calendar"></i></button></th>
+        <th>Revenue <br><button class="btn btn-primary" (click)="onButtonRevenue();"><i class="fa fa-credit-card-alt"></i></button></th>
+
+       
       </tr>
           
       <tr style="font-family: serif;font-size: 15px;" *ngFor="let x of dat" >
@@ -104,7 +122,7 @@ table{
     <ng-template #category>
       <p>Formatting for : <strong>{{columnName}}</strong></p><hr>
       Text-alignment: 
-      <select  style="width: 20% " class=" form-control" (change)="onAlignSelect($event)">
+      <select  style="width: 20%; " class=" form-control" (change)="onAlignSelect($event)">
     <option value="left">Left</option>
     <option value="right">Right</option>
   </select>
@@ -153,7 +171,7 @@ table{
 <button class="btn btn-primary" (click)="onClickFormatApply();">Apply</button>
    &nbsp;
    <button class="btn btn-primary" (click)="onClickFormatCancel();">Cancel</button>
-  
+
    </ng-template>
    
  
@@ -249,16 +267,44 @@ table{
    FontColor2: <input style="width: 10% ; display: inline;" type="color"  class="form-control" (input)="onFontColor2($event)"><br>
    TextColor2: <input style="width: 10% ; display: inline;" type="color"  class="form-control" (input)="onTextColor2($event)"><br>
 
-   <br><br>
-
-   <button class="btn btn-primary" (click)="onClickConditionApply();">Apply</button>
-   &nbsp;
-   <button class="btn btn-primary" (click)="onClickConditionCancel();">Cancel</button>
+<br>
   
+   <button class="btn btn-primary" (click)="onAdd();">  Add Column   </button>
+
 <hr>
+
 </ng-template>
-   
-    
+<p *ngIf="!addCol; else AddCol"></p>
+       <ng-template #AddCol>
+        Select Column: 
+        <select  style="width: 20% ; display: inline;" class=" form-control" (change)="onClickColumn($event)">
+          <option [value]="i" *ngFor="let i of displayedColumns">{{i}}</option>
+        </select>
+        
+        FontFamily: 
+        <select  style="width: 20%; display: inline; " class=" form-control" (change)="onFonts($event)">
+         <option [value]="i" *ngFor="let i of fonts">{{i}}</option>
+       </select>
+       
+        FontSize: 
+        <select  style="width: 20%; display: inline; " class=" form-control" (change)="onFontSizes($event)">
+         <option [value]="i" *ngFor="let i of sizes">{{i}}</option>
+       </select>
+       
+        FontColor: <input style="width: 10% ; display: inline;" type="color"  class="form-control" (input)="onFontColors($event)"><br>
+        TextColor: <input style="width: 10% ; display: inline;" type="color"  class="form-control" (input)="onTextColors($event)"><br>
+        
+        <br><br>
+        
+       </ng-template>
+       
+       <p *ngIf="!condition; else button"></p>
+       <ng-template #button>
+        <button class="btn btn-primary" (click)="onClickConditionApply();">Apply</button>
+        &nbsp;
+        <button class="btn btn-primary" (click)="onClickConditionCancel();">Cancel</button>
+        &nbsp;
+       </ng-template>
    <p *ngIf="!buttonConditionApply; else Apply"></p>
     <ng-template #Apply>
       
@@ -272,8 +318,11 @@ table{
       <tr style="font-family: serif;" *ngFor="let x of dat" >
         <Td >{{x.category}}</Td>
       
-        <Td >{{x.month}}</Td>
-         <td *ngIf="col1=='revenue' &&op1=='<' && x.revenue<val1" [ngStyle]="{'background-color':fontcolor1,'font-family':font1, 'font-size.px':fontsize1,color:textcolor1}" >{{x.revenue| currency}}</td>
+        <Td *ngIf="Col=='month' else no" [ngStyle]="{'background-color':fontcolor,'font-family':font,'font-size.px':fontsize,'color':textcolor}">{{x.month}}</Td>
+        <ng-template #no>
+          <td>{{x.month}}</td>
+        </ng-template>
+        <td *ngIf="col1=='revenue' &&op1=='<' && x.revenue<val1" [ngStyle]="{'background-color':fontcolor1,'font-family':font1, 'font-size.px':fontsize1,color:textcolor1}" >{{x.revenue| currency}}</td>
       <td *ngIf="col1=='revenue' && op1=='<=' && x.revenue<=val1" [ngStyle]="{'background-color':fontcolor1,'font-family':font1, 'font-size.px':fontsize1,color:textcolor1}" >{{x.revenue| currency}}</td>
       <td *ngIf="col1=='revenue' && op1=='>' && x.revenue>val1" [ngStyle]="{'background-color':fontcolor1,'font-family':font1, 'font-size.px':fontsize1,color:textcolor1}" >{{x.revenue| currency}}</td>
       <td *ngIf="col1=='revenue' && op1=='>=' && x.revenue>=val1" [ngStyle]="{'background-color':fontcolor1,'font-family':font1, 'font-size.px':fontsize1,color:textcolor1}" >{{x.revenue| currency}}</td>
@@ -284,12 +333,8 @@ table{
          <td *ngIf="col2=='revenue' && op2=='<=' && x.revenue<=val2" [ngStyle]="{'background-color':fontcolor2,'font-family':font2, 'font-size.px':fontsize2,color:textcolor2}">{{x.revenue|currency}}</td>
          <td *ngIf="col2=='revenue' && op2=='=' && x.revenue==val2" [ngStyle]="{'background-color':fontcolor2,'font-family':font2, 'font-size.px':fontsize2,color:textcolor2}">{{x.revenue|currency}}</td>
          <td *ngIf="col2=='revenue' && op2=='>=' && x.revenue>=val2; " [ngStyle]="{'background-color':fontcolor2,'font-family':font2, 'font-size.px':fontsize2,color:textcolor2}">{{x.revenue|currency}}</td>
-
           </tr>
-     
-      
     </table>
-  
   </ng-template>
        
     </body>

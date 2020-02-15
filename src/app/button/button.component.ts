@@ -40,24 +40,34 @@ export class ButtonComponent implements OnInit {
   currencyAlignment='left';
   col1='';
   col2='';
+  column='';
   op1='>';
   op2='>';
   val1=0;
   val2=0;
   font1='';
   font2='';
+  Col='';
+ addCol=false;
+ font='';
+ fontsize=20;
+  textcolor='';
+  fontcolor='';
   fontsize1=20;
   fontsize2=20;
   fontcolor1='';
   fontcolor2='';
   textcolor1='';
   textcolor2='';
+  apply=false;
+  cancel=false;
   revenueApply=false;
   revenueCancel=false;
   categoryApply=false;
   categoryCancel=false;
   monthApply=false;
   monthCancel=false;
+  addColumn=false;
     dat=[
     new data('FruitPreserves','April',3950.00),
     new data('Soups','April',1260.00),
@@ -78,14 +88,46 @@ export class ButtonComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  onAdd(){
+    this.addCol=true;
+  }
+  onClickColumn(event:Event){
+    
+    this.Col=(<HTMLInputElement>event.target).value; 
+    console.log(event);
+  }
+  onFonts(event:Event){
+    this.font=(<HTMLInputElement>event.target).value; 
+  }
+  onFontSizes(event:Event){
+   this.fontsize=+(<HTMLInputElement>event.target).value; 
+ }
+ onFontColors(event:Event){
+   this.fontcolor=(<HTMLInputElement>event.target).value; 
+ }
+ onTextColors(event:Event){
+   this.textcolor=(<HTMLInputElement>event.target).value; 
+ }
+ onClickApply(){
+   this.apply=true;
+   this.cancel=false;
+ }   
+ onClickCancel(){
+   this.cancel=true;
+   this.apply=false;
+ }
+ 
+ 
 
   onClick(){
     this.buttonClick='true';
   
   }
+  onAddColumn(){
+    this.addColumn=true;
+  }
    onClickCondition(){
-  this.condition=true;
+     this.condition=true;
   this.format=false;
   this.buttonFormatApply=false;
   this.buttonRevenue=false;
@@ -93,6 +135,7 @@ export class ButtonComponent implements OnInit {
    this.buttonCategory=false;
    this.revenueApply=false;
    this.categoryApply=false;
+   this.addCol=false;
    
  }
    onClickFormat(){
@@ -105,6 +148,7 @@ export class ButtonComponent implements OnInit {
    this.revenueApply=false;
    this.categoryApply=false;
    this.buttonFormatApply=false;
+   this.addCol=false;
  }
  onClickFormatRevenueApply(){
    this.revenueApply=true;
@@ -133,6 +177,7 @@ onClickFormatCategoryApply(){
   this.categoryApply=true;
   this.categoryCancel=false;
   this.columnName='category';
+
 }
 onClickFormatCategoryCancel(){
   this.categoryApply=false;
@@ -190,8 +235,9 @@ onClickFormatCategoryCancel(){
    }
 
    onClickConditionApply(){
+         
       this.buttonConditionApply=true;
-      this.buttonConditionCancel=false;
+       this.buttonConditionCancel=false;
       this.buttonFormatApply=false;
       this.buttonFormatCancel=false;
    }
@@ -226,6 +272,9 @@ onClickFormatCategoryCancel(){
   }
   onCol2(event:Event){
     this.col2=(<HTMLInputElement>event.target).value; 
+  }
+  onColumn(event:Event){
+    this.column=(<HTMLInputElement>event.target).value; 
   }
   onVal2(event:Event){
     this.val2=+(<HTMLInputElement>event.target).value; 
