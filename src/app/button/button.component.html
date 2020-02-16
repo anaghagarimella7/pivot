@@ -4,8 +4,24 @@
 <!-- Add icon library -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-     
- 
+body{
+  padding: 3rem;
+}
+input {
+    border: 5px solid white; 
+    -webkit-box-shadow: 
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 16px rgba(0,0,0,0.1); 
+    -moz-box-shadow: 
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 16px rgba(0,0,0,0.1); 
+    box-shadow: 
+      inset 0 0 8px  rgba(0,0,0,0.1),
+            0 0 16px rgba(0,0,0,0.1); 
+    padding: 15px;
+    background: rgba(255,255,255,0.5);
+    margin: 0 0 10px 0;
+}
 .btn {
   background-color: DodgerBlue;
   border: none;
@@ -108,7 +124,7 @@ table{
     <ng-template #month>
       <p>Formatting for : <strong>{{columnName}}</strong></p><hr>
       Text-alignment: 
-      <select  style="width: 20% " class=" form-control" (change)="onAlignSelect($event)">
+      <select class="select-css"  style="width: 20% " class=" form-control" (change)="onAlignSelect($event)">
     <option value="left">Left</option>
     <option value="right">Right</option>
   </select>
