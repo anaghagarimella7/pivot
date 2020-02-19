@@ -12,11 +12,13 @@ export class ButtonComponent implements OnInit {
   dataSource= ELEMENT_DATA;
   allownewbutton=false;
   buttonCategory=false;
+  count=0;
+  countbefore=-1;
   buttonMonth=false;
   buttonRevenue=false;
   buttonClick='false';
   col=['c','m','r'];
-  thousandSep=[',','.'];
+  thousandSep=[',','None'];
   decimals=[1,2,3,4,5];
   format=false;
   condition=false;
@@ -47,7 +49,7 @@ export class ButtonComponent implements OnInit {
   val2=0;
   font1='';
   font2='';
-  Col='';
+  Col='category';
  addCol=false;
  font='';
  fontsize=20;
@@ -62,6 +64,7 @@ export class ButtonComponent implements OnInit {
   apply=false;
   cancel=false;
   revenueApply=false;
+  home=false;
   revenueCancel=false;
   categoryApply=false;
   categoryCancel=false;
@@ -88,39 +91,46 @@ export class ButtonComponent implements OnInit {
 
   ngOnInit() {
   }
+  onClickHome(){
+    this.home=true;
+  }
   onAdd(){
     this.addCol=true;
   }
   onClickColumn(event:Event){
     
     this.Col=(<HTMLInputElement>event.target).value; 
+    this.buttonConditionApply=false;
+
     console.log(event);
   }
   onFonts(event:Event){
     this.font=(<HTMLInputElement>event.target).value; 
+    this.buttonConditionApply=false;
+
   }
   onFontSizes(event:Event){
    this.fontsize=+(<HTMLInputElement>event.target).value; 
+   this.buttonConditionApply=false;
+
  }
  onFontColors(event:Event){
    this.fontcolor=(<HTMLInputElement>event.target).value; 
+   this.buttonConditionApply=false;
+
  }
  onTextColors(event:Event){
    this.textcolor=(<HTMLInputElement>event.target).value; 
- }
- onClickApply(){
-   this.apply=true;
-   this.cancel=false;
- }   
- onClickCancel(){
-   this.cancel=true;
-   this.apply=false;
- }
- 
- 
+   this.buttonConditionApply=false;
 
+ }
+ 
+ 
   onClick(){
     this.buttonClick='true';
+    this.home=false;
+    this.format=false;
+    this.condition=false;
   
   }
   onAddColumn(){
@@ -210,32 +220,47 @@ onClickFormatCategoryCancel(){
  }
   onColumnSelect(event: Event){
   this.columnName=(<HTMLInputElement>event.target).value;
+  this.buttonFormatApply=false;
+
  }
   onAlignSelect(event: Event){
     this.alignment=(<HTMLInputElement>event.target).value;
+    this.buttonFormatApply=false;
+
    }
    onThousandSelect(event: Event){
     this.thousandSeperator=(<HTMLInputElement>event.target).value;
+    this.buttonFormatApply=false;
+
    }
    onDecimalSelect(event: Event){
     this.decimalSeperator=(<HTMLInputElement>event.target).value;
+    this.buttonFormatApply=false;
+
    }
    onDecimalPlaceSelect(event: Event){
      console.log(event)
     this.decimalPlace=((<HTMLInputElement>event.target).value);
+    this.buttonFormatApply=false;
+
    }
    onCurrency(event:Event){
     this.currency=(<HTMLInputElement>event.target).value; 
+    this.buttonFormatApply=false;
+
    }
    onCurrencyAlignment(event:Event){
     this.currencyAlignment=(<HTMLInputElement>event.target).value; 
+    this.buttonFormatApply=false;
+
    }
    onFormatAsPercentage(event:Event){
      this.formatAsPercent=(<HTMLInputElement>event.target).value; 
+     this.buttonFormatApply=false;
    }
 
    onClickConditionApply(){
-         
+       this.count=this.count+1;
       this.buttonConditionApply=true;
        this.buttonConditionCancel=false;
       this.buttonFormatApply=false;
@@ -260,52 +285,83 @@ onClickFormatCategoryCancel(){
  
    onCol1(event:Event){
     this.col1=(<HTMLInputElement>event.target).value; 
+    this.buttonConditionApply=false;
+    this.buttonConditionCancel=true;
   }
   onOp1(event:Event){
-    this.op1=(<HTMLInputElement>event.target).value; 
+    this.op1=(<HTMLInputElement>event.target).value;    
+     this.buttonConditionApply=false;
+     this.buttonConditionCancel=true;
   }
   onVal1(event:Event){
    this.val1=+(<HTMLInputElement>event.target).value; 
+   this.buttonConditionApply=false;
+   this.buttonConditionCancel=true;
+
   }
   onOp2(event:Event){
     this.op2=(<HTMLInputElement>event.target).value; 
+    this.buttonConditionApply=false;
+   this.buttonConditionCancel=true;
   }
   onCol2(event:Event){
     this.col2=(<HTMLInputElement>event.target).value; 
+    this.buttonConditionApply=false;
+   this.buttonConditionCancel=true;
   }
   onColumn(event:Event){
     this.column=(<HTMLInputElement>event.target).value; 
+    this.buttonConditionApply=false;
+   this.buttonConditionCancel=true;
   }
   onVal2(event:Event){
     this.val2=+(<HTMLInputElement>event.target).value; 
+    this.buttonConditionApply=false;
+   this.buttonConditionCancel=true;
    }
 
    onFont1(event:Event){
      this.font1=(<HTMLInputElement>event.target).value; 
+     this.buttonConditionApply=false;
+   this.buttonConditionCancel=true;
    }
    onFontSize1(event:Event){
     this.fontsize1=+(<HTMLInputElement>event.target).value;
+    this.buttonConditionApply=false;
+   this.buttonConditionCancel=true;
    }
    onFontSize2(event:Event){
     this.fontsize2=+(<HTMLInputElement>event.target).value;
+    this.buttonConditionApply=false;
+   this.buttonConditionCancel=true;
   }
 
    onFontColor1(event:Event){
       this.fontcolor1=(<HTMLInputElement>event.target).value; 
+      this.buttonConditionApply=false;
+   this.buttonConditionCancel=true;
     }
     onFontColor2(event:Event){
       this.fontcolor2=(<HTMLInputElement>event.target).value; 
+      this.buttonConditionApply=false;
+   this.buttonConditionCancel=true;
     }
     onTextColor1(event:Event){
       this.textcolor1=(<HTMLInputElement>event.target).value; 
+      this.buttonConditionApply=false;
+   this.buttonConditionCancel=true;
     }
     onTextColor2(event:Event){
       this.textcolor2=(<HTMLInputElement>event.target).value; 
+      this.buttonConditionApply=false;
+   this.buttonConditionCancel=true;
     }
     
    
     onFont2(event:Event){
     this.font2=(<HTMLInputElement>event.target).value; 
+    this.buttonConditionApply=false;
+   this.buttonConditionCancel=true;
   }
 }
 

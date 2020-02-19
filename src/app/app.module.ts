@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {format} from './button/format.pipe';
 import {Routes,RouterModule} from '@angular/router';
 import { ColumnComponent } from './column/column.component';
+import { SeperatorPipe } from './seperator.pipe';
 
 const appRoutes:Routes=[
   { path : 'add', component:ColumnComponent } 
@@ -18,7 +19,8 @@ const appRoutes:Routes=[
     AppComponent,
     ButtonComponent,
     format,
-    ColumnComponent
+    ColumnComponent,
+    SeperatorPipe
   ],
   imports: [
     BrowserModule,
