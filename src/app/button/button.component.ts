@@ -5,7 +5,7 @@ import {data } from './data';
 @Component({
   selector: 'app-button',
   templateUrl: './button.component.html',
-  styleUrls: ['./button.component.css']
+  styleUrls: ['./button.component.css','./button.component.scss']
 })
 export class ButtonComponent implements OnInit {
   displayedColumns: string[]= [ 'category', 'month','revenue'];
@@ -131,6 +131,12 @@ export class ButtonComponent implements OnInit {
     this.home=false;
     this.format=false;
     this.condition=false;
+    this.addCol=false;
+    this.buttonCategory=false;
+    this.buttonMonth=false;
+    this.buttonRevenue=false;
+    this.buttonConditionApply=false;
+    this.buttonFormatApply=false;
   
   }
   onAddColumn(){
@@ -146,6 +152,7 @@ export class ButtonComponent implements OnInit {
    this.revenueApply=false;
    this.categoryApply=false;
    this.addCol=false;
+   this.buttonConditionApply=false;
    
  }
    onClickFormat(){

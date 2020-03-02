@@ -3,8 +3,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-body{
-  padding: 3rem;
+head{
+  background-color:violet ;
 }
 
 .btn {
@@ -14,8 +14,15 @@ body{
   padding: 12px 20px;
   font-size: 16px;
   cursor: pointer;
+  
 }
-
+html,body { 
+  text-align: center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 .btn:hover {
   background-color: RoyalBlue;
 }
@@ -28,40 +35,26 @@ table{
     </style>
   </head>
   <body>
-    <div class="lead" style="text-align:center; font-family:Serif; font-size:35px ">
-      <img src="assets/images/pivot1.png" width="65px" height="65px">PIVOT TABLE <br><br>
+  
+    <div class="icon-bar">
+      <a href="#"><i class="fa fa-home"> Home</i></a> 
+     <a class="active" (click)="onClick()" href="#"><i class="fa fa-bars"> Format Cells</i></a>
+      <a href="#"><i class="fa fa-bar-chart"> Charts</i></a> 
+      <a href="#"><i class="fa fa-square-o"> Grid </i></a> 
+      <a href="#"><i class="fa fa-file"> Fields </i></a>
     </div>
-
-    <!--
-<div class="lead" style="text-align:center; font-family:Serif; font-size:35px ">
-  <img src="assets/images/pivot1.png" width="65px" height="65px">PIVOT TABLE <br><br>
-      <div class="row">
-        <div class="col-xs-1 col-md-1">
-          <img src="assets/images/format.jpg" width="40px" height="40px;"><br>
-          <button class="btn btn-primary" (click)="onClick();"><i class="fa fa-bars"> Format Cells </i></button> <br><br>       
-</div>
-      </div>
-</div>
--->
-<div class="icon-bar">
-  <a href="#"><i class="fa fa-home"> Home</i></a> 
- <a class="active" (click)="onClick()" href="#"><i class="fa fa-bars"> Format Cells</i></a>
-  <a href="#"><i class="fa fa-bar-chart"> Charts</i></a> 
-  <a href="#"><i class="fa fa-square-o"> Grid </i></a> 
-  <a href="#"><i class="fa fa-file"> Fields </i></a>
-</div>
-<br><br>
+<br><hr>
 <p *ngIf="buttonClick=='true'; else noClick">
   
-  <button class="btn btn-primary" (click)="onClickFormat();">Format</button>
+   <button class="btn btn-primary" (click)="onClickFormat();">Format</button>
   &nbsp;
   <button class="btn btn-primary" (click)="onClickCondition();">Condition</button>
 
 </p>
-
+<br>
 <ng-template #noClick>
   <table class="table table-bordered table-dark">
-    <tr>
+    <tr style="background-color: cadetblue;">
       <th>Category</th>
       <th>Month</th>
       <th>Revenue</th>
@@ -107,8 +100,8 @@ table{
     <p *ngIf="!buttonMonth; else month"></p>
     <ng-template #month>
       <p>Formatting for : <strong>{{columnName}}</strong></p><hr>
-      Text-alignment: 
-      <select class="select-css"  style="width: 20% " class=" form-control" (change)="onAlignSelect($event)">
+      <strong>Text-alignment</strong>: 
+      <select class="select-css"  style="width: 20%; align-content: center; " class=" form-control" (change)="onAlignSelect($event)">
     <option value="left">Left</option>
     <option value="right">Right</option>
   </select>
@@ -121,7 +114,7 @@ table{
   <p *ngIf="!buttonCategory; else category"></p>
     <ng-template #category>
       <p>Formatting for : <strong>{{columnName}}</strong></p><hr>
-      Text-alignment: 
+      <strong>Text-alignment: </strong>
       <select  style="width: 20%; " class=" form-control" (change)="onAlignSelect($event)">
     <option value="left">Left</option>
     <option value="right">Right</option>
@@ -136,33 +129,34 @@ table{
    <p *ngIf="!buttonRevenue; else Revenue"></p>
    <ng-template #Revenue>
     <p>Formatting for : <strong>{{columnName}}</strong></p><hr>
-   Text-alignment : 
+     <strong>Text-alignment:</strong>
       <select  style="width: 20% " class=" form-control" (change)="onAlignSelect($event)">
     <option value="left">Left</option>
     <option value="right">Right</option>
   </select>
-   
-  Thousand-seperator:
+   <br>
+  <strong>Thousand-seperator:</strong>
   <select  style="width: 20% " class=" form-control" (change)="onThousandSelect($event)">
     <option [value]="i" *ngFor="let i of thousandSep">{{i}}</option>
   </select>
-  
-  Decimal-places:
+  <br>
+  <strong>Decimal-places:</strong>
    <select  style="width: 20% " class=" form-control" (change)="onDecimalPlaceSelect($event)">
     <option [value]="i" *ngFor="let i of decimals">{{i}}</option>
   </select>
-  Currency-Symbol::
+  <br>
+  <strong>Currency-Symbol:</strong>
   <select  style="width: 20% " class=" form-control" (change)="onCurrency($event)">
     <option [value]="i" *ngFor="let i of currencies">{{i}}</option>
   </select>
-   
-  Currency Alignment:
+   <br>
+  <strong>Currency Alignment:</strong>
   <select  style="width: 20% " class=" form-control" (change)="onCurrencyAlignment($event)">
     <option value="left">Left</option>
     <option value="right">Right</option>
   </select> 
-  
-  Format As Percentage::
+  <br>
+  <strong>Format As Percentage:</strong>
   <select  style="width: 20% " class=" form-control" (change)="onFormatAsPercentage($event)">
     <option value="false">False</option>
     <option value="true">True</option>
@@ -210,12 +204,15 @@ table{
 <p *ngIf="!condition;else temp">
 </p>
 <ng-template #temp>
-   Column 1: 
-  <select  style="width: 21%; display: inline; " class=" form-control" (change)="onCol1($event)">
-    <option [value]="i" *ngFor="let i of displayedColumns">{{i}}</option>
-  </select>
+  <strong> Column1:</strong>
+    <select  style="width: 21%; display: inline; " class=" form-control" (change)="onCol1($event)">
+      <option [value]="i" *ngFor="let i of displayedColumns">{{i}}</option>
+    </select>
+  
+   
+ 
  &nbsp;
-   Operator1: 
+ <strong> Operator1:</strong>
    <select  style="width: 20% ; display: inline;" class=" form-control" (change)="onOp1($event)">
     <option [value]="i" *ngFor="let i of operators">{{i}}</option>
   </select>
@@ -223,54 +220,54 @@ table{
   &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
   
 
-   Value1: <input style="width: 20% ; display: inline;" type="text" class="form-control" (input)="onVal1($event)"><br>
+  <strong>  Value1: </strong><input style="width: 20% ; display: inline;" type="text" class="form-control" (input)="onVal1($event)"><br>
    <br>
-    FontStyle1: 
+   <strong> FontStyle1: </strong>
    <select  style=" width: 20% ;display: inline;" class=" form-control" (change)="onFont1($event)">
     <option [value]="i" *ngFor="let i of fonts">{{i}}</option>
   </select>
   &nbsp;
 
-    FontSize1 : 
+  <strong>  FontSize1 : </strong>
    <select  style="width: 20%; display: inline; " class=" form-control" (change)="onFontSize1($event)">
     <option [value]="i" *ngFor="let i of sizes">{{i}}</option>
   </select>
   &nbsp;
 
-  FontColor1: <input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onFontColor1($event)"><br>
+  <strong>  FontColor1:</strong> <input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onFontColor1($event)"><br>
   <br>
-  TextColor1: <input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onTextColor1($event)"><br>
+  <strong> TextColor1: </strong><input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onTextColor1($event)"><br>
 
    <br><hr><br>
     
-   Column 2: 
+   <strong> Column 2: </strong>
    
   <select  style="width: 21% ; display: inline;" class=" form-control" (change)="onCol2($event)">
     <option [value]="i" *ngFor="let i of displayedColumns">{{i}}</option>
   </select>
  &nbsp;
-   Operator2: 
+ <strong> Operator2: </strong>
    <select  style="width: 20%; display: inline; " class=" form-control" (change)="onOp2($event)">
     <option [value]="i" *ngFor="let i of operators">{{i}}</option>
   </select>
   &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;
-   Value2: <input style="width: 20% ; display: inline;" type="text" class="form-control" (input)="onVal2($event)"><br>
+<strong>  Value2:</strong> <input style="width: 20% ; display: inline;" type="text" class="form-control" (input)="onVal2($event)"><br>
    
 <br>
-   FontStyle2: 
+<strong>  FontStyle2: </strong>
    <select  style="width: 20% ; display: inline;" class=" form-control" (change)="onFont2($event)">
     <option [value]="i" *ngFor="let i of fonts">{{i}}</option>
   </select>
 &nbsp;
-   FontSize2 : 
+<strong>  FontSize2 : </strong>
    <select  style="width: 20% ; display: inline;" class=" form-control" (change)="onFontSize2($event)">
     <option [value]="i" *ngFor="let i of sizes">{{i}}</option>
   </select>
 &nbsp;
-   FontColor2: <input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onFontColor2($event)"><br>
+<strong> FontColor2:</strong> <input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onFontColor2($event)"><br>
    <br>
-   TextColor2: <input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onTextColor2($event)"><br>
+   <strong> TextColor2: </strong><input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onTextColor2($event)"><br>
 
 <br>
   
@@ -281,27 +278,27 @@ table{
 </ng-template>
 <p *ngIf="!addCol; else AddCol"></p>
        <ng-template #AddCol>
-        Column: 
+        <strong>  Column: </strong>
         <select  style="width: 20% ; display: inline;" class=" form-control" (change)="onClickColumn($event)">
           <option [value]="i" *ngFor="let i of displayedColumns">{{i}}</option>
         </select>
        &nbsp;
        
-        FontFamily: 
+       <strong> FontFamily: </strong>
         <select  style="width: 20%; display: inline; " class=" form-control" (change)="onFonts($event)">
          <option [value]="i" *ngFor="let i of fonts">{{i}}</option>
        </select>
      &nbsp;
        
-        FontSize: 
+     <strong> FontSize: </strong>
         <select  style="width: 20%; display: inline; " class=" form-control" (change)="onFontSizes($event)">
          <option [value]="i" *ngFor="let i of sizes">{{i}}</option>
        </select>
        <br>
        <br>
-        FontColor: <input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onFontColors($event)">
+       <strong> FontColor:</strong> <input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onFontColors($event)">
         &nbsp;
-        TextColor: <input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onTextColors($event)"><br>
+        <strong> TextColor: </strong><input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onTextColors($event)"><br>
         
         <br><br>
         

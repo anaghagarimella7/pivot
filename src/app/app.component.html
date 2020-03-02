@@ -9,6 +9,15 @@
   background-color: #4CAF50;
   color: white;
 }
+/*  background: url(assets/images/pivot1.png) no-repeat center center fixed; 
+*/
+html,body { 
+  
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
 #grad {
   background-image: linear-gradient(green, white);
 }
@@ -22,22 +31,30 @@
 
       }
 
-      .lessvalue{
-        background-color: #df3800;
-        color: "#FFFFFF";
-        text-align: right;
-      }
-      .morevalue{
-        background-color: #00A45A;
-        color: "#FFFFFF";
-        text-align: right;
-      }
     </style>
   
   </head>
   
   <body ng-controller="costCtrl" >
-    <br><br>
+    
+    <header class="header">
+            
+      <div class="text-box">
+        <h1 class="heading-primary">
+          <span class="heading-primary-main">PIVOT TABLE</span>
+          <span class="heading-primary-sub">Demo</span>
+        </h1>
+        
+      </div>
+      <div class="brand-box">
+        <span class="brand">Data</span>
+      </div>
+    </header>
+   <!-- <div class="lead" style="text-align:center; font-family:Serif; font-size:35px ">
+      <img src="assets/images/pivot1.png" width="65px" height="65px">PIVOT TABLE 
+    </div>-->
+    
+    
     <app-button></app-button>
     <br><br>
 
