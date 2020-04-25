@@ -175,7 +175,7 @@ export class ButtonComponent implements OnInit {
  }
  
  
-  onClick(){
+ /* onClick(){
     this.buttonClick=true;
     this.home=false;
     this.format=false;
@@ -188,7 +188,7 @@ export class ButtonComponent implements OnInit {
     this.buttonFormatApply=false;
   
   }
-
+*/
   onAddColumn(){
     this.addColumn=true;
   }
