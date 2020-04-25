@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 //import { runInThisContext } from 'vm';
 import {data } from './data';
+import {AlertService} from '../_alert';
+import { HttpClient } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-button',
@@ -16,14 +20,14 @@ export class ButtonComponent implements OnInit {
   countbefore=-1;
   buttonMonth=false;
   buttonRevenue=false;
-  buttonClick='false';
+  buttonClick=false;
   col=['c','m','r'];
   thousandSep=[',','None'];
   decimals=[1,2,3,4,5];
   format=false;
   condition=false;
   columnName='';
-  alignment='';
+  alignment='left';
   thousandSeperator=',';
   decimalSeperator='.';
   decimalPlace='2';
@@ -71,6 +75,11 @@ export class ButtonComponent implements OnInit {
   monthApply=false;
   monthCancel=false;
   addColumn=false;
+  alert=false;
+  m=false;
+  c=false;
+  mfont=20;  mfamily='';  mbcolor='';  mtcolor='';
+  cfont=20;  cfamily='';  cbcolor='';ctcolor='';
     dat=[
     new data('FruitPreserves','April',3950.00),
     new data('Soups','April',1260.00),
@@ -82,14 +91,27 @@ export class ButtonComponent implements OnInit {
     new data('BreakfastCereals','March',3950.00),
     new data('Bakery','March',3937.50)
   ];
-  
+  arr:string[];
   d=this.dat[0];
 
-  constructor() { 
+  constructor(private alertService:AlertService,private httpService: HttpClient,) { 
     
   }
-
+  error(message: string) {
+    this.alertService.error(message);
+  }
   ngOnInit() {
+    this.httpService.get('./assets/appda.json').subscribe(
+      data => {
+        this.arr = data as string [];	 // FILL THE ARRAY WITH DATA.
+        //  console.log(this.arrBirds[1]);
+        console.log(this.arr);
+      },
+      (err: HttpErrorResponse) => {
+        console.log (err.message);
+      }
+    );
+
   }
   onClickHome(){
     this.home=true;
@@ -101,33 +123,60 @@ export class ButtonComponent implements OnInit {
     
     this.Col=(<HTMLInputElement>event.target).value; 
     this.buttonConditionApply=false;
+    if(this.Col=='category'){
+      this.c=true;
+    }
+    if(this.Col=='month'){
+      this.m=true;
+    }
 
-    console.log(event);
   }
   onFonts(event:Event){
     this.font=(<HTMLInputElement>event.target).value; 
     this.buttonConditionApply=false;
-
+    if(this.Col=='category'){
+      this.cfamily=this.font;
+    }
+    if(this.Col=='month'){
+      this.mfamily=this.font;
+    }
+    
   }
   onFontSizes(event:Event){
    this.fontsize=+(<HTMLInputElement>event.target).value; 
    this.buttonConditionApply=false;
+   if(this.Col=='category'){
+    this.cfont=this.fontsize;
+  }
+  if(this.Col=='month'){
+    this.mfont=this.fontsize;
+  }
 
  }
  onFontColors(event:Event){
    this.fontcolor=(<HTMLInputElement>event.target).value; 
    this.buttonConditionApply=false;
-
+   if(this.Col=='category'){
+    this.cbcolor=this.fontcolor;
+  }
+  if(this.Col=='month'){
+    this.mbcolor=this.fontcolor;
+  }
  }
  onTextColors(event:Event){
    this.textcolor=(<HTMLInputElement>event.target).value; 
    this.buttonConditionApply=false;
-
+   if(this.Col=='category'){
+    this.ctcolor=this.textcolor;
+  }
+  if(this.Col=='month'){
+    this.mtcolor=this.textcolor;
+  }
  }
  
  
   onClick(){
-    this.buttonClick='true';
+    this.buttonClick=true;
     this.home=false;
     this.format=false;
     this.condition=false;
@@ -139,6 +188,7 @@ export class ButtonComponent implements OnInit {
     this.buttonFormatApply=false;
   
   }
+
   onAddColumn(){
     this.addColumn=true;
   }
@@ -296,9 +346,15 @@ onClickFormatCategoryCancel(){
     this.buttonConditionCancel=true;
   }
   onOp1(event:Event){
+    this.alert=false;
+
     this.op1=(<HTMLInputElement>event.target).value;    
      this.buttonConditionApply=false;
      this.buttonConditionCancel=true;
+     if(this.op1==this.op2){
+      this.error("Operations can't be performed; Choose valid operators");
+      this.alert=true;
+    }
   }
   onVal1(event:Event){
    this.val1=+(<HTMLInputElement>event.target).value; 
@@ -307,9 +363,16 @@ onClickFormatCategoryCancel(){
 
   }
   onOp2(event:Event){
+    this.alert=false;
     this.op2=(<HTMLInputElement>event.target).value; 
     this.buttonConditionApply=false;
    this.buttonConditionCancel=true;
+   if(this.op1==this.op2){
+     this.error("Operations can't be performed; Choose valid operators");
+     this.alert=true;
+   }
+   
+   
   }
   onCol2(event:Event){
     this.col2=(<HTMLInputElement>event.target).value; 

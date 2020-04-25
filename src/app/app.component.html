@@ -3,7 +3,9 @@
 <html >
 
   <head>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   
     <style>
       th {
   background-color: #4CAF50;
@@ -50,12 +52,28 @@ html,body {
         <span class="brand">Flat Table Data</span>
       </div>
     </header>
+    
+
    <!-- <div class="lead" style="text-align:center; font-family:Serif; font-size:35px ">
       <img src="assets/images/pivot1.png" width="65px" height="65px">PIVOT TABLE 
-    </div>-->
+    </div>
     
+  -->
+  <div class="icon-bar">
+    <a href="add"><i class="fa fa-home"> Home</i></a> 
+    <a href="database" ><i class="fa fa-square-o"> Connect </i></a> 
+   <a  (click)="onClick()" href="format"><i class="fa fa-bars"> Format Cells</i></a>
+    <a href="charts" (click)="onCharts()" ><i class="fa fa-bar-chart"> Charts</i></a> 
+    <a href="#"><i class="fa fa-square-o"> Grid </i></a> 
     
-    <app-button></app-button>
+    <a href="#"><i class="fa fa-file"> Calculator </i></a>
+
+  </div>
+   <!-- <app-button></app-button>-->
+   <br> <br>
+    <router-outlet></router-outlet>
+  
+
     <br><br>
 
   </body>

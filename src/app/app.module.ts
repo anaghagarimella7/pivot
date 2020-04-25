@@ -10,9 +10,28 @@ import {format} from './button/format.pipe';
 import {Routes,RouterModule} from '@angular/router';
 import { ColumnComponent } from './column/column.component';
 import { SeperatorPipe } from './seperator.pipe';
+import {AlertModule } from './_alert';
+import {HttpClientModule} from '@angular/common/http';
+import { DbComponent } from './db/db.component';
+import { ChartsComponent } from './charts/charts.component';
+import { MyBarChartComponent } from './charts/my-bar-chart/my-bar-chart.component';
+import { MyPieChartComponent } from './charts/my-pie-chart/my-pie-chart.component';
+import {ChartsModule} from 'ng2-charts';
+import { MyDoughnutChartComponent } from './charts/my-doughnut-chart/my-doughnut-chart.component';
+import { MyRadarChartComponent } from './charts/my-radar-chart/my-radar-chart.component';
+import { SavePdfComponent } from './charts/save-pdf/save-pdf.component';
+import { HomeComponent } from './home/home.component';
 
 const appRoutes:Routes=[
-  { path : 'add', component:ColumnComponent } 
+  { path : '', component:HomeComponent } ,
+  {path:'format',component:ButtonComponent},
+  {path:'charts',component:ChartsComponent},
+  {path:'charts/bar-chart',component:MyBarChartComponent},
+  {path:'charts/pie-chart',component:MyPieChartComponent},
+  {path:'charts/radar-chart',component:MyRadarChartComponent},
+  {path:'charts/doughnut-chart',component:MyDoughnutChartComponent},
+  {path:'charts/save-pdf',component: SavePdfComponent},
+  { path: 'database', component: DbComponent}
 ]
 @NgModule({
   declarations: [
@@ -20,14 +39,25 @@ const appRoutes:Routes=[
     ButtonComponent,
     format,
     ColumnComponent,
-    SeperatorPipe
+    SeperatorPipe,
+    DbComponent,
+    ChartsComponent,
+    MyBarChartComponent,
+    MyPieChartComponent,
+    MyDoughnutChartComponent,
+    MyRadarChartComponent,
+    SavePdfComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatTableModule,
+    AlertModule,
+    HttpClientModule,
     FormsModule,
+    ChartsModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [],

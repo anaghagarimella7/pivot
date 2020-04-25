@@ -29,49 +29,33 @@ html,body {
 
 table{
   width:100%;
-  border:3px solid black;
+  
 }
      
     </style>
   </head>
   <body>
-  
+  <!--
     <div class="icon-bar">
-      <a href="#"><i class="fa fa-home"> Home</i></a> 
-      <a href="#" ><i class="fa fa-square-o"> Connect </i></a> 
-     <a class="active" (click)="onClick()" href="#"><i class="fa fa-bars"> Format Cells</i></a>
-      <a href="#"><i class="fa fa-bar-chart"> Charts</i></a> 
+      <a href="add"><i class="fa fa-home"> Home</i></a> 
+      <a href="database" ><i class="fa fa-square-o"> Connect </i></a> 
+     <a  (click)="onClick()" href="#"><i class="fa fa-bars"> Format Cells</i></a>
+      <a href="charts" (click)="onCharts()" ><i class="fa fa-bar-chart"> Charts</i></a> 
       <a href="#"><i class="fa fa-square-o"> Grid </i></a> 
-      <a href="#"><i class="fa fa-file"> Fields </i></a>
+      
+      <a href="#"><i class="fa fa-file"> Calculator </i></a>
+
     </div>
-<br><hr>
-<p *ngIf="buttonClick=='true'; else noClick">
   
+<br><hr>
+<p style="text-align: center;" *ngIf="buttonClick">
+-->
    <button class="btn btn-primary" (click)="onClickFormat();">Format</button>
   &nbsp;
   <button class="btn btn-primary" (click)="onClickCondition();">Condition</button>
 
-</p>
 <br>
-<ng-template #noClick>
-  <table class="table table-bordered table-dark">
-    <tr style="background-color: cadetblue;">
-      <th>Category</th>
-      <th>Month</th>
-      <th>Revenue</th>
-    </tr>
-        
-    <tr style="font-family: serif;font-size: 15px;" *ngFor="let x of dat" >
-      <Td >{{x.category}}</Td>
-      <Td >{{x.month}}</Td>
-        <td >{{x.revenue}}</td>
-        
-            
-   </tr>
-    
-  </table>
-    
-</ng-template>
+<br>
 
 <p *ngIf="!format; else form"></p>
 <ng-template #form>
@@ -81,7 +65,6 @@ table{
         
         <th>Month <br><button class="btn btn-primary" (click)="onButtonMonth();"><i class="fa fa-calendar"></i></button></th>
         <th>Revenue <br><button class="btn btn-primary" (click)="onButtonRevenue();"><i class="fa fa-credit-card-alt"></i></button></th>
-
        
       </tr>
           
@@ -166,7 +149,7 @@ table{
 <button class="btn btn-primary" (click)="onClickFormatApply();">Apply</button>
    &nbsp;
    <button class="btn btn-primary" (click)="onClickFormatCancel();">Cancel</button>
-
+<br><br>
    </ng-template>
    
  
@@ -239,7 +222,7 @@ table{
   <br>
   <strong> TextColor1: </strong><input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onTextColor1($event)"><br>
 
-   <br><hr><br>
+   <br><hr> <alert></alert><br>
     
    <strong> Column 2: </strong>
    
@@ -304,32 +287,33 @@ table{
         <br><br>
         
        </ng-template>
-       
+      
        <p *ngIf="!condition; else button"></p>
        <ng-template #button>
-        <button class="btn btn-primary" (click)="onClickConditionApply();">Apply</button>
+        <button class="btn btn-primary" [disabled]="alert" (click)="onClickConditionApply();">Apply</button>
         &nbsp;
         <button class="btn btn-primary" (click)="onClickConditionCancel();">Cancel</button><br><br>
         &nbsp;
        </ng-template>
-       
+       <!-- [ngStyle]="{'background-color':fontcolor,'font-family':font,'font-size.px':fontsize,'color':textcolor}">{{x.category}}</Td>
+        <ng-template #no1>-->
    <p *ngIf="!buttonConditionApply; else Apply"></p>
     <ng-template #Apply>
      
     <table class="table table-bordered">
-      <tr>
+      <tr style="background-color: cadetblue;">
         <th>Category</th>
         <th>Month</th>
         <th>Revenue</th>
       </tr>
           
       <tr style="font-family: serif;" *ngFor="let x of dat" >
-        <Td  *ngIf="Col=='category' else no1" [ngStyle]="{'background-color':fontcolor,'font-family':font,'font-size.px':fontsize,'color':textcolor}">{{x.category}}</Td>
+        <Td  *ngIf="c; else no1" [ngStyle]="{'background-color':cbcolor,'font-family':cfamily,'font-size.px':cfont,'color':ctcolor}">{{x.category}}</Td>
         <ng-template #no1>
           <td>{{x.category}}</td>
         </ng-template>
       
-        <Td *ngIf="Col=='month' else no" [ngStyle]="{'background-color':fontcolor,'font-family':font,'font-size.px':fontsize,'color':textcolor}">{{x.month}}</Td>
+        <Td *ngIf="m; else no" [ngStyle]="{'background-color':mbcolor,'font-family':mfamily,'font-size.px':mfont,'color':mtcolor}">{{x.month}}</Td>
         <ng-template #no>
           <td>{{x.month}}</td>
         </ng-template>
@@ -348,6 +332,6 @@ table{
     </table>
     
   </ng-template>
-       
+      
     </body>
      </html>
