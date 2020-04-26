@@ -21,9 +21,11 @@ import { MyDoughnutChartComponent } from './charts/my-doughnut-chart/my-doughnut
 import { MyRadarChartComponent } from './charts/my-radar-chart/my-radar-chart.component';
 import { SavePdfComponent } from './charts/save-pdf/save-pdf.component';
 import { HomeComponent } from './home/home.component';
+import { InterfaceComponent } from './interface/interface.component';
 
 const appRoutes:Routes=[
   { path : '', component:HomeComponent } ,
+  {path:'home',component:InterfaceComponent},
   {path:'format',component:ButtonComponent},
   {path:'charts',component:ChartsComponent},
   {path:'charts/bar-chart',component:MyBarChartComponent},
@@ -47,7 +49,8 @@ const appRoutes:Routes=[
     MyDoughnutChartComponent,
     MyRadarChartComponent,
     SavePdfComponent,
-    HomeComponent
+    HomeComponent,
+    InterfaceComponent
   ],
   imports: [
     BrowserModule,

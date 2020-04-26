@@ -221,7 +221,7 @@ table{
   <strong>  FontColor1:</strong> <input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onFontColor1($event)"><br>
   <br>
   <strong> TextColor1: </strong><input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onTextColor1($event)"><br>
-
+<br><p *ngIf="sample" [ngStyle]="{'background-color':fontcolor1,'font-family':font1, 'font-size.px':fontsize1,color:textcolor1}" >Sample text</p>
    <br><hr> <alert></alert><br>
     
    <strong> Column 2: </strong>
@@ -254,7 +254,7 @@ table{
    <strong> TextColor2: </strong><input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onTextColor2($event)"><br>
 
 <br>
-  
+  <p *ngIf="sample" [ngStyle]="{'background-color':fontcolor2,'font-family':font2, 'font-size.px':fontsize2,'color':textcolor2}" >Sample text</p>
    <button class="btn btn-primary" (click)="onAdd();">  Add Column   </button>
 
 <hr>

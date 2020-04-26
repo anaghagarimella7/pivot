@@ -77,6 +77,7 @@ export class ButtonComponent implements OnInit {
   addColumn=false;
   alert=false;
   m=false;
+  sample=true;
   c=false;
   mfont=20;  mfamily='';  mbcolor='';  mtcolor='';
   cfont=20;  cfamily='';  cbcolor='';ctcolor='';
@@ -322,10 +323,12 @@ onClickFormatCategoryCancel(){
        this.buttonConditionCancel=false;
       this.buttonFormatApply=false;
       this.buttonFormatCancel=false;
+      this.sample=false;
    }
    onClickConditionCancel(){
      this.buttonConditionCancel=true;
      this.buttonConditionApply=false;
+     this.sample=true;
    }
    onClickFormatApply(){
     this.buttonFormatApply=true;
