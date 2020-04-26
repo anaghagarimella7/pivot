@@ -22,6 +22,7 @@ import { MyRadarChartComponent } from './charts/my-radar-chart/my-radar-chart.co
 import { SavePdfComponent } from './charts/save-pdf/save-pdf.component';
 import { HomeComponent } from './home/home.component';
 import { InterfaceComponent } from './interface/interface.component';
+import {MatSortModule} from '@angular/material/sort';
 
 const appRoutes:Routes=[
   { path : '', component:HomeComponent } ,
@@ -32,8 +33,8 @@ const appRoutes:Routes=[
   {path:'charts/pie-chart',component:MyPieChartComponent},
   {path:'charts/radar-chart',component:MyRadarChartComponent},
   {path:'charts/doughnut-chart',component:MyDoughnutChartComponent},
-  {path:'charts/save-pdf',component: SavePdfComponent},
-  { path: 'database', component: DbComponent}
+  {path:'charts/save-pdf',component: SavePdfComponent}
+  //{ path: 'database', component: DbComponent}
 ]
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ const appRoutes:Routes=[
     AppRoutingModule,
     BrowserAnimationsModule,
     MatTableModule,
+MatSortModule,
     AlertModule,
     HttpClientModule,
     FormsModule,
