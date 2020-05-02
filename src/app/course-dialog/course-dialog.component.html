@@ -1,0 +1,16 @@
+
+<h2 mat-dialog-title>Dialog box</h2>
+
+<mat-dialog-content>
+Filtering
+<select (change)="onOp1($event)">
+    <option [value]="i" *ngFor="let i of data.operators">{{i}}</option>
+     </select><br>
+     Enter value<br>
+     <input (input)="Value($event)">
+</mat-dialog-content>
+
+
+<mat-dialog-actions>
+    <button class="mat-raised-button" (click)="close()">Close</button>
+</mat-dialog-actions>

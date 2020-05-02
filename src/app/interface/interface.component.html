@@ -15,38 +15,143 @@
             
    </tr>
     
-  </table>-->
+  </table>
+  
   
 <table style="width: 100%; color: black;" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
-  <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
 
-  <!-- Position Column -->
+  Position Column 
   <ng-container matColumnDef="position">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
-    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+    <th style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+    <td mat-cell *matCellDef="let element"> {{element.index}} </td>
+  </ng-container>-->
+
+  <!-- Name Column 
+  <ng-container matColumnDef=" ">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let row; let rIndex = index;">
+      {{rIndex + 1}}
+    </mat-cell>
+  </ng-container>
+  
+  <ng-container matColumnDef="Category">
+    <th style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+    <td mat-cell *matCellDef="let element"> {{element.Category}} </td>
   </ng-container>
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="category">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
-    <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+  <ng-container matColumnDef="Month">
+    <th style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header> Month </th>
+    <td mat-cell *matCellDef="let element"> {{element.Month}} </td>
   </ng-container>
 
-  <!-- Weight Column -->
-  <ng-container matColumnDef="month">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Month </th>
-    <td mat-cell *matCellDef="let element"> {{element.month}} </td>
-  </ng-container>
-
-  <!-- Symbol Column -->
-  <ng-container matColumnDef="revenue">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Revenue </th>
-    <td mat-cell *matCellDef="let element"> {{element.revenue}} </td>
+  
+  <ng-container matColumnDef="Revenue">
+    <th style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header> Revenue </th>
+    <td mat-cell *matCellDef="let element"> {{element.Revenue}} </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
+</div>
+<mat-form-field>
+  <input style="color: black;" (keyup)="applyFilter($event.target.value)" matInput placeholder="filter">
+</mat-form-field>-->
+
+<div style="color: black;">
+  <mat-form-field *ngFor="let filter of filterSelectObj" style="margin-left: 15px;">
+    <mat-label>Filter {{filter.name}}</mat-label>
+    <select matNativeControl name="{{filter.columnProp}}" [(ngModel)]="filter.modelValue"
+      (change)="filterChange(filter,$event)">
+      <option value="">-- Select {{filter.name}} --</option>
+      <option [value]="item" *ngFor="let item of filter.options">{{item}}</option>
+    </select>
+  </mat-form-field>
+  &nbsp;
+  <button mat-flat-button color="warn" (click)="resetFilters()">Reset</button>
+</div>
+<button (click)="openDialog()">Home</button>
+<button (click)="openDialog2()">Home2</button>
+
+
+<table style="width: 100%; color: black;" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+  <ng-container matColumnDef=" ">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let row; let rIndex = index;">
+      {{rIndex + 1}}
+    </mat-cell>
+  </ng-container>
+  
+  <ng-container matColumnDef="Category">
+    <th style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+    <td mat-cell *matCellDef="let element"> {{element.Category}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Month">
+    <th style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header> Month </th>
+    <td mat-cell *matCellDef="let element"> {{element.Month}} </td>
+  </ng-container>
+
+  
+  <ng-container matColumnDef="Revenue">
+    <th style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header> Revenue </th>
+    <td mat-cell *matCellDef="let element"> {{element.Revenue}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<!--
+
+<mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" cdkDropListGroup>
+  <ng-container  *ngFor="let column of columns; let i = index"  [matColumnDef]="column.field">
+    <mat-header-cell mat-sort-header *matHeaderCellDef
+      (mousedown)="onResizeColumn($event, i)">
+      {{ column.field }}
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row" > {{ row[column.field] }}  </mat-cell>
+  </ng-container>
+  
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+-->
+<p *ngIf="!revenueDialog; else revFilter"></p>
+<ng-template #revFilter>
+  
+  <table  class="table table-bordered table-dark">
+    <tr>
+      <th>Category</th>
+      <th>Month</th>
+      <th>Revenue</th>
+    </tr>
+    <tr style="font-family: serif;font-size: 15px;" *ngFor="let x of arr">
+      <td>{{x.Category}}</td>
+      <td>{{x.Month}}</td>
+      <td *ngIf="x.Revenue>v">{{x.Revenue}}</td>
+      </tr>
+      </table>
+</ng-template>
+
+<p *ngIf="!categoryDialog;else no">1000</p>
+<ng-template #no>
+  <table  class="table table-bordered table-dark">
+    <tr>
+      <th>Category</th>
+      <th>Month</th>
+      <th>Revenue</th>
+    </tr>
+    <tr style="font-family: serif;font-size: 15px;" *ngFor="let x of arr">
+      <td *ngIf="checkBegin(x.Category);else no">{{x.Category}}</td>
+      <ng-template #no>
+        <td></td>
+      </ng-template>
+      <td>{{x.Month}}</td>
+      <td >{{x.Revenue}}</td>
+      </tr>
+      </table>
+
+</ng-template>

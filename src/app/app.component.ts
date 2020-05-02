@@ -1,5 +1,7 @@
 import { Component,ViewEncapsulation } from '@angular/core';
 import {data } from './data';
+import {MatDialog, MatDialogConfig,MatDialogRef} from '@angular/material/dialog';
+import { CourseDialogComponent } from './course-dialog/course-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +32,10 @@ export class AppComponent {
   ];
   
   d=this.dat[0];
+  value;
   displayedColumns=['category','month','revenue'];
+  constructor(){
 
+  }
+ 
 }

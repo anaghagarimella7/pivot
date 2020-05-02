@@ -6,36 +6,40 @@
     },
     {
 
-    "Category":"FruitPreserves",
+    "Category":"Soups",
     "Month":"April",
-    "Revenue": 3950.00
+    "Revenue": 1260.00
+    },{
+        "Category":"BreakfastCereals",
+        "Month":"April",
+        "Revenue": 3555.00
+    },{
+        "Category":"Bakery",
+        "Month":"April",
+        "Revenue": 5250.00
+    },{
+        "Category":"Confectionery",
+        "Month":"April",
+        "Revenue": 2487.50
     },{
         "Category":"FruitPreserves",
         "Month":"April",
+        "Revenue": 987.50
+    },{
+        "Category":"Condiments",
+        "Month":"March",
         "Revenue": 3950.00
     },{
         "Category":"FruitPreserves",
-        "Month":"April",
-        "Revenue": 3950.00
+        "Month":"March",
+        "Revenue": 3825.00
     },{
-        "Category":"FruitPreserves",
-        "Month":"April",
-        "Revenue": 3950.00
-    },{
-        "Category":"FruitPreserves",
-        "Month":"April",
-        "Revenue": 3950.00
-    },{
-        "Category":"FruitPreserves",
-        "Month":"April",
-        "Revenue": 3950.00
-    },{
-        "Category":"FruitPreserves",
+        "Category":"BreakfastCereals",
         "Month":"March",
         "Revenue": 3950.00
     },{
         "Category":"Bakery",
         "Month":"March",
-        "Revenue": 3950.00
+        "Revenue": 3937.50
     }
 ]
