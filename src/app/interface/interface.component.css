@@ -1,6 +1,16 @@
 p{
   color: black;
 }
+table{
+  border: 1px solid black;
+  overflow-y: scroll;
+}
+
+.table-container{
+  margin-top: 10px;
+  max-height: 500px;
+  overflow: auto;
+}
 .mat-table {
     width: 100%;
     overflow: auto;

@@ -9,6 +9,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatDialog, MatDialogConfig,MatDialogRef} from '@angular/material/dialog';
 import { CourseDialogComponent } from '../course-dialog/course-dialog.component';
 import {DialogLabelComponent} from '../dialog-label/dialog-label.component';
+import {DialogMonthComponent} from '../dialog-month/dialog-month.component';
 @Component({
   selector: 'app-interface',
   templateUrl: './interface.component.html',
@@ -16,16 +17,17 @@ import {DialogLabelComponent} from '../dialog-label/dialog-label.component';
 })
 export class InterfaceComponent implements OnInit {
   arr:string[];
-  displayedColumns: string[] = [ 'Category', 'Month', 'Revenue'];
+  displayedColumns: string[] = ['position', 'Category', 'Month', 'Revenue',];
   @ViewChild(MatSort, {static: true},) sort: MatSort;
-  @ViewChild(MatTable, {read: ElementRef, static:false}  ) private matTableRef: ElementRef;
+  @ViewChild(MatTable, {read: ElementRef, static:true}  ) private matTableRef: ElementRef;
   o='=';
   v=2500;
   dataSource ;
   columns: any[] = [
+    { field: 'position', width: 50, },
 
-    { field: 'Category', width: 350, },
-    { field: 'Month', width: 250, },
+    { field: 'Category', width: 250, },
+    { field: 'Month', width: 350, },
     { field: 'Revenue', width: 100, }
   ];
   applyFilter(filterValue:string){
@@ -34,11 +36,14 @@ this.dataSource.filter=filterValue.trim().toLocaleLowerCase();
   filterValues = {};
   filterSelectObj = [];
  value;
+ w=100;
  operator;
+ buttonName;
  string;
- label;s;l;
- word="helo";
- sub="sub";
+ label;s;l;s2;l2;
+ column1=false; olumn2=false;column3=false;column4=false;color1='';color2='';color3='';color4='';
+ buttonWidth=false;
+ applyWidth=true;
  revenueDialog=false;
  monthDialog=false;
  categoryDialog=false;
@@ -75,7 +80,7 @@ this.dataSource.filter=filterValue.trim().toLocaleLowerCase();
         //  console.log(this.arrBirds[1]);
       this.dataSource=new MatTableDataSource(this.arr);
       this.dataSource.sort = this.sort;
-      this.setDisplayedColumns();
+      //this.setDisplayedColumns();
       this.dataSource.filterPredicate = this.createFilter();
       this.getRemoteData();
       },
@@ -85,9 +90,22 @@ this.dataSource.filter=filterValue.trim().toLocaleLowerCase();
     );
  //   this.dataSource = new MatTableDataSource(this.arr);
   }
+  openWidth(){
+    this.buttonWidth=true;
+  }
+  onVal2(event:Event){
+  this.w=+(<HTMLInputElement>event.target).value;
+  }
+  onApply(){
+  this.applyWidth=true;
+  }
+  onCancel(){
+ this.applyWidth=false;
+  }
   openDialog() {
-console.log("in");
 this.revenueDialog=true;
+this.categoryDialog=false;
+this.monthDialog=false;
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
@@ -114,6 +132,8 @@ dialogRef.afterClosed().subscribe(result => {
 
 openDialog2(){
   this.categoryDialog=true;
+  this.revenueDialog=false;
+  this.monthDialog=false;
   const dialogConfig2 = new MatDialogConfig();
 
   dialogConfig2.disableClose = true;
@@ -132,17 +152,55 @@ dialogRef2.afterClosed().subscribe(result => {
   this.l=dialogConfig2.data.label;
 });
 }
-checkBegin(input:string){
-  this.categoryDialog=true;
-  if(input.startsWith(this.l)){
+
+openDialog3(){
+  this.monthDialog=true;
+  this.revenueDialog=false;
+  this.categoryDialog=false;
+  const dialogConfig3 = new MatDialogConfig();
+
+  dialogConfig3.disableClose = true;
+  dialogConfig3.autoFocus = true;
+  dialogConfig3.data={
+    strings:["Equal","Not Equal","Begin","Not Begin","End","Not End","Contain","Not Contain"],
+    label: this.label,
+    string:this.string
+  }
+  const dialogRef3 = this.dialog.open(DialogMonthComponent, dialogConfig3);
+  
+dialogRef3.afterClosed().subscribe(result => {
+  console.log('The dialog3 was closed');
+  console.log(dialogConfig3.data.label+" "+dialogConfig3.data.string);
+  this.s2=dialogConfig3.data.string;
+  this.l2=dialogConfig3.data.label;
+});
+}
+
+col1(){
+  this.column1=true;
+  this.color1='lightblue';
+}
+
+col2(){
+  this.color2='lightblue';
+}
+col3(){
+this.color3='lightblue';
+}
+col4(){
+  this.color4='lightblue';
+}
+
+checkBegin(input:string,s:string){
+  if(input.startsWith(s)){
    return true;
   }
   else{
     return false;
   }
 }
-checkNotBegin(){
-  if(!this.word.startsWith('h')){
+checkNotBegin(input:string,s:string){
+  if(!input.startsWith(s)){
     return true;
   }
   else{
@@ -150,32 +208,32 @@ checkNotBegin(){
   }
 }
 
-checkEnd(){
-  if(this.word.endsWith(this.sub)){
+checkEnd(input:string,s:string){
+  if(input.endsWith(s)){
     return true;
   }
   else{
     return false;
   }
 }
-checkNotEnd(){
-  if(!this.word.endsWith(this.sub)){
+checkNotEnd(input:string,s:string){
+  if(!input.endsWith(s)){
     return true;
   }
   else{
     return false;
   }
 }
-checkEqual(){
-  if(this.word.match(this.sub)){
+checkEqual(input:string,s:string){
+  if(input.match(s)){
     return true;
   }
   else{
     return false;
   }
 }
-checkContain(){
-  if(this.word.search(this.sub)){
+checkContain(input:string,s:string){
+  if(input.search(s)){
     return true;
 
   }
@@ -184,17 +242,7 @@ checkContain(){
   }
   }
 
-checkSmall(){
-  if(this.word.small()){
-    console.log('match');
 
-  }
-  else{
-    console.log(' no match');
-
-  }
-  console.log(this.word.small)
-}
   getFilterObject(fullObj, key) {
     const uniqChk = [];
     fullObj.filter((obj) => {
@@ -262,7 +310,7 @@ resetFilters() {
 
 }
   //idk
-
+/*
   ngAfterViewInit() {
     this.setTableResize(this.matTableRef.nativeElement.clientWidth);
   }
@@ -293,6 +341,7 @@ resetFilters() {
     this.startWidth = event.target.clientWidth;
     event.preventDefault();
     this.mouseMove(index);
+    console.log("in function");
   }
 
   private checkResizing(event, index) {
@@ -356,6 +405,6 @@ resetFilters() {
   onResize(event) {
     this.setTableResize(this.matTableRef.nativeElement.clientWidth);
   }
-
+*/
 
 }

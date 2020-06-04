@@ -41,5 +41,11 @@
         "Category":"Bakery",
         "Month":"March",
         "Revenue": 3937.50
+    },
+    {
+        "Category":"FruitPreserves",
+        "Month":"April",
+        "Revenue": 3950.00
     }
+    
 ]

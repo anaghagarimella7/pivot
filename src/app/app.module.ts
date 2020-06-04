@@ -36,7 +36,9 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatDialogModule} from '@angular/material';
 import { CourseDialogComponent } from './course-dialog/course-dialog.component';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
-import { DialogLabelComponent } from './dialog-label/dialog-label.component'; 
+import { DialogLabelComponent } from './dialog-label/dialog-label.component';
+import { DialogMonthComponent } from './dialog-month/dialog-month.component';
+import { CalculatorComponent } from './calculator/calculator.component'; 
 const appRoutes:Routes=[
   { path : '', component:HomeComponent } ,
   {path:'home',component:InterfaceComponent},
@@ -47,7 +49,8 @@ const appRoutes:Routes=[
   {path:'charts/radar-chart',component:MyRadarChartComponent},
   {path:'charts/doughnut-chart',component:MyDoughnutChartComponent},
   {path:'charts/save-pdf',component: SavePdfComponent},
-  { path: 'database', component: DbComponent}
+  { path: 'database', component: DbComponent},
+  {path:'calculator',component:CalculatorComponent}
 ]
 @NgModule({
   declarations: [
@@ -66,7 +69,9 @@ const appRoutes:Routes=[
     HomeComponent,
     InterfaceComponent,
     CourseDialogComponent,
-    DialogLabelComponent
+    DialogLabelComponent,
+    DialogMonthComponent,
+    CalculatorComponent
   ],
   imports: [
     BrowserModule,
@@ -88,7 +93,7 @@ MatButtonModule,
     ChartsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  entryComponents: [CourseDialogComponent,DialogLabelComponent],
+  entryComponents: [CourseDialogComponent,DialogLabelComponent,DialogMonthComponent],
 schemas:[CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent]
