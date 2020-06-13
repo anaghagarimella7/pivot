@@ -1,0 +1,21 @@
+<p>dynamic works!</p>
+<p ><strong> Data After Filtering:</strong> </p>
+
+  <table  class="table table-bordered ">
+    <tr style="background-color: cadetblue;">
+      <th>Category</th>
+      <th>Month</th>
+      <th>Revenue</th>
+    </tr>
+    <tr style="font-family: serif;font-size: 15px;" *ngFor="let x of arr">
+      <td>{{x.Category}}</td>
+      <td>{{x.Month}}</td>
+      <td *ngIf="o=='>' && x.Revenue>v">{{x.Revenue}}</td>
+      <td *ngIf="o=='>=' && x.Revenue>=v">{{x.Revenue}}</td>
+      <td *ngIf="o=='<' && x.Revenue<v">{{x.Revenue}}</td>
+      <td *ngIf="o=='=' && x.Revenue==v">{{x.Revenue}}</td>
+      <td *ngIf="o=='<=' && x.Revenue<=v">{{x.Revenue}}</td>
+
+
+      </tr>
+      </table>

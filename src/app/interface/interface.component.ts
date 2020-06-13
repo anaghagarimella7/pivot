@@ -18,6 +18,8 @@ import {DialogMonthComponent} from '../dialog-month/dialog-month.component';
 export class InterfaceComponent implements OnInit {
   arr:string[];
   displayedColumns: string[] = ['position', 'Category', 'Month', 'Revenue',];
+  _object = Object;
+
   @ViewChild(MatSort, {static: true},) sort: MatSort;
   @ViewChild(MatTable, {read: ElementRef, static:true}  ) private matTableRef: ElementRef;
   o='=';

@@ -58,9 +58,9 @@
 
 <br><hr>
 
-<button (click)="openWidth()">Change Width
+<button class="btn btn-primary" (click)="openWidth()">Change Width
 </button>
-
+<br>
 <p *ngIf="!buttonWidth;else width"></p>
 <ng-template #width>
   Enter width:<input style="width: 20%; display: inline;" type="text" class="form-control" (input)="onVal2($event)"><br>
@@ -73,8 +73,8 @@
 
 <table style="width: 100%;text-align:center ; color: black;  overflow: auto;" class="mat-elevation-z8">
   
-  <tr>
-    
+  <tr style="background-color: cadetblue;">
+  
     <TH>1</TH>
     <th>2</th>
     <th>3</th>
@@ -83,22 +83,22 @@
   
 </table>
 
-<table style="color: black;" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" >
+<table style="color: black; " mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" >
  
   <ng-container matColumnDef="position">
     <th [ngStyle]="{'background-color':color1}" style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header (click)="col1()" >No.</th>
     <td  [ngStyle]="{'background-color':color1}" mat-cell *matCellDef="let i=index;" > {{i+1}} </td>
   </ng-container>
   <ng-container matColumnDef="Category">
-        <th [ngStyle]="{'background-color':color2}" style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header (click)="col2()"><button (click)="openDialog2()">Category</button></th> 
+        <th [ngStyle]="{'background-color':color2}" style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header (click)="col2()"><button style="text-align:center;" class="btn btn-primary" (click)="openDialog2()">Category</button></th> 
         <td [ngStyle]="{'background-color':color2}" mat-cell *matCellDef="let element;" > {{element.Category}} </td> 
       </ng-container>
   <ng-container  matColumnDef="Month" >
-    <th [ngStyle]="{'background-color':color3}" style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header (click)="col3()"><button (click)="openDialog3()">Month</button> </th>
+    <th [ngStyle]="{'background-color':color3}" style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header (click)="col3()"><button class="btn btn-primary" (click)="openDialog3()">Month</button> </th>
     <td [ngStyle]="{'background-color':color3}"mat-cell *matCellDef="let element;"  > {{element.Month}} </td>
   </ng-container>  
   <ng-container  matColumnDef="Revenue">
-    <th [ngStyle]="{'background-color':color4}" style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header (click)="col4()"><button (click)="openDialog()">Revenue</button> </th>
+    <th [ngStyle]="{'background-color':color4}" style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header (click)="col4()"><button class="btn btn-primary" (click)="openDialog()">Revenue</button> </th>
     <td [ngStyle]="{'background-color':color4}" mat-cell *matCellDef="let element;" > {{element.Revenue}} </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -108,7 +108,22 @@
 </div>
 
 <!--
-
+<div>
+  <table style="color: black;" border="1">
+    <thead>
+      <tr>
+        <th [ngStyle]="{'background-color':blue}" *ngFor="let header of _object.keys(arr[0]); let i = index">{{header}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of arr; let i = index">
+        <th [ngStyle]="{'background-color':blue}" *ngFor="let objKey of _object.keys(row); let j = index">{{ row[objKey] }} </th>
+      </tr>
+    </tbody>
+  </table>
+</div>
+-->
+<!--
 <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" cdkDropListGroup>
   <ng-container  *ngFor="let column of columns; let i = index"  [matColumnDef]="column.field">
     <mat-header-cell mat-sort-header *matHeaderCellDef
@@ -121,12 +136,15 @@
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>-->
+
 <br><hr>
+<a href="dialog">DIALOG</a>
 <p *ngIf="!revenueDialog; else revFilter"></p>
 <ng-template #revFilter>
-  
+  <p ><strong> Data After Filtering:</strong> </p>
+
   <table  class="table table-bordered ">
-    <tr>
+    <tr style="background-color: cadetblue;">
       <th>Category</th>
       <th>Month</th>
       <th>Revenue</th>
@@ -139,16 +157,16 @@
       <td *ngIf="o=='<' && x.Revenue<v">{{x.Revenue}}</td>
       <td *ngIf="o=='=' && x.Revenue==v">{{x.Revenue}}</td>
       <td *ngIf="o=='<=' && x.Revenue<=v">{{x.Revenue}}</td>
-
-
       </tr>
       </table>
 </ng-template>
 
 <p *ngIf="!categoryDialog;else no"></p>
 <ng-template #no>
+  <p ><strong> Data After Filtering:</strong> </p>
+
   <table  class="table table-bordered ">
-    <tr>
+    <tr style="background-color: cadetblue;">
       <th>Category</th>
       <th>Month</th>
       <th>Revenue</th>
@@ -167,8 +185,10 @@
 
 <p *ngIf="!monthDialog;else no2"></p>
 <ng-template #no2>
+  <p ><strong> Data After Filtering:</strong> </p>
+
   <table  class="table table-bordered ">
-    <tr>
+    <tr style="background-color: cadetblue;">
       <th>Category</th>
       <th>Month</th>
       <th>Revenue</th>

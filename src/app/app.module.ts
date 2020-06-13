@@ -38,7 +38,8 @@ import { CourseDialogComponent } from './course-dialog/course-dialog.component';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { DialogLabelComponent } from './dialog-label/dialog-label.component';
 import { DialogMonthComponent } from './dialog-month/dialog-month.component';
-import { CalculatorComponent } from './calculator/calculator.component'; 
+import { CalculatorComponent } from './calculator/calculator.component';
+import { DynamicComponent } from './dynamic/dynamic.component'; 
 const appRoutes:Routes=[
   { path : '', component:HomeComponent } ,
   {path:'home',component:InterfaceComponent},
@@ -50,7 +51,8 @@ const appRoutes:Routes=[
   {path:'charts/doughnut-chart',component:MyDoughnutChartComponent},
   {path:'charts/save-pdf',component: SavePdfComponent},
   { path: 'database', component: DbComponent},
-  {path:'calculator',component:CalculatorComponent}
+  {path:'calculator',component:CalculatorComponent},
+  {path:'dialog',component:DynamicComponent}
 ]
 @NgModule({
   declarations: [
@@ -71,7 +73,8 @@ const appRoutes:Routes=[
     CourseDialogComponent,
     DialogLabelComponent,
     DialogMonthComponent,
-    CalculatorComponent
+    CalculatorComponent,
+    DynamicComponent
   ],
   imports: [
     BrowserModule,
