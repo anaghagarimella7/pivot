@@ -1,26 +1,507 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Renderer2 } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatTable } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
+import { stringify } from 'querystring';
+import {MatDialog, MatDialogConfig,MatDialogRef} from '@angular/material/dialog';
+import {DialogLabelComponent} from '../dialog-label/dialog-label.component';
+import { CourseDialogComponent } from '../course-dialog/course-dialog.component';
 
 @Component({
   selector: 'app-dynamic',
   templateUrl: './dynamic.component.html',
-  styleUrls: ['./dynamic.component.css']
+  styleUrls: ['./dynamic.component.css','./dynamic.component.scss']
 })
 export class DynamicComponent implements OnInit {
   arr:string[];
+  types= new Array();
+ _object=Object;  dataSource ; condition=false; 
+ _ob=Object;
+ pressed = false;
+ currentResizeIndex: number;
+ startX: number;   
 
-  constructor(private httpService: HttpClient) { }
+ startWidth: number;
+ isResizingRight: boolean;
+ resizableMousemove: () => void;
+ resizableMouseup: () => void;
+ columns: any[] = [
+  { field: 'No.', width: 50, },
+
+  { field: 'Category', width: 100,  },
+  { field: 'Month', width: 350, },
+  { field: 'Revenue', width: 250, }
+];
+
+  alignment="left"; click=false; color=""; i=0; len=0;col="Revenue";str="";onlyText=true;ot=-1;
+  operators=['>','<','<=','>=','='];
+  fonts=['Arial','Lucida Sans Unicode','Verdana','Courier New','Tahoma','Palatino Linotype','Impact','Georgia','Times New Roman'];
+  sizes=['8','10','11','12','14','16','20','25','30']; 
+  col1='';
+  col2=''; value=0;operator='';label=''; string;s='';l='';o='';v=0;
+  column='';
+  columnName=''; dialogColumn='';formatColumn='';resetbutton=false;
+  thousandSeperator=',';
+  decimalSeperator='.';
+  decimalPlace='2';
+  formatAsPercent='false';
+  currency='$';
+  currencies=['$','&','*','#','@']; decimals=[1,2,3,4,5];thousandSep=[',','None'];
+  op1='>';
+  op2='>';
+  val1=0;
+  val2=0;
+  font1='';
+  font2='';
+  Col=''; buttonDialog=false;
+ addCol=false;
+ font='';
+ fontsize=20;
+  textcolor='';
+  fontcolor='';
+  fontsize1=20;
+  fontsize2=20;
+  fontcolor1='';
+  fontcolor2='';
+  textcolor1='';
+  textcolor2='';
+  apply=false; format=false;
+  cancel=false;
+  revenueApply=false;
+  home=false;mfont=20;  mfamily='';  mbcolor='';  mtcolor='';
+  cfont=20;  cfamily='';  cbcolor='';ctcolor=''; c;m;
+  revenueCancel=false;
+  categoryApply=false;
+  categoryCancel=false; d=false;
+  monthApply=false;currencyAlignment='left';
+  monthCancel=false;
+  addColumn=false; buttonConditionApply=false;
+  buttonConditionCancel=false;
+  buttonFormatApply=false;
+  buttonFormatCancel=false;colourcell='';
+  buttonNumericFormat=false;
+  buttonNonNumericFormat=false;
+
+ displayedColumns:string[];
+  constructor(private httpService: HttpClient,private dialog: MatDialog,private renderer: Renderer2) { }
 
   ngOnInit() {
     this.httpService.get('./assets/appda.json').subscribe(
       data => {
         this.arr = data as string [];	
+        this.displayedColumns=(this._object.keys(this.arr[0]))
+     //   this.dataSource=new MatTableDataSource(this.arr);
+        //for(this.i=0;this.i<this.arr.length;this.i++){
+          //console.log(this.arr[this.i])
+        //}
+        this.dataSource=this.arr;
+        this.len=this.displayedColumns.length;
+        console.log(this.arr.length);
+       // console.log(typeof(this.arr[0]));
+        for(this.i=0;this.i<this.len;this.i++){
+        if((typeof(this.arr[0][this.displayedColumns[this.i]]))=='string'){
+          this.types.push(1);
+        }
+        else{
+          this.types.push(0);
+        }
+        }
+        console.log(this.types)
+        
+
+      //this.dataSource.sort = this.sort;
       },
       (err: HttpErrorResponse) => {
         console.log (err.message);
       }
     );
+    
+}
+onResizeColumn(event:Event,i:number){
+  console.log(event)
+}
+dialogs(){
+  this.buttonDialog=true;this.ot=-1;
+  this.condition=false;
+  this.format=false;
+  this.buttonConditionApply=false; this.d=false;this.buttonFormatApply=false;
+}
+eve(event:Event){
+  console.log("clicked")
+  console.log(event);
+}
+onclick(event:Event,i:number){
+this.click=true;
+this.d=true;
+console.log(i);
+this.dialogColumn=this.displayedColumns[i];
+if(this.types[i]!=1){
+this.onlyText=false; 
+console.log("this is a number");
+this.openDialog();
+}
+else{
+  this.onlyText=true;
+  this.openDialog2();
+}
+
+}
+colorCELL(){
+  this.colourcell='black';
+}
+reset(){
+  this.resetbutton=true;
+  this.dialogColumn='';
+}
+
+onClickFormatCancel(){
+  this.buttonFormatApply=false;
+}
+onclick1(event:Event,i:number){
+  this.format=false;
+  this.formatColumn=this.displayedColumns[i];
+  if(this.types[i]!=1){
+    this.onlyText=false;this.ot=0;
+  }
+  else{
+    this.onlyText=true;this.ot=1;
+  }
+}
+onClickFormatApply(){
+  this.buttonFormatApply=true;
+}
+openDialog() {
+  
+      const dialogConfig = new MatDialogConfig();
+  
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.data={
+        operators:['<','>','=','>=','<=','!='],
+        value: this.value,
+        operator:this.operator,
+        backdropClass:'backdropBackground'
+      }
+      const dialogRef = this.dialog.open(CourseDialogComponent, dialogConfig);
+  
+      //this.dialog.open(CourseDialogComponent, dialogConfig);
+      console.log(dialogConfig.data.operator);
+  
+  
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('The dialog was closed');
+    console.log(dialogConfig.data.value);
+    this.o=dialogConfig.data.operator;
+    this.v=dialogConfig.data.value;
+  });
+    
+  }
+  
+  openDialog2(){
+  
+    const dialogConfig2 = new MatDialogConfig();
+  
+    dialogConfig2.disableClose = true;
+    dialogConfig2.autoFocus = true;
+    dialogConfig2.data={
+      strings:["Equal","Not Equal","Begin","Not Begin","End","Not End","Contain","Not Contain","Greater","Smaller"],
+      label: this.label,
+      string:this.string
+    }
+    const dialogRef2 = this.dialog.open(DialogLabelComponent, dialogConfig2);
+    
+  dialogRef2.afterClosed().subscribe(result => {
+    console.log('The dialog2 was closed');
+    console.log(dialogConfig2.data.label+" "+dialogConfig2.data.string);
+    this.s=dialogConfig2.data.string;
+    this.l=dialogConfig2.data.label;
+  });
+  }
+  checkEqual(input:string,string2:string){
+    string2=string2.toLocaleLowerCase()
+  
+    if(input.toLocaleLowerCase().match(string2)){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  checkBegin(input:string,s:string){
+    s=s.toLocaleLowerCase()
+    if(input.toLocaleLowerCase().startsWith(s)){
+     return true;
+    }
+    else{
+      return false;
+    }
+  }
+  checkNotBegin(input:string,s:string){
+    if(!input.toLocaleLowerCase().startsWith(s)){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  
+  checkEnd(input:string,s:string){
+    s=s.toLocaleLowerCase()
+  
+    if(input.toLocaleLowerCase().endsWith(s)){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  checkNotEnd(input:string,s:string){
+    if(!input.endsWith(s)){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  
+  checkContain(input:string,s:string){
+    s=s.toLocaleLowerCase()
+  
+    if(input.toLocaleLowerCase().search(s)!=-1){
+      return true;
+  
+    }
+    else{
+      return false;
+    }
+    }
+  
+    checkGreater(input:string,s:string){
+      s=s.toLocaleLowerCase();
+      if(input.toLocaleLowerCase().localeCompare(s)==1){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    checkSmaller(input:string,s:string){
+      s=s.toLocaleLowerCase();
+      if(input.toLocaleLowerCase().localeCompare(s)==-1){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    
+Condition(){
+  this.condition=true;this.ot=-1;
+  this.format=false;
+  this.buttonDialog=false;this.d=false;this.buttonFormatApply=false;
+}
+Format(){
+  this.format=true;this.ot=-1;
+  this.condition=false;this.d=false;
+  this.buttonDialog=false;
+  this.buttonConditionApply=false;this.buttonFormatApply=false;
+}
+conditionApply(){
+  this.buttonConditionApply=true;
+}
+onAdd(){
+  this.addCol=true;
+}
+onClickColumn(event:Event){
+    
+  this.Col=(<HTMLInputElement>event.target).value; 
+  this.buttonConditionApply=false;
+  if(this.Col=='category'){
+    this.c=true;
+  }
+  if(this.Col=='month'){
+    this.m=true;
   }
 
 }
+onFonts(event:Event){
+  this.font=(<HTMLInputElement>event.target).value; 
+  this.buttonConditionApply=false;
+  if(this.Col=='category'){
+    this.cfamily=this.font;
+  }
+  if(this.Col=='month'){
+    this.mfamily=this.font;
+  }
+  
+}
+onFontSizes(event:Event){
+ this.fontsize=+(<HTMLInputElement>event.target).value; 
+ this.buttonConditionApply=false;
+ if(this.Col=='category'){
+  this.cfont=this.fontsize;
+}
+if(this.Col=='month'){
+  this.mfont=this.fontsize;
+}
+
+}
+onFontColors(event:Event){
+ this.fontcolor=(<HTMLInputElement>event.target).value; 
+ this.buttonConditionApply=false;
+ if(this.Col=='category'){
+  this.cbcolor=this.fontcolor;
+}
+if(this.Col=='month'){
+  this.mbcolor=this.fontcolor;
+}
+}
+onTextColors(event:Event){
+ this.textcolor=(<HTMLInputElement>event.target).value; 
+ this.buttonConditionApply=false;
+ if(this.Col=='category'){
+  this.ctcolor=this.textcolor;
+}
+if(this.Col=='month'){
+  this.mtcolor=this.textcolor;
+}
+}
+
+ onCol1(event:Event){
+  this.col1=(<HTMLInputElement>event.target).value; 
+  this.buttonConditionApply=false;
+  this.buttonConditionCancel=true;
+}
+onOp1(event:Event){
+  //this.alert=false;
+
+  this.op1=(<HTMLInputElement>event.target).value;    
+   this.buttonConditionApply=false;
+   this.buttonConditionCancel=true;
+   if(this.op1==this.op2){
+  //  this.error("Operations can't be performed; Choose valid operators");
+    //this.alert=true;
+  }
+}
+onVal1(event:Event){
+ this.val1=+(<HTMLInputElement>event.target).value; 
+ this.buttonConditionApply=false;
+ this.buttonConditionCancel=true;
+
+}
+onOp2(event:Event){
+  //this.alert=false;
+  this.op2=(<HTMLInputElement>event.target).value; 
+  this.buttonConditionApply=false;
+ this.buttonConditionCancel=true;
+ if(this.op1==this.op2){
+ //  this.error("Operations can't be performed; Choose valid operators");
+   //this.alert=true;
+ }
+ 
+ 
+}
+onCol2(event:Event){
+  this.col2=(<HTMLInputElement>event.target).value; 
+  this.buttonConditionApply=false;
+ this.buttonConditionCancel=true;
+}
+onColumn(event:Event){
+  this.column=(<HTMLInputElement>event.target).value; 
+  this.buttonConditionApply=false;
+ this.buttonConditionCancel=true;
+}
+onVal2(event:Event){
+  this.val2=+(<HTMLInputElement>event.target).value; 
+  this.buttonConditionApply=false;
+ this.buttonConditionCancel=true;
+ }
+
+ onFont1(event:Event){
+   this.font1=(<HTMLInputElement>event.target).value; 
+   this.buttonConditionApply=false;
+ this.buttonConditionCancel=true;
+ }
+ onFontSize1(event:Event){
+  this.fontsize1=+(<HTMLInputElement>event.target).value;
+  this.buttonConditionApply=false;
+ this.buttonConditionCancel=true;
+ }
+ onFontSize2(event:Event){
+  this.fontsize2=+(<HTMLInputElement>event.target).value;
+  this.buttonConditionApply=false;
+ this.buttonConditionCancel=true;
+}
+
+ onFontColor1(event:Event){
+    this.fontcolor1=(<HTMLInputElement>event.target).value; 
+    this.buttonConditionApply=false;
+ this.buttonConditionCancel=true;
+  }
+  onFontColor2(event:Event){
+    this.fontcolor2=(<HTMLInputElement>event.target).value; 
+    this.buttonConditionApply=false;
+ this.buttonConditionCancel=true;
+  }
+  onTextColor1(event:Event){
+    this.textcolor1=(<HTMLInputElement>event.target).value; 
+    this.buttonConditionApply=false;
+ this.buttonConditionCancel=true;
+  }
+  onTextColor2(event:Event){
+    this.textcolor2=(<HTMLInputElement>event.target).value; 
+    this.buttonConditionApply=false;
+ this.buttonConditionCancel=true;
+  }
+  
+ 
+  onFont2(event:Event){
+  this.font2=(<HTMLInputElement>event.target).value; 
+  this.buttonConditionApply=false;
+ this.buttonConditionCancel=true;
+}
+onColumnSelect(event: Event){
+  this.columnName=(<HTMLInputElement>event.target).value;
+  this.buttonFormatApply=false;
+
+ }
+  onAlignSelect(event: Event){
+    this.alignment=(<HTMLInputElement>event.target).value;
+    this.buttonFormatApply=false;
+
+   }
+   onThousandSelect(event: Event){
+    this.thousandSeperator=(<HTMLInputElement>event.target).value;
+    this.buttonFormatApply=false;
+
+   }
+   onDecimalSelect(event: Event){
+    this.decimalSeperator=(<HTMLInputElement>event.target).value;
+    this.buttonFormatApply=false;
+
+   }
+   onDecimalPlaceSelect(event: Event){
+     console.log(event)
+    this.decimalPlace=((<HTMLInputElement>event.target).value);
+    this.buttonFormatApply=false;
+
+   }
+   onCurrency(event:Event){
+    this.currency=(<HTMLInputElement>event.target).value; 
+    this.buttonFormatApply=false;
+
+   }
+   onCurrencyAlignment(event:Event){
+    this.currencyAlignment=(<HTMLInputElement>event.target).value; 
+    this.buttonFormatApply=false;
+
+   }
+   onFormatAsPercentage(event:Event){
+     this.formatAsPercent=(<HTMLInputElement>event.target).value; 
+     this.buttonFormatApply=false;
+   }
+
+
+}
+

@@ -1,21 +1,308 @@
-<p>dynamic works!</p>
-<p ><strong> Data After Filtering:</strong> </p>
-
-  <table  class="table table-bordered ">
-    <tr style="background-color: cadetblue;">
-      <th>Category</th>
-      <th>Month</th>
-      <th>Revenue</th>
-    </tr>
-    <tr style="font-family: serif;font-size: 15px;" *ngFor="let x of arr">
-      <td>{{x.Category}}</td>
-      <td>{{x.Month}}</td>
-      <td *ngIf="o=='>' && x.Revenue>v">{{x.Revenue}}</td>
-      <td *ngIf="o=='>=' && x.Revenue>=v">{{x.Revenue}}</td>
-      <td *ngIf="o=='<' && x.Revenue<v">{{x.Revenue}}</td>
-      <td *ngIf="o=='=' && x.Revenue==v">{{x.Revenue}}</td>
-      <td *ngIf="o=='<=' && x.Revenue<=v">{{x.Revenue}}</td>
-
+<!--
+<div>
+  <table style="color: black; width: 100%;" border="1">
+    <thead>
+      <tr>
+        <th style="background-color: lightblue;" *ngFor="let header of _object.keys(arr[0]); let i = index"><button id="i" (click)="onclick($event,i);openDialog2()">{{header}}</button></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of arr; let i = index">
+        <th  *ngFor="let objKey of _object.keys(row); let j = index" >
+              
+      {{row[objKey]}}
+        </th>
 
       </tr>
-      </table>
+    </tbody>
+  </table>
+</div>-->
+
+<html>
+  <body>
+<button class="btn btn-primary" (click)="Condition()">Condition</button>&nbsp;
+<button class="btn btn-primary" (click)="Format()">Format</button> &nbsp;
+<button class="btn btn-primary" (click)="dialogs()">Dialog</button>
+<br>
+<br>
+
+<p *ngIf="!condition;else temp">
+</p>
+<ng-template #temp>
+ <strong> Column1:</strong>
+    <select  style="width: 21%; display: inline; color: black; " class=" form-control" (change)="onCol1($event)">
+      <option [value]="i" *ngFor="let i of displayedColumns">{{i}}</option>
+    </select>
+  
+   
+ 
+ &nbsp;
+ <strong> Operator1:</strong>
+   <select  style="width: 20% ; display: inline;" class=" form-control" (change)="onOp1($event)">
+    <option [value]="i" *ngFor="let i of operators">{{i}}</option>
+  </select>
+  &nbsp;
+  &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+  
+
+  <strong>  Value1: </strong><input style="width: 20% ; display: inline;" type="text" class="form-control" (input)="onVal1($event)"><br>
+   <br>
+   <strong> FontStyle1: </strong>
+   <select  style=" width: 20% ;display: inline;" class=" form-control" (change)="onFont1($event)">
+    <option [value]="i" *ngFor="let i of fonts">{{i}}</option>
+  </select>
+  &nbsp;
+
+  <strong>  FontSize1 : </strong>
+   <select  style="width: 20%; display: inline; " class=" form-control" (change)="onFontSize1($event)">
+    <option [value]="i" *ngFor="let i of sizes">{{i}}</option>
+  </select>
+  &nbsp;
+
+  <strong>  FontColor1:</strong> <input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onFontColor1($event)"><br>
+  <br>
+  <strong> TextColor1: </strong><input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onTextColor1($event)"><br>
+<br>
+<div style="display: inline-block; width: 20%;">
+<p *ngIf="sample" [ngStyle]="{'background-color':fontcolor1,'font-family':font1, 'font-size.px':fontsize1,color:textcolor1}" >Sample text</p>
+  </div> <br><hr> <alert></alert><br>
+    
+   <strong> Column 2: </strong>
+   
+  <select  style="width: 21% ; display: inline;" class=" form-control" (change)="onCol2($event)">
+    <option [value]="i" *ngFor="let i of displayedColumns">{{i}}</option>
+  </select>
+ &nbsp;
+ <strong> Operator2: </strong>
+   <select  style="width: 20%; display: inline; " class=" form-control" (change)="onOp2($event)">
+    <option [value]="i" *ngFor="let i of operators">{{i}}</option>
+  </select>
+  &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;
+<strong>  Value2:</strong> <input style="width: 20% ; display: inline;" type="text" class="form-control" (input)="onVal2($event)"><br>
+   
+<br>
+<strong>  FontStyle2: </strong>
+   <select  style="width: 20% ; display: inline;" class=" form-control" (change)="onFont2($event)">
+    <option [value]="i" *ngFor="let i of fonts">{{i}}</option>
+  </select>
+&nbsp;
+<strong>  FontSize2 : </strong>
+   <select  style="width: 20% ; display: inline;" class=" form-control" (change)="onFontSize2($event)">
+    <option [value]="i" *ngFor="let i of sizes">{{i}}</option>
+  </select>
+&nbsp;
+<strong> FontColor2:</strong> <input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onFontColor2($event)"><br>
+   <br>
+   <strong> TextColor2: </strong><input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onTextColor2($event)"><br>
+
+<br>
+<div style="display: inline-block; width: 20%;">
+  <p *ngIf="sample" [ngStyle]="{'background-color':fontcolor2,'font-family':font2, 'font-size.px':fontsize2,'color':textcolor2}" >Sample text</p>
+ </div> <br> <button class="btn btn-primary" (click)="onAdd();">  Add Column   </button>
+
+<hr>
+<p *ngIf="!addCol; else AddCol"></p>
+       <ng-template #AddCol>
+        <strong>  Column: </strong>
+        <select  style="width: 20% ; display: inline;" class=" form-control" (change)="onClickColumn($event)">
+          <option [value]="i" *ngFor="let i of displayedColumns">{{i}}</option>
+        </select>
+       &nbsp;
+       
+       <strong> FontFamily: </strong>
+        <select  style="width: 20%; display: inline; " class=" form-control" (change)="onFonts($event)">
+         <option [value]="i" *ngFor="let i of fonts">{{i}}</option>
+       </select>
+     &nbsp;
+       
+     <strong> FontSize: </strong>
+        <select  style="width: 20%; display: inline; " class=" form-control" (change)="onFontSizes($event)">
+         <option [value]="i" *ngFor="let i of sizes">{{i}}</option>
+       </select>
+       <br>
+       <br>
+       <strong> FontColor:</strong> <input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onFontColors($event)">
+        &nbsp;
+        <strong> TextColor: </strong><input style="width: 20% ; display: inline;" type="color"  class="form-control" (input)="onTextColors($event)"><br>
+        
+        <br><br>
+        </ng-template>
+<button class="btn btn-primary" (click)="conditionApply()"> Apply</button>&nbsp;
+<button class="btn btn-primary" (click)="conditionCancel()"> Cancel</button>
+
+</ng-template>
+
+<p *ngIf="!buttonConditionApply ; else cond"></p>
+<ng-template #cond>
+<table class="table table-bordered" style="color: black; width: 100%;">
+  
+      <tr>
+        <th style="background-color: lightblue;" *ngFor="let header of _object.keys(arr[0]); let i = index">{{header}}</th>
+      </tr>
+
+      <tr *ngFor="let row of arr; let i = index">
+        <th *ngFor="let objKey of _object.keys(row); let j = index" >
+          <ng-container>
+          <p *ngIf="(types[j]==0 && (col1==objKey &&op1=='<' && row[objKey]<val1)||(col1==objKey &&op1=='>' && row[objKey]>val1)||(col1==objKey && op1=='>=' && row[objKey]>=val1)||(col1==objKey && op1=='<=' && row[objKey]<=val1)||(col1==objKey && op1=='=' && row[objKey]==val1)); " [ngStyle]="{'background-color':fontcolor1,'font-family':font1,'font-size.px':fontsize1,color:textcolor1}">{{row[objKey]}}</p>
+          <p *ngIf="(types[j]==0 &&  (col2==objKey &&op2=='<' && row[objKey]<val2)||(col2==objKey &&op2=='>' && row[objKey]>val2)||(col2==objKey &&op2=='>=' && row[objKey]>=val2)||( col2==objKey &&op2=='<=' && row[objKey]<=val2)||(col2==objKey &&op2=='=' && row[objKey]==val2)); " [ngStyle]="{'background-color':fontcolor2,'font-family':font2,'font-size.px':fontsize2,color:textcolor2}">{{row[objKey]}}</p>
+          <p *ngIf="types[j]==1 && Col==objKey" [ngStyle]="{'background-color':fontcolor,'text-color':textcolor,'font-family':font,'font-size.px':fontsize}">{{row[objKey]}}</p>
+          <p *ngIf="Col!=objKey && col1!=objKey && col2!=objKey">{{row[objKey]}}</p>
+          </ng-container> 
+          </th>
+        </tr>
+      
+</table>
+
+</ng-template>
+
+<p *ngIf="!format; else for"></p>
+<ng-template #for>
+  <table style="color: black; width: 100%;" border="1">
+    <thead>
+      <tr>
+        <th style="background-color: lightblue;" *ngFor="let header of _object.keys(arr[0]); let i = index"><button class="btn btn-primary" id="i" (click)="onclick1($event,i)">{{header}}</button></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of arr; let i = index">
+        <th  *ngFor="let objKey of _object.keys(row); let j = index" >{{ row[objKey] }} </th>
+  
+      </tr>
+    </tbody>
+  </table>
+</ng-template>
+  <p *ngIf="ot == 1 ; ">
+    <ng-container>
+      <strong>Text-alignment</strong>: 
+      <select class="select-css"  style="width: 20%; align-content: center; " class=" form-control" (change)="onAlignSelect($event)">
+    <option value="left">Left</option>
+    <option value="right">Right</option>
+  </select><br><br>
+  <button class="btn btn-primary" (click)="onClickFormatApply();">Apply</button>
+   &nbsp;
+   <button class="btn btn-primary" (click)="onClickFormatCancel();">Cancel</button>
+<br><br>
+    </ng-container>
+  </p>
+  <p *ngIf="ot == 0 ">
+    <ng-container>
+    <strong>Text-alignment:</strong>
+      <select  style="width: 20% " class=" form-control" (change)="onAlignSelect($event)">
+    <option value="left">Left</option>
+    <option value="right">Right</option>
+  </select>
+   <br>
+  <strong>Thousand-seperator:</strong>
+  <select  style="width: 20% " class=" form-control" (change)="onThousandSelect($event)">
+    <option [value]="i" *ngFor="let i of thousandSep">{{i}}</option>
+  </select>
+  <br>
+  <strong>Decimal-places:</strong>
+   <select  style="width: 20% " class=" form-control" (change)="onDecimalPlaceSelect($event)">
+    <option [value]="i" *ngFor="let i of decimals">{{i}}</option>
+  </select>
+  <br>
+  <strong>Currency-Symbol:</strong>
+  <select  style="width: 20% " class=" form-control" (change)="onCurrency($event)">
+    <option [value]="i" *ngFor="let i of currencies">{{i}}</option>
+  </select>
+   <br>
+  <strong>Currency Alignment:</strong>
+  <select  style="width: 20% " class=" form-control" (change)="onCurrencyAlignment($event)">
+    <option value="left">Left</option>
+    <option value="right">Right</option>
+  </select> 
+  <br>
+  <strong>Format As Percentage:</strong>
+  <select  style="width: 20% " class=" form-control" (change)="onFormatAsPercentage($event)">
+    <option value="false">False</option>
+    <option value="true">True</option>
+</select>
+<br>
+<button class="btn btn-primary" (click)="onClickFormatApply();">Apply</button>
+   &nbsp;
+   <button class="btn btn-primary" (click)="onClickFormatCancel();">Cancel</button>
+<br><br>
+</ng-container></p>
+ 
+ 
+
+<p *ngIf="!buttonFormatApply ; else ApplyF"></p>
+<ng-template #ApplyF>
+  <table style="color: black; width: 100%;" border="1">
+    <thead>
+      <tr>
+        <th style="background-color: lightblue;" *ngFor="let header of _object.keys(arr[0]); let i = index">{{header}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of arr; let i = index">
+        <th  *ngFor="let objKey of _object.keys(row); let j = index" >
+        <ng-container>
+          <p *ngIf="types[j]==0 && formatColumn==objKey ; else m" >{{currency}}{{row[objKey]|number:'3.'+decimalPlace+'-5'}}</p>
+          <p *ngIf="types[j]==1 && formatColumn==objKey" [ngStyle]="{'text-align':alignment}">{{row[objKey]}}</p>
+          <p *ngIf="formatColumn!=objKey">{{row[objKey]}}</p>
+        </ng-container>  
+
+        </th>
+  
+      </tr>
+    </tbody>
+  </table>
+</ng-template>
+<p *ngIf="!buttonDialog ; else di"></p>
+<!--
+<ng-template #di>
+  <table style="color: black; width: 100%;" border="1">
+    <thead>
+      <tr>
+        <th style="background-color: lightblue;" *ngFor="let header of _object.keys(arr[0]); let i = index"><button id="i" (click)="onclick($event,i); " >
+          {{header}}</button>  
+        
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of arr; let i = index">
+        <th  *ngFor="let objKey of _object.keys(row); let j = index" >
+              
+      {{row[objKey]}}
+        </th>
+
+      </tr>
+    </tbody>
+  </table>
+</ng-template>
+
+<p *ngIf="!d; else dialogbox"></p>-->
+
+<ng-template #di>
+
+  <button class="btn btn-danger" (click)="reset()">Reset</button>
+  <table datatable class="row-border hover" style="color: black; width: 100%;   overflow-y: scroll;" border="1">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th  *ngFor="let header of _object.keys(arr[0]); let i = index">{{i+1}}<hr><button class="btn btn-primary" id="i" (click)="onclick($event,i); " >
+          {{header}}</button>  
+        
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of arr; let i = index">
+        <td>{{i+1}}</td>
+        <th  *ngFor="let objKey of _object.keys(row); let j = index" >
+              <ng-container>
+                <p *ngIf="(dialogColumn==objKey && types[j]==1 && ((s=='Equal' && checkEqual(row[objKey],l))||(s=='Not Equal' && !checkEqual(row[objKey],l))||(s=='Begin' && checkBegin(row[objKey],l))||(s=='Not Begin' && checkNotBegin(row[objKey],l))||(s=='End'&& checkEnd(row[objKey],l))||(s=='Not End'&& checkNotEnd(row[objKey],l))||(s=='Contain' && checkContain(row[objKey],l))||(s=='Not Contain' && !checkContain(row[objKey],l))))">{{row[objKey]}}</p>
+              <p *ngIf="dialogColumn!=objKey">{{row[objKey]}}</p>
+              <p *ngIf="(dialogColumn==objKey && types[j]==0 && (o=='>' && row[objKey]>v)||(o=='<' && row[objKey]<v)||(o=='>=' && row[objKey]>=v) ||(o=='<=' && row[objKey]<=v)|| (o=='=' && row[objKey]==v) )">{{row[objKey]}}</p>
+              </ng-container>
+        </th>
+      </tr>
+    </tbody>
+  </table>
+</ng-template>
+</body>
+</html>

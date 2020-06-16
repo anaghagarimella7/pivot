@@ -141,7 +141,7 @@ openDialog2(){
   dialogConfig2.disableClose = true;
   dialogConfig2.autoFocus = true;
   dialogConfig2.data={
-    strings:["Equal","Not Equal","Begin","Not Begin","End","Not End","Contain","Not Contain"],
+    strings:["Equal","Not Equal","Begin","Not Begin","End","Not End","Contain","Not Contain","Greater","Smaller"],
     label: this.label,
     string:this.string
   }
@@ -164,7 +164,7 @@ openDialog3(){
   dialogConfig3.disableClose = true;
   dialogConfig3.autoFocus = true;
   dialogConfig3.data={
-    strings:["Equal","Not Equal","Begin","Not Begin","End","Not End","Contain","Not Contain"],
+    strings:["Equal","Not Equal","Begin","Not Begin","End","Not End","Contain","Not Contain","Greater","Smaller"],
     label: this.label,
     string:this.string
   }
@@ -194,7 +194,8 @@ col4(){
 }
 
 checkBegin(input:string,s:string){
-  if(input.startsWith(s)){
+  s=s.toLocaleLowerCase()
+  if(input.toLocaleLowerCase().startsWith(s)){
    return true;
   }
   else{
@@ -202,7 +203,7 @@ checkBegin(input:string,s:string){
   }
 }
 checkNotBegin(input:string,s:string){
-  if(!input.startsWith(s)){
+  if(!input.toLocaleLowerCase().startsWith(s)){
     return true;
   }
   else{
@@ -211,7 +212,9 @@ checkNotBegin(input:string,s:string){
 }
 
 checkEnd(input:string,s:string){
-  if(input.endsWith(s)){
+  s=s.toLocaleLowerCase()
+
+  if(input.toLocaleLowerCase().endsWith(s)){
     return true;
   }
   else{
@@ -227,7 +230,9 @@ checkNotEnd(input:string,s:string){
   }
 }
 checkEqual(input:string,s:string){
-  if(input.match(s)){
+  s=s.toLocaleLowerCase()
+
+  if(input.toLocaleLowerCase().match(s)){
     return true;
   }
   else{
@@ -235,7 +240,9 @@ checkEqual(input:string,s:string){
   }
 }
 checkContain(input:string,s:string){
-  if(input.search(s)){
+  s=s.toLocaleLowerCase()
+
+  if(input.toLocaleLowerCase().search(s)!=-1){
     return true;
 
   }
@@ -243,6 +250,26 @@ checkContain(input:string,s:string){
     return false;
   }
   }
+
+  checkGreater(input:string,s:string){
+    s=s.toLocaleLowerCase();
+    if(input.toLocaleLowerCase().localeCompare(s)==1){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  checkSmaller(input:string,s:string){
+    s=s.toLocaleLowerCase();
+    if(input.toLocaleLowerCase().localeCompare(s)==-1){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  
 
 
   getFilterObject(fullObj, key) {

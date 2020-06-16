@@ -43,6 +43,7 @@
   <input style="color: black;" (keyup)="applyFilter($event.target.value)" matInput placeholder="filter">
 </mat-form-field>-->
 
+
 <div style="color: black;">
   <mat-form-field *ngFor="let filter of filterSelectObj" style="margin-left: 15px;">
     <mat-label>Filter {{filter.name}}</mat-label>
@@ -60,7 +61,7 @@
 
 <button class="btn btn-primary" (click)="openWidth()">Change Width
 </button>
-<br>
+
 <p *ngIf="!buttonWidth;else width"></p>
 <ng-template #width>
   Enter width:<input style="width: 20%; display: inline;" type="text" class="form-control" (input)="onVal2($event)"><br>
@@ -68,7 +69,7 @@
    <!--<button class="btn btn-primary" (click)="onApply()">Apply</button>&nbsp;
    <button class="btn btn-primary" (click)="onCancel()">Cancel</button>-->
 </ng-template>
-
+<br>
 <div class="table-container" [style.width.%]="w">
 
 <table style="width: 100%;text-align:center ; color: black;  overflow: auto;" class="mat-elevation-z8">
@@ -76,30 +77,30 @@
   <tr style="background-color: cadetblue;">
   
     <TH>1</TH>
-    <th>2</th>
-    <th>3</th>
+    <th >2</th>
+    <th style="text-align: left;">3</th>
     
   </tr>
   
 </table>
 
-<table style="color: black; " mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" >
+<table style="color: black; width: 100%; " mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" >
  
   <ng-container matColumnDef="position">
     <th [ngStyle]="{'background-color':color1}" style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header (click)="col1()" >No.</th>
-    <td  [ngStyle]="{'background-color':color1}" mat-cell *matCellDef="let i=index;" > {{i+1}} </td>
+    <td  [ngStyle]="{'background-color':color1}" mat-cell *matCellDef="let i=index;"(click)="col1()" > {{i+1}} </td>
   </ng-container>
   <ng-container matColumnDef="Category">
         <th [ngStyle]="{'background-color':color2}" style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header (click)="col2()"><button style="text-align:center;" class="btn btn-primary" (click)="openDialog2()">Category</button></th> 
-        <td [ngStyle]="{'background-color':color2}" mat-cell *matCellDef="let element;" > {{element.Category}} </td> 
+        <td [ngStyle]="{'background-color':color2}" mat-cell *matCellDef="let element;"  (click)="col2()"> {{element.Category}} </td> 
       </ng-container>
   <ng-container  matColumnDef="Month" >
     <th [ngStyle]="{'background-color':color3}" style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header (click)="col3()"><button class="btn btn-primary" (click)="openDialog3()">Month</button> </th>
-    <td [ngStyle]="{'background-color':color3}"mat-cell *matCellDef="let element;"  > {{element.Month}} </td>
+    <td [ngStyle]="{'background-color':color3}"mat-cell *matCellDef="let element;"  (click)="col3()" > {{element.Month}} </td>
   </ng-container>  
-  <ng-container  matColumnDef="Revenue">
-    <th [ngStyle]="{'background-color':color4}" style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header (click)="col4()"><button class="btn btn-primary" (click)="openDialog()">Revenue</button> </th>
-    <td [ngStyle]="{'background-color':color4}" mat-cell *matCellDef="let element;" > {{element.Revenue}} </td>
+  <ng-container style="text-align: center;" matColumnDef="Revenue">
+    <th  [ngStyle]="{'background-color':color4}" mat-header-cell *matHeaderCellDef mat-sort-header (click)="col4()"><button class="btn btn-primary" (click)="openDialog()">Revenue</button> </th>
+    <td [ngStyle]="{'background-color':color4}"  mat-cell *matCellDef="let element;"  (click)="col4()" > {{element.Revenue}} </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -107,6 +108,7 @@
 </table>
 </div>
 
+<br>
 <!--
 <div>
   <table style="color: black;" border="1">
@@ -117,7 +119,8 @@
     </thead>
     <tbody>
       <tr *ngFor="let row of arr; let i = index">
-        <th [ngStyle]="{'background-color':blue}" *ngFor="let objKey of _object.keys(row); let j = index">{{ row[objKey] }} </th>
+        <th  *ngFor="let objKey of _object.keys(row); let j = index" >{{ row[objKey] }} </th>
+
       </tr>
     </tbody>
   </table>
@@ -138,12 +141,12 @@
 </mat-table>-->
 
 <br><hr>
-<a href="dialog">DIALOG</a>
+
 <p *ngIf="!revenueDialog; else revFilter"></p>
 <ng-template #revFilter>
   <p ><strong> Data After Filtering:</strong> </p>
 
-  <table  class="table table-bordered ">
+  <table id="rev" class="table table-bordered ">
     <tr style="background-color: cadetblue;">
       <th>Category</th>
       <th>Month</th>
@@ -172,7 +175,7 @@
       <th>Revenue</th>
     </tr>
     <tr style="font-family: serif;font-size: 15px;" *ngFor="let x of arr">
-      <td *ngIf="((s=='Contain' && checkContain(x.Category,l))||(s=='Begin' && checkBegin(x.Category,l)) ||(s=='Not Begin' && !checkBegin(x.Category,l))||(s=='Equal' && checkEqual(x.Category,l))||(s=='Not Equal' && !checkEqual(x.Category,l))||(s=='End' && checkEnd(x.Category,l))||(s=='Not End' && !checkEnd(x.Category,l)));else no">{{x.Category}}</td>
+      <td *ngIf="((s=='Smaller' && checkSmaller(x.Category,l))||(s=='Greater' && checkGreater(x.Category,l))||(s=='Contain' && checkContain(x.Category,l))||(s=='Begin' && checkBegin(x.Category,l)) ||(s=='Not Begin' && !checkBegin(x.Category,l))||(s=='Equal' && checkEqual(x.Category,l))||(s=='Not Equal' && !checkEqual(x.Category,l))||(s=='End' && checkEnd(x.Category,l))||(s=='Not End' && !checkEnd(x.Category,l)));else no">{{x.Category}}</td>
        <ng-template #no>
          <td></td>
        </ng-template>
@@ -196,7 +199,7 @@
     <tr style="font-family: serif;font-size: 15px;" *ngFor="let x of arr">
       <td>{{x.Category}}</td>
 
-      <td *ngIf="((s2=='Contain' && checkContain(x.Month,l2))||(s2=='Not Contain' && !checkContain(x.Month,l2))||(s2=='Begin' && checkBegin(x.Month,l2)) ||(s2=='Not Begin' && !checkBegin(x.Month,l2))||(s2=='Equal' && checkEqual(x.Month,l2))||(s2=='Not Equal' && !checkEqual(x.Month,l2))||(s2=='End' && checkEnd(x.Month,l2))||(s2=='Not End' && !checkEnd(x.Month,l2)));else no22">{{x.Month}}</td>
+      <td *ngIf="((s2=='Smaller' && checkSmaller(x.Month,l2))||(s2=='Greater' && checkGreater(x.Month,l2))||(s2=='Contain' && checkContain(x.Month,l2))||(s2=='Not Contain' && !checkContain(x.Month,l2))||(s2=='Begin' && checkBegin(x.Month,l2)) ||(s2=='Not Begin' && !checkBegin(x.Month,l2))||(s2=='Equal' && checkEqual(x.Month,l2))||(s2=='Not Equal' && !checkEqual(x.Month,l2))||(s2=='End' && checkEnd(x.Month,l2))||(s2=='Not End' && !checkEnd(x.Month,l2)));else no22">{{x.Month}}</td>
        <ng-template #no22>
          <td></td>
        </ng-template>

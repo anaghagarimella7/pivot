@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import {FormsModule } from '@angular/forms';
 
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { DataTablesModule } from 'angular-datatables';
 
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {CdkTableModule} from '@angular/cdk/table';
@@ -81,7 +82,7 @@ const appRoutes:Routes=[
     AppRoutingModule,
     BrowserAnimationsModule,
     MatTableModule,
-    MatDialogModule,
+    MatDialogModule, DataTablesModule,
 MatSortModule,
 A11yModule,
 CdkTableModule,
