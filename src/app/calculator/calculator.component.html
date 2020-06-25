@@ -2,15 +2,12 @@
   
     <button  class="button" (click) = "popUp()">Fields</button>
     <button class="button" (click)="popUp1()">Calculator</button>
-    <button class="button" (click)="openFullscreen()">FullScreen</button>
-    
-    
-  
-  
+    <button class="button" (click)="openFullscreen()">FullScreen</button> 
   
     
   <div>
     <ng-container *ngIf="!start && !showcase">
+      <!--
       <table style="width: 50%;">
         <tr >
          
@@ -41,11 +38,24 @@
            <td > {{x.Salesperson}}</td> 
            <td >{{x.ShippingCost}}</td>
            <td >{{x.UnitPrice}}</td> </tr>
-      </table>
+      </table>-->
     </ng-container>
     
-    <table *ngIf="start && !showcase">
-      <tr >
+    <table>
+      <tr>
+        <th style="background-color: lightblue;" *ngFor="let header of _object.keys(arrData[0]); let i = index">{{header}}</th>
+      </tr>
+  
+      <tr *ngFor="let row of arrData; let i = index">
+        <th *ngFor="let objKey of _object.keys(row); let j = index" >
+          <ng-container>
+            <p *ngIf="types[j]==1"> {{row[objKey]}}
+            </p>
+          </ng-container>
+          </th>
+        </tr>
+    </table>  
+      <!--<tr >
        
         <th *ngIf="var1"> {{ "Category" }} </th>
             
@@ -73,10 +83,10 @@
          <td *ngIf="var8">{{x.Region}}</td>  
          <td *ngIf="var9"> {{x.Salesperson}}</td> 
          <td *ngIf="var10">{{x.ShippingCost}}</td>
-         <td *ngIf="var11">{{x.UnitPrice}}</td> </tr>
-         </table>
+         <td *ngIf="var11">{{x.UnitPrice}}</td> </tr>-->
+         
   </div>
-  <div class="popup"> 
+  <!--<div class="popup"> 
   <ng-container *ngIf="show">
     <button class="close" (click)="close()">X</button>
     <p id="popup"> Available Fields: </p>
@@ -95,7 +105,17 @@
        </ul> 
        
   </ng-container>
+  </div>-->
+  <p *ngIf="!show;else n"></p>
+  <ng-template #n>
+  <div style="color: black;" *ngFor="let col of displayedColumns;let i=index">
+    <mat-checkbox [checked]="col.checked" (change)="ValueChanged($event,i)">
+
+         {{ col }}
+    </mat-checkbox>                        
   </div>
+  
+  </ng-template>
   <div class="popup"> 
     <ng-container *ngIf="show1">
       <button class="close" (click)="close()">X</button>

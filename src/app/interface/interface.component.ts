@@ -9,7 +9,6 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatDialog, MatDialogConfig,MatDialogRef} from '@angular/material/dialog';
 import { CourseDialogComponent } from '../course-dialog/course-dialog.component';
 import {DialogLabelComponent} from '../dialog-label/dialog-label.component';
-import {DialogMonthComponent} from '../dialog-month/dialog-month.component';
 @Component({
   selector: 'app-interface',
   templateUrl: './interface.component.html',
@@ -155,28 +154,7 @@ dialogRef2.afterClosed().subscribe(result => {
 });
 }
 
-openDialog3(){
-  this.monthDialog=true;
-  this.revenueDialog=false;
-  this.categoryDialog=false;
-  const dialogConfig3 = new MatDialogConfig();
 
-  dialogConfig3.disableClose = true;
-  dialogConfig3.autoFocus = true;
-  dialogConfig3.data={
-    strings:["Equal","Not Equal","Begin","Not Begin","End","Not End","Contain","Not Contain","Greater","Smaller"],
-    label: this.label,
-    string:this.string
-  }
-  const dialogRef3 = this.dialog.open(DialogMonthComponent, dialogConfig3);
-  
-dialogRef3.afterClosed().subscribe(result => {
-  console.log('The dialog3 was closed');
-  console.log(dialogConfig3.data.label+" "+dialogConfig3.data.string);
-  this.s2=dialogConfig3.data.string;
-  this.l2=dialogConfig3.data.label;
-});
-}
 
 col1(){
   this.column1=true;

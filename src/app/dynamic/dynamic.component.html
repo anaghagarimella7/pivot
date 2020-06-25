@@ -129,7 +129,7 @@
         <br><br>
         </ng-template>
 <button class="btn btn-primary" (click)="conditionApply()"> Apply</button>&nbsp;
-<button class="btn btn-primary" (click)="conditionCancel()"> Cancel</button>
+<button class="btn btn-primary" (click)="conditionCancel()"> Cancel</button><br><br>
 
 </ng-template>
 
@@ -240,9 +240,11 @@
       <tr *ngFor="let row of arr; let i = index">
         <th  *ngFor="let objKey of _object.keys(row); let j = index" >
         <ng-container>
-          <p *ngIf="types[j]==0 && formatColumn==objKey ; else m" >{{currency}}{{row[objKey]|number:'3.'+decimalPlace+'-5'}}</p>
-          <p *ngIf="types[j]==1 && formatColumn==objKey" [ngStyle]="{'text-align':alignment}">{{row[objKey]}}</p>
-          <p *ngIf="formatColumn!=objKey">{{row[objKey]}}</p>
+          <p  *ngIf="types[j]==0 && formatColumn==objKey && formatAsPercent=='false';" [ngStyle]="{'text-align':alignment}">{{currency}}{{row[objKey]|number:'3.'+decimalPlace+'-5'}}</p>
+          <p  *ngIf="types[j]==0 && formatColumn==objKey && formatAsPercent=='true';" [ngStyle]="{'text-align':alignment}">{{row[objKey]|format:formatAsPercent}}</p>
+
+          <p  *ngIf="types[j]==1 && formatColumn==objKey" [ngStyle]="{'text-align':alignment}">{{row[objKey]}}</p>
+          <p  *ngIf="formatColumn!=objKey">{{row[objKey]}}</p>
         </ng-container>  
 
         </th>
@@ -278,13 +280,25 @@
 <p *ngIf="!d; else dialogbox"></p>-->
 
 <ng-template #di>
-
+  <button class="btn btn-primary" (click)="openWidth()">Change Width
+  </button>
+  
+  <p *ngIf="!buttonWidth;else width"></p>
+  <ng-template #width>
+    &nbsp;&nbsp;<input style="width: 20%; display: inline;" type="text" class="form-control" (input)="onWidth($event)"><br>
+     
+     <!--<button class="btn btn-primary" (click)="onApply()">Apply</button>&nbsp;
+     <button class="btn btn-primary" (click)="onCancel()">Cancel</button>-->
+  </ng-template>
+  <br>
   <button class="btn btn-danger" (click)="reset()">Reset</button>
-  <table datatable class="row-border hover" style="color: black; width: 100%;   overflow-y: scroll;" border="1">
+  <div class="table-container" [style.width.%]="w">
+
+  <table id="tabled" datatable class="row-border hover" style="color: black; width: 100%;" border="1">
     <thead>
       <tr>
-        <th>No.</th>
-        <th  *ngFor="let header of _object.keys(arr[0]); let i = index">{{i+1}}<hr><button class="btn btn-primary" id="i" (click)="onclick($event,i); " >
+        <th style="resize: both; overflow: auto;">No.</th>
+        <th id="a1" *ngFor="let header of _object.keys(arr[0]); let i = index">{{i+1}}<hr><button class="btn btn-primary" id="i" (click)="onclick($event,i); " >
           {{header}}</button>  
         
         </th>
@@ -292,17 +306,18 @@
     </thead>
     <tbody>
       <tr *ngFor="let row of arr; let i = index">
-        <td>{{i+1}}</td>
-        <th  *ngFor="let objKey of _object.keys(row); let j = index" >
+        <td id="b1">{{i+1}}</td>
+        <th id="b2" *ngFor="let objKey of _object.keys(row); let j = index" >
               <ng-container>
-                <p *ngIf="(dialogColumn==objKey && types[j]==1 && ((s=='Equal' && checkEqual(row[objKey],l))||(s=='Not Equal' && !checkEqual(row[objKey],l))||(s=='Begin' && checkBegin(row[objKey],l))||(s=='Not Begin' && checkNotBegin(row[objKey],l))||(s=='End'&& checkEnd(row[objKey],l))||(s=='Not End'&& checkNotEnd(row[objKey],l))||(s=='Contain' && checkContain(row[objKey],l))||(s=='Not Contain' && !checkContain(row[objKey],l))))">{{row[objKey]}}</p>
-              <p *ngIf="dialogColumn!=objKey">{{row[objKey]}}</p>
-              <p *ngIf="(dialogColumn==objKey && types[j]==0 && (o=='>' && row[objKey]>v)||(o=='<' && row[objKey]<v)||(o=='>=' && row[objKey]>=v) ||(o=='<=' && row[objKey]<=v)|| (o=='=' && row[objKey]==v) )">{{row[objKey]}}</p>
+                <p id="a" *ngIf="(dialogColumn==objKey && types[j]==1 && ((s=='Equal' && checkEqual(row[objKey],l))||(s=='Not Equal' && !checkEqual(row[objKey],l))||(s=='Begin' && checkBegin(row[objKey],l))||(s=='Not Begin' && checkNotBegin(row[objKey],l))||(s=='End'&& checkEnd(row[objKey],l))||(s=='Not End'&& checkNotEnd(row[objKey],l))||(s=='Greater' && checkGreater(row[objKey],l))||(s=='Smaller' && checkSmaller(row[objKey],l))||(s=='Contain' && checkContain(row[objKey],l))||(s=='Not Contain' && !checkContain(row[objKey],l))))">{{row[objKey]}}</p>
+              <p id="b" *ngIf="dialogColumn!=objKey">{{row[objKey]}}</p>
+              <p id="c" *ngIf="(dialogColumn==objKey && types[j]==0 && (o=='>' && row[objKey]>v)||(o=='<' && row[objKey]<v)||(o=='>=' && row[objKey]>=v) ||(o=='<=' && row[objKey]<=v)|| (o=='=' && row[objKey]==v) )">{{row[objKey]}}</p>
               </ng-container>
         </th>
       </tr>
     </tbody>
   </table>
+  </div>
 </ng-template>
 </body>
 </html>

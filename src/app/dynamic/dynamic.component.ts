@@ -22,55 +22,30 @@ export class DynamicComponent implements OnInit {
  currentResizeIndex: number;
  startX: number;   
 
- startWidth: number;
- isResizingRight: boolean;
- resizableMousemove: () => void;
- resizableMouseup: () => void;
- columns: any[] = [
-  { field: 'No.', width: 50, },
 
-  { field: 'Category', width: 100,  },
-  { field: 'Month', width: 350, },
-  { field: 'Revenue', width: 250, }
-];
 
   alignment="left"; click=false; color=""; i=0; len=0;col="Revenue";str="";onlyText=true;ot=-1;
   operators=['>','<','<=','>=','='];
   fonts=['Arial','Lucida Sans Unicode','Verdana','Courier New','Tahoma','Palatino Linotype','Impact','Georgia','Times New Roman'];
   sizes=['8','10','11','12','14','16','20','25','30']; 
   col1='';
-  col2=''; value=0;operator='';label=''; string;s='';l='';o='';v=0;
-  column='';
+  col2=''; value=0;operator='';label=''; string;s='';l='';o='';v=0;  column='';
   columnName=''; dialogColumn='';formatColumn='';resetbutton=false;
-  thousandSeperator=',';
-  decimalSeperator='.';
-  decimalPlace='2';
-  formatAsPercent='false';
-  currency='$';
+  thousandSeperator=',';  decimalSeperator='.';  decimalPlace='2';  formatAsPercent='false';  currency='$';
   currencies=['$','&','*','#','@']; decimals=[1,2,3,4,5];thousandSep=[',','None'];
-  op1='>';
-  op2='>';
-  val1=0;
-  val2=0;
-  font1='';
-  font2='';
-  Col=''; buttonDialog=false;
+  op1='>';  op2='>';  val1=0;  val2=0;  font1='';  font2='';  Col=''; buttonDialog=false;
  addCol=false;
- font='';
+ font='';w;
  fontsize=20;
-  textcolor='';
-  fontcolor='';
-  fontsize1=20;
+  textcolor='';  fontcolor='';  fontsize1=20;
   fontsize2=20;
   fontcolor1='';
   fontcolor2='';
   textcolor1='';
   textcolor2='';
-  apply=false; format=false;
+  apply=false; format=false;buttonWidth=false;
   cancel=false;
-  revenueApply=false;
-  home=false;mfont=20;  mfamily='';  mbcolor='';  mtcolor='';
-  cfont=20;  cfamily='';  cbcolor='';ctcolor=''; c;m;
+  home=false; c;m;
   revenueCancel=false;
   categoryApply=false;
   categoryCancel=false; d=false;
@@ -119,7 +94,8 @@ export class DynamicComponent implements OnInit {
     
 }
 onResizeColumn(event:Event,i:number){
-  console.log(event)
+//  console.log(event.target.clientWidth);
+  
 }
 dialogs(){
   this.buttonDialog=true;this.ot=-1;
@@ -147,8 +123,12 @@ else{
 }
 
 }
-colorCELL(){
-  this.colourcell='black';
+openWidth(){
+  this.buttonWidth=true;
+}
+
+onWidth(event:Event){
+this.w=+(<HTMLInputElement>event.target).value;
 }
 reset(){
   this.resetbutton=true;
@@ -328,44 +308,24 @@ onClickColumn(event:Event){
 onFonts(event:Event){
   this.font=(<HTMLInputElement>event.target).value; 
   this.buttonConditionApply=false;
-  if(this.Col=='category'){
-    this.cfamily=this.font;
-  }
-  if(this.Col=='month'){
-    this.mfamily=this.font;
-  }
+  
   
 }
 onFontSizes(event:Event){
  this.fontsize=+(<HTMLInputElement>event.target).value; 
  this.buttonConditionApply=false;
- if(this.Col=='category'){
-  this.cfont=this.fontsize;
-}
-if(this.Col=='month'){
-  this.mfont=this.fontsize;
-}
+ 
 
 }
 onFontColors(event:Event){
  this.fontcolor=(<HTMLInputElement>event.target).value; 
  this.buttonConditionApply=false;
- if(this.Col=='category'){
-  this.cbcolor=this.fontcolor;
-}
-if(this.Col=='month'){
-  this.mbcolor=this.fontcolor;
-}
+
 }
 onTextColors(event:Event){
  this.textcolor=(<HTMLInputElement>event.target).value; 
  this.buttonConditionApply=false;
- if(this.Col=='category'){
-  this.ctcolor=this.textcolor;
-}
-if(this.Col=='month'){
-  this.mtcolor=this.textcolor;
-}
+ 
 }
 
  onCol1(event:Event){
@@ -501,7 +461,10 @@ onColumnSelect(event: Event){
      this.formatAsPercent=(<HTMLInputElement>event.target).value; 
      this.buttonFormatApply=false;
    }
+setDisplatedCols(){
+  this.dataSource;
 
+}
 
 }
 

@@ -95,7 +95,7 @@
         <td [ngStyle]="{'background-color':color2}" mat-cell *matCellDef="let element;"  (click)="col2()"> {{element.Category}} </td> 
       </ng-container>
   <ng-container  matColumnDef="Month" >
-    <th [ngStyle]="{'background-color':color3}" style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header (click)="col3()"><button class="btn btn-primary" (click)="openDialog3()">Month</button> </th>
+    <th [ngStyle]="{'background-color':color3}" style="font-size: large;" mat-header-cell *matHeaderCellDef mat-sort-header (click)="col3()"><button class="btn btn-primary">Month</button> </th>
     <td [ngStyle]="{'background-color':color3}"mat-cell *matCellDef="let element;"  (click)="col3()" > {{element.Month}} </td>
   </ng-container>  
   <ng-container style="text-align: center;" matColumnDef="Revenue">

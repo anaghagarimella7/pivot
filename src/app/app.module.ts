@@ -16,7 +16,6 @@ import { ButtonComponent } from './button/button.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {format} from './button/format.pipe';
 import {Routes,RouterModule} from '@angular/router';
-import { ColumnComponent } from './column/column.component';
 import { SeperatorPipe } from './seperator.pipe';
 import {AlertModule } from './_alert';
 import {HttpClientModule} from '@angular/common/http';
@@ -38,9 +37,10 @@ import {MatDialogModule} from '@angular/material';
 import { CourseDialogComponent } from './course-dialog/course-dialog.component';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { DialogLabelComponent } from './dialog-label/dialog-label.component';
-import { DialogMonthComponent } from './dialog-month/dialog-month.component';
 import { CalculatorComponent } from './calculator/calculator.component';
 import { DynamicComponent } from './dynamic/dynamic.component'; 
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 const appRoutes:Routes=[
   { path : '', component:HomeComponent } ,
   {path:'home',component:InterfaceComponent},
@@ -60,7 +60,6 @@ const appRoutes:Routes=[
     AppComponent,
     ButtonComponent,
     format,
-    ColumnComponent,
     SeperatorPipe,
     DbComponent,
     ChartsComponent,
@@ -73,7 +72,6 @@ const appRoutes:Routes=[
     InterfaceComponent,
     CourseDialogComponent,
     DialogLabelComponent,
-    DialogMonthComponent,
     CalculatorComponent,
     DynamicComponent
   ],
@@ -82,7 +80,7 @@ const appRoutes:Routes=[
     AppRoutingModule,
     BrowserAnimationsModule,
     MatTableModule,
-    MatDialogModule, DataTablesModule,
+    MatDialogModule, DataTablesModule,MatCheckboxModule,
 MatSortModule,
 A11yModule,
 CdkTableModule,
@@ -97,7 +95,7 @@ MatButtonModule,
     ChartsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  entryComponents: [CourseDialogComponent,DialogLabelComponent,DialogMonthComponent],
+  entryComponents: [CourseDialogComponent,DialogLabelComponent],
 schemas:[CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent]

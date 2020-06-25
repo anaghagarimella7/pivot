@@ -114,12 +114,18 @@ UnitPrice="UnitPrice";
   heroes = ["Category", "Revenue", "Month", "Customer","Order Id", "Payment Method", "Quantity","Region","Salesperson","Shipping Cost", "Unit Price"];
  
   start = 0;
-  display = false;
-  showcase =0;
+  display = false; displayedColumns:string[];
+  _object=Object;
+  showcase =0;  types=new Array();
+
   ngOnInit () {
-    this.httpService.get('./assets/data.json').subscribe(
+    this.httpService.get('./assets/appda.json').subscribe(
       data => {
         this.arrData = data as string [];	 // FILL THE ARRAY WITH DATA.
+        this.displayedColumns=(this._object.keys(this.arrData[0]))
+        for(var i=0;i<this.displayedColumns.length;i++){
+          this.types.push(0);
+        }
         //  console.log(this.arrBirds[1]);
       },
       (err: HttpErrorResponse) => {
@@ -129,6 +135,15 @@ UnitPrice="UnitPrice";
 
     this.elem = document.documentElement;
 
+}
+ValueChanged(e,i:number){
+  if(e.checked){
+    this.types[i]=1;
+  }
+  else{
+    this.types[i]=0;
+  }
+  console.log(e.checked+" "+i+this.types);
 }
 addHero(newHero: string) {
   if (newHero) {
@@ -157,6 +172,7 @@ else if (this.elem.msRequestFullscreen) {
   {
    this.show = !this.show;
    this.show1 = false;
+
   }
   popUp1(){
     this.show1 = !this.show1;

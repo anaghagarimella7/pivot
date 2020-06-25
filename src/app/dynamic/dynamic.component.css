@@ -2,9 +2,46 @@ body {margin:0;
 color: black;
 text-align: center;
 }
+#a:hover{
+  background-color:lightblue;
+}
+#b:hover{
+  background-color:lightblue;
+}#c:hover{
+  background-color:lightblue;
+}
 .backdropBackground {
   background-color:black;
 
+}
+
+
+#a1{
+  resize: both;
+  overflow: auto;
+}
+#b1 {
+  resize: both;
+  overflow: auto;
+}
+hr{
+
+  position: relative; 
+              top: 20px; 
+              border: none; 
+              height: 3px; 
+              background: black; 
+              margin-bottom: 50px;
+  }
+#tabled{
+  overflow-x: auto;
+  overflow-y: scroll;
+}
+tbody {
+  
+       /* Just for the demo          */
+        /* Trigger vertical scroll    */
+    overflow-x:scroll;  /* Hide the horizontal scroll */
 }
 .icon-bar {
   width: 100%;
