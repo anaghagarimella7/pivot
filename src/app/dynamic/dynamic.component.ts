@@ -32,7 +32,7 @@ export class DynamicComponent implements OnInit {
  addCol=false;
  font='';w;
  fontsize=20;
-  textcolor='';  fontcolor='';  fontsize1=20;
+  textcolor='';  fontcolor='';  fontsize1=20; sample=false;
   fontsize2=20;
   fontcolor1='';
   fontcolor2='';
@@ -273,11 +273,13 @@ openDialog() {
     }
     
 Condition(){
+  this.sample=true;
   this.condition=true;this.ot=-1;
   this.format=false;
   this.buttonDialog=false;this.d=false;this.buttonFormatApply=false;
 }
 Format(){
+  
   this.format=true;this.ot=-1;
   this.condition=false;this.d=false;
   this.buttonDialog=false;
@@ -285,6 +287,7 @@ Format(){
 }
 conditionApply(){
   this.buttonConditionApply=true;
+  
 }
 conditionCancel(){
   this.buttonConditionApply=false;

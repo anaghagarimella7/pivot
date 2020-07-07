@@ -12,7 +12,7 @@ import {CdkTableModule} from '@angular/cdk/table';
 import {CdkTreeModule} from '@angular/cdk/tree';
 import {A11yModule} from '@angular/cdk/a11y';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-//import {format} from './button/format.pipe';
+import {format} from './dynamic/format.pipe';
 import {Routes,RouterModule} from '@angular/router';
 import { SeperatorPipe } from './seperator.pipe';
 import {AlertModule } from './_alert';
@@ -59,6 +59,7 @@ const appRoutes:Routes=[
     PiechartComponent,
     DoughnutComponent,
     LinechartComponent,
+    format,
     SavePdfComponent,
     InterfaceComponent,
     CourseDialogComponent,
