@@ -22,7 +22,9 @@
   <body>
 <button class="btn btn-primary" (click)="Condition()">Condition</button>&nbsp;
 <button class="btn btn-primary" (click)="Format()">Format</button> &nbsp;
-<button class="btn btn-primary" (click)="dialogs()">Dialog</button>
+<button class="btn btn-primary" (click)="dialogs()">Dialog</button>&nbsp;
+<a href="charts"><button class="btn btn-primary" > Charts</button></a>
+
 <br>
 <br>
 
@@ -167,7 +169,6 @@
     <tbody>
       <tr *ngFor="let row of arr; let i = index">
         <th  *ngFor="let objKey of _object.keys(row); let j = index" >{{ row[objKey] }} </th>
-  
       </tr>
     </tbody>
   </table>
@@ -226,8 +227,6 @@
 <br><br>
 </ng-container></p>
  
- 
-
 <p *ngIf="!buttonFormatApply ; else ApplyF"></p>
 <ng-template #ApplyF>
   <table style="color: black; width: 100%;" border="1">
@@ -240,15 +239,15 @@
       <tr *ngFor="let row of arr; let i = index">
         <th  *ngFor="let objKey of _object.keys(row); let j = index" >
         <ng-container>
-          <p  *ngIf="types[j]==0 && formatColumn==objKey && formatAsPercent=='false';" [ngStyle]="{'text-align':alignment}">{{currency}}{{row[objKey]|number:'3.'+decimalPlace+'-5'}}</p>
+          <p  *ngIf="types[j]==0 && formatColumn==objKey && formatAsPercent=='false' && currencyAlignment=='left';" [ngStyle]="{'text-align':alignment}">{{currency}}{{row[objKey]|number:'3.'+decimalPlace+'-5'}}</p>
+          <p  *ngIf="types[j]==0 && formatColumn==objKey && formatAsPercent=='false' && currencyAlignment=='right';" [ngStyle]="{'text-align':alignment}">{{row[objKey]|number:'3.'+decimalPlace+'-5'}}{{currency}}</p>
+
           <p  *ngIf="types[j]==0 && formatColumn==objKey && formatAsPercent=='true';" [ngStyle]="{'text-align':alignment}">{{row[objKey]|format:formatAsPercent}}</p>
 
           <p  *ngIf="types[j]==1 && formatColumn==objKey" [ngStyle]="{'text-align':alignment}">{{row[objKey]}}</p>
           <p  *ngIf="formatColumn!=objKey">{{row[objKey]}}</p>
         </ng-container>  
-
         </th>
-  
       </tr>
     </tbody>
   </table>
@@ -261,7 +260,6 @@
       <tr>
         <th style="background-color: lightblue;" *ngFor="let header of _object.keys(arr[0]); let i = index"><button id="i" (click)="onclick($event,i); " >
           {{header}}</button>  
-        
         </th>
       </tr>
     </thead>
@@ -271,7 +269,6 @@
               
       {{row[objKey]}}
         </th>
-
       </tr>
     </tbody>
   </table>
@@ -300,7 +297,6 @@
         <th style="resize: both; overflow: auto;">No.</th>
         <th id="a1" *ngFor="let header of _object.keys(arr[0]); let i = index">{{i+1}}<hr><button class="btn btn-primary" id="i" (click)="onclick($event,i); " >
           {{header}}</button>  
-        
         </th>
       </tr>
     </thead>

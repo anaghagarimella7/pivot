@@ -1,0 +1,39 @@
+{
+    "results": [
+    {
+      "category":"bakery",
+        "month": "Jan",
+        "price": "100"
+    },
+    {
+      "category":"bakery",
+
+      "month": "Feb",
+      "price": "200"
+    },
+    {
+      "category":"bakery",
+
+      "month": "March",
+      "price": "200"
+    },
+    {
+      "category":"bakery",
+
+      "month": "April",
+      "price": "190"
+    },
+    {
+      "category":"bakery",
+
+      "month": "May",
+      "price": "240"
+    },
+    {
+      "category":"bakery",
+
+      "month": "June",
+      "price": "130"
+    }
+  ]
+  }

@@ -1,5 +1,6 @@
-import { Component,ElementRef ,ViewChild, OnInit } from '@angular/core';
-import * as jsPDF from 'jspdf';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import * as jsPDF from 'jspdf'
+//import * as XLSX from 'xlsx'; 
 
 @Component({
   selector: 'app-save-pdf',
@@ -12,9 +13,11 @@ export class SavePdfComponent implements OnInit {
 
   ngOnInit() {
   }
-name = 'Angular Html To Pdf ';
+
+  name = 'Angular Html To Pdf ';
 
   @ViewChild('pdfTable', {static: false}) pdfTable: ElementRef;
+
 
 
   public downloadAsPDF() {

@@ -3,10 +3,10 @@ import {HttpClient} from '@angular/common/http';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatTable } from '@angular/material';
 import { MatTableDataSource } from '@angular/material/table';
-import { stringify } from 'querystring';
 import {MatDialog, MatDialogConfig,MatDialogRef} from '@angular/material/dialog';
 import {DialogLabelComponent} from '../dialog-label/dialog-label.component';
 import { CourseDialogComponent } from '../course-dialog/course-dialog.component';
+import {AlertService} from '../_alert';
 
 @Component({
   selector: 'app-dynamic',
@@ -17,13 +17,8 @@ export class DynamicComponent implements OnInit {
   arr:string[];
   types= new Array();
  _object=Object;  dataSource ; condition=false; 
- _ob=Object;
- pressed = false;
- currentResizeIndex: number;
- startX: number;   
-
-
-
+ _ob=Object; alert=false;
+ 
   alignment="left"; click=false; color=""; i=0; len=0;col="Revenue";str="";onlyText=true;ot=-1;
   operators=['>','<','<=','>=','='];
   fonts=['Arial','Lucida Sans Unicode','Verdana','Courier New','Tahoma','Palatino Linotype','Impact','Georgia','Times New Roman'];
@@ -46,9 +41,7 @@ export class DynamicComponent implements OnInit {
   apply=false; format=false;buttonWidth=false;
   cancel=false;
   home=false; c;m;
-  revenueCancel=false;
-  categoryApply=false;
-  categoryCancel=false; d=false;
+   d=false;
   monthApply=false;currencyAlignment='left';
   monthCancel=false;
   addColumn=false; buttonConditionApply=false;
@@ -59,8 +52,10 @@ export class DynamicComponent implements OnInit {
   buttonNonNumericFormat=false;
 
  displayedColumns:string[];
-  constructor(private httpService: HttpClient,private dialog: MatDialog,private renderer: Renderer2) { }
-
+  constructor(private alertService:AlertService,private httpService: HttpClient,private dialog: MatDialog,private renderer: Renderer2) { }
+  error(message: string) {
+    this.alertService.error(message);
+  }
   ngOnInit() {
     this.httpService.get('./assets/appda.json').subscribe(
       data => {
@@ -151,6 +146,7 @@ onclick1(event:Event,i:number){
 onClickFormatApply(){
   this.buttonFormatApply=true;
 }
+
 openDialog() {
   
       const dialogConfig = new MatDialogConfig();
@@ -290,6 +286,9 @@ Format(){
 conditionApply(){
   this.buttonConditionApply=true;
 }
+conditionCancel(){
+  this.buttonConditionApply=false;
+}
 onAdd(){
   this.addCol=true;
 }
@@ -334,14 +333,14 @@ onTextColors(event:Event){
   this.buttonConditionCancel=true;
 }
 onOp1(event:Event){
-  //this.alert=false;
+  this.alert=false;
 
   this.op1=(<HTMLInputElement>event.target).value;    
    this.buttonConditionApply=false;
    this.buttonConditionCancel=true;
    if(this.op1==this.op2){
-  //  this.error("Operations can't be performed; Choose valid operators");
-    //this.alert=true;
+   this.error("Operations can't be performed; Choose valid operators");
+    this.alert=true;
   }
 }
 onVal1(event:Event){
@@ -351,13 +350,13 @@ onVal1(event:Event){
 
 }
 onOp2(event:Event){
-  //this.alert=false;
+  this.alert=false;
   this.op2=(<HTMLInputElement>event.target).value; 
   this.buttonConditionApply=false;
  this.buttonConditionCancel=true;
  if(this.op1==this.op2){
- //  this.error("Operations can't be performed; Choose valid operators");
-   //this.alert=true;
+   this.error("Operations can't be performed; Choose valid operators");
+   this.alert=true;
  }
  
  
