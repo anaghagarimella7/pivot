@@ -13,6 +13,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class CalculatorComponent implements OnInit {
 
   title = 'Pivot Table';
+  _object=Object;
+  len: number;
+  i: number; 
   constructor (private httpService: HttpClient,@Inject(DOCUMENT) private document: any) { }
   show = false;
   show1=false;
@@ -32,29 +35,30 @@ export class CalculatorComponent implements OnInit {
   elem;
   NewField;
   //revenue=0;
-  revenue = 0;
   
+  revenue = 0;
+  r1;
   r2;
   r3;
   r4;
   r5;
   r6;
  quantity=0;
-
+ q1;
  q2;
  q3;
  q4;
  q5;
  q6;
  sc=0;
-
+ sc1;
  sc2;
  sc3;
  sc4;
  sc5;
  sc6;
  up=0;
- 
+ up1;
  up2;
  up3;
  up4;
@@ -93,17 +97,24 @@ export class CalculatorComponent implements OnInit {
  div4;
  div5;
  div6;
+ 
+
+Revenue ="Revenue";
+Quantity="Quantity";
+ShippingCost="ShippingCost";
+UnitPrice="UnitPrice";
+heroes = ["Category", "Revenue", "Month", "Customer","Order Id", "Payment Method", "Quantity","Region","Salesperson","Shipping Cost", "Unit Price"];
+
+
 
 
 
  // variables Ft Concerned on algorithm and edits by Prakhar Saxena 
- r1=0;
+
  mean=0;
  median=0;
  colsum=0;
- sc1=0;
- up1=0;
- q1=0;
+ ;
  show2=false;
  show3=false;
  //dataSize= this.arrData.length;
@@ -117,17 +128,13 @@ export class CalculatorComponent implements OnInit {
  noc=0;
  displayCacl = 0;
 key;
-Revenue ="Revenue";
-Quantity="Quantity";
-ShippingCost="ShippingCost";
-UnitPrice="UnitPrice";
+
  sumTimes = 0;
  agg_sum=0;
 //  rev_sum=708785;
 //  qua_sum=163550;
 //  sc_sum=6001.5;
 //  up_sum=781.78;
-  heroes = ["Category", "Revenue", "Month", "Customer","Order Id", "Payment Method", "Quantity","Region","Salesperson","ShippingCost", "UnitPrice"];
   arr:string[];
   types= new Array();
   displayedColumns:string[];
@@ -138,9 +145,19 @@ UnitPrice="UnitPrice";
     this.httpService.get('./assets/data.json').subscribe(
       data => {
         this.arr = data as string [];	
-      //  this.displayedColumns=(this._object.keys(this.arr[0]))
+        this.displayedColumns=(this._object.keys(this.arr[0]));
         this.arrData = data ;	 // FILL THE ARRAY WITH DATA.
-          console.log(data);
+        this.len=this.displayedColumns.length;
+          console.log(this.displayedColumns);
+          for(this.i=0;this.i<this.len;this.i++){
+            if((typeof(this.arr[0][this.displayedColumns[this.i]]))=='string'){
+              this.types.push(1);
+            }
+            else{
+              this.types.push(0);
+            }
+            }
+            console.log(this.types);
       },
       (err: HttpErrorResponse) => {
         console.log (err.message);
@@ -151,7 +168,12 @@ UnitPrice="UnitPrice";
 
 }
 
-
+close(){
+  this.show1=false;
+  this.show = false;
+  this.displayVal="";
+ 
+}
 
 
 
@@ -174,12 +196,6 @@ else if (this.elem.msRequestFullscreen) {
 }
 
 
-
-
-
-
-
-  
   popUp()
   {
    this.show = !this.show;
@@ -200,8 +216,8 @@ else if (this.elem.msRequestFullscreen) {
    // this.cb=1;
     }
 
-  toggleVisibility1(e){
-    this.var1 = e.target.checked;
+  toggleVisibility1(e,){
+    this.var2= e.target.checked;
     this.start=1;
     this.displatTable=1;
     //this.cb=1;
@@ -253,7 +269,7 @@ else if (this.elem.msRequestFullscreen) {
     this.start=1;
     this.displatTable=1;
    // this.cb=1;
-      }
+      } 
   toggleVisibility10(e){
     this.var10 = e.target.checked;
     this.start=1;
@@ -275,147 +291,83 @@ else if (this.elem.msRequestFullscreen) {
 addHero(newHero: string) {
   if (newHero) {
     this.NewField = newHero; 
-    this.heroes.push(newHero);
+    this.displayedColumns.push(newHero);
+  }
+}
+selected1='';
+selected2='';
+Select(i:number)
+{
+  let count=-1;
+  for(let x of this.displayedColumns) 
+  
+  { count=count+1;
+    if(count==i) {
+      if(this.selected1=='')
+  {
+    this.selected1 = x;
+    this.displayVal = this.displayVal + this.selected1;
+  }
+  else{
+    this.selected2=x;
+    this.displayVal = this.displayVal + this.selected2;
+  }
   }
 }
 
+console.log("qwerty" + i + this.selected1 + this.selected2);
 
-  R()
-  {
-    this.r1=1;
-    console.log("R called");
-      if(this.quantity==0 && this.sc==0 && this.up==0)
-      {
-      this.revenue = 1;
-        this.displayVal = this.displayVal + "Revenue";
-    }
-    else
-      {
-        this.revenue = 2;
-        this.displayVal = this.displayVal + " Revenue";
-      } 
-    
-  /*if(this.agg_sum==1){
-    this.revenue =3;
-    this.agg_sum=0;
-    this.displayVal = this.displayVal + "Sum(Revenue)";
-  } */
-    
-    //alert("You Selected Revenue");
-    this.cv++;
-  }
-  Q()
-  {
-    this.q1=1;
-    console.log("Q called");
-      if(this.revenue==0 && this.sc==0 && this.up==0)
-    {
-      this.quantity = 1;
-      this.displayVal=this.displayVal+"Quantity"
-    }
-    else
-    {
-      this.quantity = 2;
-      this.displayVal=this.displayVal+" Quantity"
-    }
+}
 
-    
-  
-    
-     /*if(this.agg_sum==1){
-      this.quantity =3;
-      this.agg_sum=0;
-      ////this.agg_sum = this.agg_sum + this.qua_sum;
-      this.displayVal = this.displayVal + "Sum(Quantity)";
-    }*/
-    
-   
-    
-    //alert("You Selected Quantity");
-    this.cv++;
-  }
-  SC(){
-    this.sc1=1;
-    console.log("SC called");
-    if(this.revenue==0 && this.quantity==0 && this.up==0)
-    {
-      this.sc = 1;
-      this.displayVal=this.displayVal+"Shipping Cost";
-    }
-    else
-    {
-      this.sc = 2;
-    this.displayVal=this.displayVal+" Shipping Cost";
-    }
-    
-     if(this.agg_sum==1){
-      this.sc =3;
-      this.agg_sum=0;
-     // this.agg_sum = this.agg_sum + this.sc_sum;
-      this.displayVal = this.displayVal + "Sum(Shipping Cost)";
-    }
-    
-    
-    //alert("You Selected Shipping Cost");
-    this.cv++;
-  }
-  UP(){
-    this.up1=1;
-    console.log("UP called");
-    if(this.revenue==0 && this.quantity==0 && this.sc==0)
-    {
-      this.up = 1;
-      this.displayVal=this.displayVal+"Unit Price";
-    }
-    else
-    {
-      this.up = 2;
-      this.displayVal=this.displayVal+" Unit Price";
-    }
-     if(this.agg_sum==1){
-      this.up =3;
-      this.agg_sum=0;
-      //this.agg_sum = this.agg_sum + this.up_sum;
-      this.displayVal = this.displayVal + "Sum(Unit Price)";
-    }
-   
-   
-    this.cv++;
-    //alert("You Selected Unit Price");
-  }
-  Sum(){
-    this.agg_sum=1;
-    this.cv++;
-    this.sumTimes++;
-    alert("Sum");
-  }
-  Plus(){
-    this.plus=1;
-    this.displayVal=this.displayVal+" + ";
-    this.op++;
-    
-    //alert("You Selected +")
-    
-  }
-  Minus()
-  {
-    this.minus = 1;
-    this.displayVal=this.displayVal+" - ";
-    this.op++;
-    //alert("You Selected -")
-  }
-  Mul(){
-    this.mul =1;
-    this.displayVal=this.displayVal+" x ";
-    this.op++;
-    //alert("You Selected *")
-  }
-  Divide(){
-    this.divide = 1;
-    this.displayVal=this.displayVal+" / ";
-    this.op++;
-    //alert("You Selected /")
-  }
+operator ;
+Operator(op:string)
+{console.log("operator called");
+this.operator=op;
+this.displayVal = this.displayVal + this.operator;
+}
+
+
+Callu()
+{console.log(this.operator);
+  if(this.operator=='+'){
+        this.arr.forEach(element => {
+          //console.log(element[this.displayedColumns[this.displayedColumns.length-1]]);
+        element[this.displayedColumns[this.displayedColumns.length-1]] =  element[this.selected1]+element[this.selected2];
+        console.log(element[this.displayedColumns[this.displayedColumns.length-1]]);
+           });
+     }
+     if(this.operator=='-'){
+      this.arr.forEach(element => {
+        //console.log(element[this.displayedColumns[this.displayedColumns.length-1]]);
+      element[this.displayedColumns[this.displayedColumns.length-1]] =  element[this.selected1]-element[this.selected2];
+      console.log(element[this.displayedColumns[this.displayedColumns.length-1]]);
+         });
+   }
+   if(this.operator=='*'){
+    this.arr.forEach(element => {
+      //console.log(element[this.displayedColumns[this.displayedColumns.length-1]]);
+    element[this.displayedColumns[this.displayedColumns.length-1]] =  element[this.selected1]*element[this.selected2];
+    console.log(element[this.displayedColumns[this.displayedColumns.length-1]]);
+       });
+ }
+ if(this.operator=='/'){
+  this.arr.forEach(element => {
+    //console.log(element[this.displayedColumns[this.displayedColumns.length-1]]);
+  element[this.displayedColumns[this.displayedColumns.length-1]] =  element[this.selected1]/element[this.selected2];
+  console.log(element[this.displayedColumns[this.displayedColumns.length-1]]);
+     });
+}
+if(this.operator=='mean'){
+ this.Mean(this.selected1);
+ //console.log(this.selected1);
+}
+if(this.operator=='median')
+{
+  this.Median(this.selected1);
+}
+}
+
+
 
  arrSize=0;
  meanCol=0;
@@ -424,52 +376,39 @@ addHero(newHero: string) {
   this.displayVal=" ";
   this.show2=false;
   this.show3=false;
+  this.selected2="";
+  this.selected1="";
+  this.operator='';
  }
-  Mean(){
+
+  Mean(coloumn){
     this.mean=1;
     this.show3=true;
-    if(this.r1==1)
-    {   this.sc1=this.up1=this.q1=0;
-        this.colsum=0;  this.arrData.forEach(element => {
-        this.colsum= this.colsum+element.Revenue;
-        this.arrSize++;
-      });}
-
-    if(this.q1==1)
-      { 
-        this.sc1=this.up1=this.r1=0;  
-        this.colsum=0;  this.arrData.forEach(element => {
-          this.colsum= this.colsum + element.Quantity;
+  
+   // console.log(coloumn);
+  
+    //    this.sc1=this.up1=this.r1=0;  
+        this.colsum=0; 
+         this.arrData.forEach(element => {
+         
+          this.colsum = this.colsum + element[coloumn];
           this.arrSize++;
-        });}
+          console.log(this.colsum );
+         });
+    
 
-    if(this.sc1==1)
-    {   
-      this.r1=this.up1=this.q1=0;
-        this.colsum=0; console.log("mean of SC"); this.arrData.forEach(element => {
-        this.colsum= this.colsum + element.ShippingCost;
-        this.arrSize++;
-        console.log( element.ShippingCost+"mean of SC" + this.arrSize);
-      });}
 
-      if(this.up1==1)
-    {  this.sc1=this.r1=this.q1=0; 
-        this.colsum=0;   this.arrData.forEach(element => {
-        this.colsum= this.colsum + element.UnitPrice;
-        this.arrSize++;
-      });
-    }
 
       this.meanCol=this.colsum/this.arrSize;
-      console.log(this.meanCol);
-      this.r1=this.sc1=this.up1=this.q1=0;
+     // console.log(this.colsum + '.' + this.meanCol);
+      
     
   }
 
-  medin(values: any[]) {
+medin(values: any[]) {
 
     values.sort( function(a,b) {return a - b;} );
- console.log(values);
+    console.log(values);
     var half = Math.floor(values.length/2);
 
     if(values.length % 2)
@@ -478,38 +417,22 @@ addHero(newHero: string) {
         return (values[half-1] + values[half]) / 2.0;
   }
 
-//list1: number[];
-//median(list1);
-
 list1 = new Array(0); 
-Median(){
+Median(coloumn){
     this.median=1;
     this.show2=true;
-    if(this.r1==1)
-    { this.colsum=0;  this.arrData.forEach(element => {
-        this.list1.push(element.Revenue);
-        this.arrSize++;
-      });}
 
-    if(this.q1==1)
-      {  this.colsum=0;  this.arrData.forEach(element => {
-        this.list1.push(element.Quantity);
+    this.colsum=0; 
+         this.arrData.forEach(element => {
+          this.list1.push(element[coloumn]);
+         // this.colsum = this.colsum + element[coloumn];
           this.arrSize++;
-        });}
-
-    if(this.sc1==1)
-    { this.colsum=0; console.log("mean of SC"); this.arrData.forEach(element => {
-      this.list1.push(element.ShippingCost);
-        this.arrSize++;
-        console.log("mean of SC" + this.colsum);
-      });}
-
-      if(this.up1==1)
-    { this.colsum=0;   this.arrData.forEach(element => {
-      this.list1.push(element.UnitPrice);
-        this.arrSize++;
-      });
-    }
+          console.log(element[coloumn]);
+         });
+   
+   
+    
+    
 
       this.meanCol= this.medin(this.list1);
       console.log(this.meanCol);
@@ -522,483 +445,5 @@ Median(){
 value=0;
 
 obj={};
-Cal()
-{
-  // this.mean=1;
-  // this.show3=true;
 
-  if(this.plus==1)
-  {        console.log(this.value + ' ohk' + this.heroes.length + 'done' + this.heroes[this.heroes.length-1] + '\n');
-
-    if(this.r1==1 && this.q1==1)
-    {
-      this.arrData.forEach((element,i) => {
-        this.value = element.Quantity + element.Revenue;
-        this.obj["this.heroes[this.heroes.length-1]"]= this.value;
-        console.log(this.obj);
-       // element.push(this.obj);
-        console.log(this.value + ' ohk' + this.heroes.length + 'done' + this.heroes[this.heroes.length-1] + '\n');
-      });
-    }
-  }
-  // if(this.r1==1)
-  // {   this.sc1=this.up1=this.q1=0;
-  //     this.colsum=0;  this.arrData.forEach(element => {
-  //     this.colsum= this.colsum+element.Revenue;
-  //     this.arrSize++;
-  //   });}
-
-  // if(this.q1==1)
-  //   { 
-  //     this.sc1=this.up1=this.r1=0;  
-  //     this.colsum=0;  this.arrData.forEach(element => {
-  //       this.colsum= this.colsum + element.Quantity;
-  //       this.arrSize++;
-  //     });}
-
-  if(this.sc1==1)
-  {   
-    this.r1=this.up1=this.q1=0;
-      this.colsum=0; console.log("mean of SC"); this.arrData.forEach(element => {
-      this.colsum= this.colsum + element.ShippingCost;
-      this.arrSize++;
-      console.log("mean of SC" + this.colsum);
-    });
-  }
-
-    if(this.up1==1)
-  {  this.sc1=this.r1=this.q1=0; 
-      this.colsum=0;   this.arrData.forEach(element => {
-      this.colsum= this.colsum + element.UnitPrice;
-      this.arrSize++;
-    });
-  }
-
-    this.meanCol=this.colsum/this.arrSize;
-    console.log(this.meanCol);
-    this.r1=this.sc1=this.up1=this.q1=0;
-  
-}
-
-
-Calculate(){
-  var re = /RevenueRevenue/gi;
-  
- if(this.displayVal.search(re) != -1 )
- {
-   alert("Inavlid Formula: operator missing");
-   this.revenue=0;
-   this.quantity=0;
-   this.sc=0;
-   this.up=0;
-   this.plus=0;
-   this.minus=0;
-   this.mul=0;
-   this.divide=0;
-   this.displayVal=" ";
-   this.timesclicked--;
- }
- var re1 =  /Revenue Quantity/gi;
- if(this.displayVal.search(re1) != -1 )
- {
-   alert("Inavlid Formula: operator missing");
-   this.revenue=0;
-   this.quantity=0;
-   this.sc=0;
-   this.up=0;
-   this.plus=0;
-   this.minus=0;
-   this.mul=0;
-   this.divide=0;
-   this.displayVal=" ";
-   this.timesclicked--;
- }
- var re2 =  /Revenue Shipping Cost/gi;
- if(this.displayVal.search(re2) != -1 )
- {
-   alert("Inavlid Formula: operator missing");
-   this.revenue=0;
-   this.quantity=0;
-   this.sc=0;
-   this.up=0;
-   this.plus=0;
-   this.minus=0;
-   this.mul=0;
-   this.divide=0;
-   this.displayVal=" ";
-   this.timesclicked--;
- }
- var re3 =  /Revenue Unit Price/gi;
- if(this.displayVal.search(re3) != -1 )
- {
-   alert("Inavlid Formula: operator missing");
-   this.revenue=0;
-   this.quantity=0;
-   this.sc=0;
-   this.up=0;
-   this.plus=0;
-   this.minus=0;
-   this.mul=0;
-   this.divide=0;
-   this.displayVal=" ";
-   this.timesclicked--;
- }
-
- var re4 =  /--/gi;
- if(this.displayVal.search(re4) != -1 )
- {
-   alert("Invalid Formula: Two operators together");
-   this.revenue=0;
-   this.quantity=0;
-   this.sc=0;
-   this.up=0;
-   this.plus=0;
-   this.minus=0;
-   this.mul=0;
-   this.divide=0;
-   this.displayVal=" ";
-   this.timesclicked--;
- }
- var re5 =  /xx/gi;
- if(this.displayVal.search(re5) != -1 )
- {
-   alert("Invalid Formula: Two operators together");
-   this.revenue=0;
-   this.quantity=0;
-   this.sc=0;
-   this.up=0;
-   this.plus=0;
-   this.minus=0;
-   this.mul=0;
-   this.divide=0;
-   this.displayVal=" ";
-   this.timesclicked--;
- }
- var re6 =  /Quantity Revenue/gi;
- if(this.displayVal.search(re6) != -1 )
- {
-   alert("Inavlid Formula: operator missing");
-   this.revenue=0;
-   this.quantity=0;
-   this.sc=0;
-   this.up=0;
-   this.plus=0;
-   this.minus=0;
-   this.mul=0;
-   this.divide=0;
-   this.displayVal=" ";
-   this.timesclicked--;
- }
- var re7 =  /Quantity Shipping Cost/gi;
- if(this.displayVal.search(re7) != -1 )
- {
-   alert("Inavlid Formula: operator missing");
-   this.revenue=0;
-   this.quantity=0;
-   this.sc=0;
-   this.up=0;
-   this.plus=0;
-   this.minus=0;
-   this.mul=0;
-   this.divide=0;
-   this.displayVal=" ";
-   this.timesclicked--;
- }
- var re8 =  /Quantity Unit Price/gi;
- if(this.displayVal.search(re8) != -1 )
- {
-   alert("Inavlid Formula: operator missing");
-   this.revenue=0;
-   this.quantity=0;
-   this.sc=0;
-   this.up=0;
-   this.plus=0;
-   this.minus=0;
-   this.mul=0;
-   this.divide=0;
-   this.displayVal=" ";
-   this.timesclicked--;
- }
-
- var re9 =  /Shipping Cost Revenue/gi;
- if(this.displayVal.search(re9) != -1 )
- {
-   alert("Inavlid Formula: operator missing");
-   this.revenue=0;
-   this.quantity=0;
-   this.sc=0;
-   this.up=0;
-   this.plus=0;
-   this.minus=0;
-   this.mul=0;
-   this.divide=0;
-   this.displayVal=" ";
-   this.timesclicked--;
- }
-
- var re10 =  /Shipping Cost Quantity/gi;
- if(this.displayVal.search(re10) != -1 )
- {
-   alert("Inavlid Formula: operator missing");
-   this.revenue=0;
-   this.quantity=0;
-   this.sc=0;
-   this.up=0;
-   this.plus=0;
-   this.minus=0;
-   this.mul=0;
-   this.divide=0;
-   this.displayVal=" ";
-   this.timesclicked--;
- }
- var re11 =  /Shipping CostShipping Cost/gi;
- if(this.displayVal.search(re11) != -1 )
- {
-   alert("Inavlid Formula: operator missing");
-   this.revenue=0;
-   this.quantity=0;
-   this.sc=0;
-   this.up=0;
-   this.plus=0;
-   this.minus=0;
-   this.mul=0;
-   this.divide=0;
-   this.displayVal=" ";
-   this.timesclicked--;
- }
- var re12 =  /Shipping Cost Unit Price/gi;
- if(this.displayVal.search(re12) != -1 )
- {
-   alert("Inavlid Formula: operator missing");
-   this.revenue=0;
-   this.quantity=0;
-   this.sc=0;
-   this.up=0;
-   this.plus=0;
-   this.minus=0;
-   this.mul=0;
-   this.divide=0;
-   this.displayVal=" ";
-   this.timesclicked--;
- }
-
- var re13 =  /Unit Price Revenue/gi;
- if(this.displayVal.search(re13) != -1 )
- {
-   alert("Inavlid Formula: operator missing");
-   this.revenue=0;
-   this.quantity=0;
-   this.sc=0;
-   this.up=0;
-   this.plus=0;
-   this.minus=0;
-   this.mul=0;
-   this.divide=0;
-   this.displayVal=" ";
-   this.timesclicked--;
- }
-
- var re14 =  /Unit Price Quantity/gi;
- if(this.displayVal.search(re14) != -1 )
- {
-   alert("Inavlid Formula: operator missing");
-   this.revenue=0;
-   this.quantity=0;
-   this.sc=0;
-   this.up=0;
-   this.plus=0;
-   this.minus=0;
-   this.mul=0;
-   this.divide=0;
-   this.displayVal=" ";
-   this.timesclicked--;
- }
-
- var re15 =  /Unit Price Shipping Cost/gi;
- if(this.displayVal.search(re15) != -1 )
- {
-   alert("Inavlid Formula: operator missing");
-   this.revenue=0;
-   this.quantity=0;
-   this.sc=0;
-   this.up=0;
-   this.plus=0;
-   this.minus=0;
-   this.mul=0;
-   this.divide=0;
-   this.displayVal=" ";
-   this.timesclicked--;
- }
-
- var re16 =  /Unit PriceUnit Price/gi;
- if(this.displayVal.search(re16) != -1 )
- {
-   alert("Inavlid Formula: operator missing");
-   this.revenue=0;
-   this.quantity=0;
-   this.sc=0;
-   this.up=0;
-   this.plus=0;
-   this.minus=0;
-   this.mul=0;
-   this.divide=0;
-   this.displayVal=" ";
-   this.timesclicked--;
- }
-
- var re17 =  /QuantityQuantity/gi;
- if(this.displayVal.search(re17) != -1 )
- {
-   alert("Inavlid Formula: operator missing");
-   this.revenue=0;
-   this.quantity=0;
-   this.sc=0;
-   this.up=0;
-   this.plus=0;
-   this.minus=0;
-   this.mul=0;
-   this.divide=0;
-   this.displayVal=" ";
-   this.timesclicked--;
- }
- 
- 
-
- 
- 
-  
-  this.display = !this.display;
-  this.showcase = 1;
-  this.displayVal="";
-  if(this.timesclicked==0)
-  {
-    if(this.NewField!="")
-    this.Field1= this.NewField;
-    else
-    this.Field1="New Added Field";
-    if(this.plus==1)
-    this.plus1=1;
-    if(this.minus==1)
-    this.minus1=1;
-    if(this.mul==1)
-    this.mul1=1;
-    if(this.divide==1)  
-    this.div1=1;
-    if(this.revenue==1)
-    this.r1=1;
-    if(this.revenue==2)
-    this.r1=2;
-    if(this.quantity==1)
-    this.q1=1;
-    if(this.quantity==2)
-    this.q1=2;
-    if(this.sc==1)
-    this.sc1=1;
-    if(this.sc==2)
-    this.sc1=2;
-    if(this.up==1)
-    this.up1=1;
-    if(this.up==2)
-    this.up1=2;
-    this.displayCacl=1;
-  }
-  if(this.timesclicked==1)
-  {
-    if(this.NewField!="")
-    this.Field2= this.NewField;
-    else
-    this.Field2="New Added Field";
-    if(this.plus=1)
-    this.plus2=1;
-    if(this.minus==1)
-    this.minus2=1;
-    if(this.mul==1)
-    this.mul2=1;
-    if(this.divide==1)
-    this.div2=1;
-    if(this.revenue==1)
-    this.r2=1;
-    if(this.revenue==2)
-    this.r2=2;
-    if(this.quantity==1)
-    this.q2=1;
-    if(this.quantity==2)
-    this.q2=2;
-    if(this.sc==1)
-    this.sc2=1;
-    if(this.sc==2)
-    this.sc2=2;
-    if(this.up==1)
-    this.up2=1;
-    if(this.up==2)
-    this.up2=2;
-
-    this.r1=0;
-    this.q1=0;
-    this.sc1=0;
-    this.up1=0;
-  
-  }
-  if(this.timesclicked==2)
-  {
-    if(this.NewField!="")
-    this.Field3= this.NewField;
-    else
-    this.Field3="New Added Field";
-    if(this.plus=1)
-    this.plus3=1;
-    if(this.minus==1)
-    this.minus3=1;
-    if(this.mul==1)
-    this.mul3=1;
-    if(this.divide==1)
-    this.div3=1;
-    if(this.revenue==1)
-    this.r3=1;
-    if(this.revenue==2)
-    this.r3=2;
-    if(this.quantity==1)
-    this.q3=1;
-    if(this.quantity==2)
-    this.q3=2;
-    if(this.sc==1)
-    this.sc3=1;
-    if(this.sc==2)
-    this.sc3=2;
-    if(this.up==1)
-    this.up3=1;
-    if(this.up==2)
-    this.up3=2;
-    this.r2=0;
-    this.q2=0;
-    this.sc2=0;
-    this.up2=0;
-  }
-  this.revenue=0;
-  this.quantity=0;
-  this.sc=0;
-  this.up=0;
-  //this.plus=0;
-  this.minus=0;
-  this.mul=0;
-  this.divide=0;
-  this.timesclicked++;
- 
-  if(this.cv==0)
-  alert("Pls select Fields");
-  if(this.cv==1)
-  alert("Please select a field");
-  if(this.op==0)
-  alert("Pls select an operator");
- 
-}
-close(){
-  this.show1=false;
-  this.show2=false;
-  this.show3=false;
-  this.show = false;
-  this.displayVal="";
-
- 
-}
 }

@@ -25,74 +25,28 @@
     <ng-container *ngIf="!start && !showcase">
       <table>
         <tr >
-         
-          <th > {{ "Category" }} </th>
+          <td *ngFor="let x of displayedColumns"> {{ x }} </td>
+        </tr>
+                   <tr *ngFor="let row of arr;  ">
+            <td *ngFor="let objKey of _object.keys(row); " >
+             
+                <p > {{row[objKey]}}
+                </p>
               
-          <th>{{"Month"}}</th>
-          <th >{{ "Revenue" }}</th>
-          <th > {{"Customer"}} </th>
-          <th >{{"OrderId"}} </th>
-          <th >{{"PaymentMethod"}}</th>
-          <th >{{"Quantity"}}</th> 
-          <th >{{"Region"}}</th>  
-          <th > {{"Salesperson"}}</th> 
-          <th >{{"ShippingCost"}}</th>
-          <th >{{"UnitPrice"}}</th> 
-          </tr>
-          <tr *ngFor="let x of arrData">
-      
-            <td > {{ x.Category }} </td>
-            
-           <td >{{x.Month}}</td>
-           <td  >{{ x.Revenue }}</td>
-           <td > {{x.Customer}} </td>
-           <td >{{x.OrderId}} </td>
-           <td >{{x.PaymentMethod}}</td>
-           <td >{{x.Quantity}}</td> 
-           <td >{{x.Region}}</td>  
-           <td > {{x.Salesperson}}</td> 
-           <td >{{x.ShippingCost}}</td>
-           <td >{{x.UnitPrice}}</td> </tr>
+              </td>
+            </tr>
       </table>
     </ng-container>
     
-    <table *ngIf="start && !showcase">
-      <tr >
-       
-        <th *ngIf="var1"> {{ "Category" }} </th>
-            
-        <th *ngIf="var2">{{"Month"}}</th>
-        <th  *ngIf="var3">{{ "Revenue" }}</th>
-        <th *ngIf="var4"> {{"Customer"}} </th>
-        <th *ngIf="var5">{{"OrderId"}} </th>
-        <th *ngIf="var6">{{"PaymentMethod"}}</th>
-        <th *ngIf="var7">{{"Quantity"}}</th> 
-        <th *ngIf="var8">{{"Region"}}</th>  
-        <th *ngIf="var9"> {{"Salesperson"}}</th> 
-        <th *ngIf="var10">{{"ShippingCost"}}</th>
-        <th *ngIf="var11">{{"UnitPrice"}}</th> 
-        </tr>
-        <tr *ngFor="let x of arrData">
-    
-          <td *ngIf="var1"> {{ x.Category }} </td>
-          
-         <td *ngIf="var2">{{x.Month}}</td>
-         <td  *ngIf="var3">{{ x.Revenue }}</td>
-         <td *ngIf="var4"> {{x.Customer}} </td>
-         <td *ngIf="var5">{{x.OrderId}} </td>
-         <td *ngIf="var6">{{x.PaymentMethod}}</td>
-         <td *ngIf="var7">{{x.Quantity}}</td> 
-         <td *ngIf="var8">{{x.Region}}</td>  
-         <td *ngIf="var9"> {{x.Salesperson}}</td> 
-         <td *ngIf="var10">{{x.ShippingCost}}</td>
-         <td *ngIf="var11">{{x.UnitPrice}}</td> </tr>
-         </table>
+   
   </div>
   <div class="popup"> 
   <ng-container *ngIf="show">
     <button class="close" (click)="close()">X</button>
     <p id="popup"> Available Fields: </p>
     <ul>
+      <!-- <li *ngFor="let x of displayedColumns, let i=index">   -->
+        <!-- <input type="checkbox"  data-md-icheck (change)="toggleVisibility1($event)"checked>{{ x }} </li> -->
       <li> <input type="checkbox" ng-model="Category" data-md-icheck (change)="toggleVisibility1($event)"checked>Category </li>
        <li> <input type="checkbox" ng-model="Month" data-md-icheck (change)="toggleVisibility2($event)"checked>Month </li>
       <li>  <input type="checkbox" ng-model="Revenue" data-md-icheck (change)="toggleVisibility3($event)"checked>Revenue </li>
@@ -121,7 +75,7 @@
   
     
     
-      </ng-container>
+      </ng-container> 
   
       </div>
      
@@ -133,20 +87,22 @@
       </div>
       
       <p id="popup">Fields</p>
-      <button class="buttonCalculator1" (click)="R()">Revenue</button> 
-      <button class="buttonCalculator2" (click)="Q()">Quantity</button>
-      <button class="buttonCalculator3" (click)="SC()">Shipping Cost</button>
-      <button class="buttonCalculator4" (click)="UP()">Unit Price</button> <br> <hr>
-      <button class="buttonCalculator4" style="width: 80%;" (click)="Clear()">Clear </button> <br> <hr>
+      <div *ngFor="let row of displayedColumns; let i = index">
+        
+            <button class="buttonOperator1" style="width: 80%;" *ngIf="types[i]==0" (click)="Select(i)"> {{row}}
+            </button>
+         
+          </div>
+      <button class="buttonOperator1" style="width: 80%; color: white;" (click)="Clear()">Clear </button> <br> <hr>
      <!--- <p id="popup">Aggregate Functions:</p>
       <button class="buttonOperator1" (click)="Sum()"> <b> Sum() </b> </button> <hr> -->
       <p id="popup">Operators</p> 
-      <button class="buttonOperator1" (click)="Plus()"> <b> + </b> </button>
-      <button class="buttonOperator2" (click)="Minus()"><b> - </b></button> 
-      <button class="buttonOperator3" (click)="Mul()"><b> * </b></button>
-      <button class="buttonOperator4" (click)="Divide()"><b> / </b></button> <br>
-      <button class="buttonOperator4" style="width: 80%;" (click)="Mean()"><b> Mean </b></button> <br>
-      <button class="buttonOperator4" style="width: 80%;" (click)="Median()"><b> Median </b></button> <br>
+      <button class="buttonOperator1" (click)="Operator('+')"> <b> + </b> </button>
+      <button class="buttonOperator2" (click)="Operator('-')"><b> - </b></button> 
+      <button class="buttonOperator3" (click)="Operator('*')"><b> * </b></button>
+      <button class="buttonOperator4" (click)="Operator('/')"><b> / </b></button> <br>
+      <button class="buttonOperator4" style="width: 80%;" (click)="Operator('mean')"><b> Mean </b></button> <br>
+      <button class="buttonOperator4" style="width: 80%;" (click)="Operator('median')"><b> Median </b></button> <br>
        <!--<div class="selectedText">
         <p *ngIf="revenue==1">{{Revenue}}</p>
         <p *ngIf="quantity==1">{{Quantity}}</p>
@@ -155,7 +111,7 @@
        </div> -->
         
       
-      <button class="button1" (click)="Calculate()">Calculate</button>
+      <button class="button1" (click)="Callu()">Calculate</button>
       
       
     
@@ -165,256 +121,7 @@
     <div>
 
    <!--Entire Table>-->
-      <ng-container *ngIf="!start">
-        <table>
-          <tr>
-            <th>
-              {{ "Category" }} 
-            </th>
-            <th>{{"Month"}}</th>
-            <th>{{ "Revenue" }}</th>
-            <th>{{"Customer"}}</th>
-            <th>{{"OrderId"}}</th>
-            <th>{{"PaymentMethod"}}</th>
-            <th>{{"Quantity"}}</th>
-            <th>{{"Region"}}</th>
-            <th>{{"Salesperson"}}</th>
-            <th>{{"ShippingCost"}}</th>
-            <th>{{"UnitPrice"}}</th>
-            <th>{{Field1}}</th>
-            <th>{{Field2}}</th>
-            <th>{{Field3}}</th>
-            </tr>
-            <tr *ngFor="let x of arrData">
-        
-              <td > {{ x.Category }} </td>
-              
-             <td >{{x.Month}}</td>
-             <td  >{{ x.Revenue }}</td>
-             <td > {{x.Customer}} </td>
-             <td >{{x.OrderId}} </td>
-             <td >{{x.PaymentMethod}}</td>
-             <td >{{x.Quantity}}</td> 
-             <td >{{x.Region}}</td>  
-             <td > {{x.Salesperson}}</td> 
-             <td >{{x.ShippingCost}}</td>
-             <td >{{x.UnitPrice}}</td> 
-            
-           
   
-           
-           
-           
-             <!--Add-->
-           <ng-container *ngIf="r1==1 && q1==2 && plus==1"><td>{{x.Revenue + x.Quantity}}</td></ng-container>
-           <ng-container *ngIf="r1==2 && q1==1 && plus==1 "><td>{{x.Quantity+x.Revenue}}</td></ng-container>
-            <ng-container *ngIf="r1==1 && sc1==2 && plus==1 "><td>{{x.Revenue+x.ShippingCost}}</td></ng-container>
-           <ng-container *ngIf="r1==2 && sc1==1 && plus==1 "><td>{{x.ShippingCost+x.Revenue}}</td></ng-container>
-            <ng-container *ngIf="r1==2 && up1==1 && plus==1  "><td>{{x.UnitPrice+x.Revenue}}</td></ng-container>
-            <ng-container *ngIf="r1==1 && up1==2 && plus==1 "><td>{{x.UnitPrice+x.Revenue}}</td></ng-container>
-            <ng-container *ngIf="q1==1 && sc1==2 && plus==1 "><td>{{x.Quantity+x.ShippingCost}}</td></ng-container>
-            <ng-container *ngIf="q1==2 && sc1==1 && plus==1 "><td>{{x.ShippingCost+x.Quantity}}</td></ng-container>
-            <ng-container *ngIf="q1==1 && up1==2 && plus==1 "><td>{{x.Quantity+x.UnitPrice}}</td></ng-container> 
-            <ng-container *ngIf="q1==2 && up1==1 && plus==1 "><td>{{x.UnitPrice+x.Quantity}}</td></ng-container>
-            <ng-container *ngIf="sc1==1 && up1==2 && plus==1"><td>{{x.ShippingCost+x.UnitPrice}}</td></ng-container>
-            <ng-container *ngIf="sc1==2 && up1==1 && plus==1 "><td>{{x.UnitPrice+x.ShippingCost}}</td></ng-container> 
-          <!--Multiply-->
-            <!--One-->
-            <ng-container *ngIf="r1==1 && q1==2 && mul1==1 "><td>{{x.Revenue * x.Quantity}}</td></ng-container>
-            <ng-container *ngIf="r1==2 && q1==1 && mul1==1"><td>{{x.Quantity*x.Revenue}}</td></ng-container>
-             <ng-container *ngIf="r1==1 && sc1==2 && mul1==1 "><td>{{x.Revenue*x.ShippingCost}}</td></ng-container>
-              <ng-container *ngIf="r1==2 && sc1==1 && mul1==1 "><td>{{x.ShippingCost*x.Revenue}}</td></ng-container>
-             <ng-container *ngIf="q1==1 && sc1==2 && mul1==1 "><td>{{x.Quantity*x.ShippingCost}}</td></ng-container>
-             <ng-container *ngIf="q1==2 && sc1==1 && mul1==1 "><td>{{x.ShippingCost*x.Quantity}}</td></ng-container>
-             <ng-container *ngIf="q1==1 && up1==2 && mul1==1 "><td>{{x.Quantity*x.UnitPrice}}</td></ng-container> 
-             <ng-container *ngIf="q1==2 && up1==1 && mul1==1 "><td>{{x.UnitPrice*x.Quantity}}</td></ng-container>
-             <ng-container *ngIf="sc1==1 && up1==2 && mul1==1 "><td>{{x.ShippingCost*x.UnitPrice}}</td></ng-container>
-             <ng-container *ngIf="sc1==2 && up1==1 && mul1==1 "><td>{{x.UnitPrice*x.ShippingCost}}</td></ng-container> 
-           <!--Subtract-->
-            <!--One-->
-            <ng-container *ngIf="r1==1 && q1==2 && minus1==1 "><td>{{x.Revenue - x.Quantity}}</td></ng-container>
-            <ng-container *ngIf="r1==2 && q1==1 && minus1==1 "><td>{{x.Quantity-x.Revenue}}</td></ng-container>
-             <ng-container *ngIf="r1==1 && sc1==2 && minus1==1 "><td>{{x.Revenue-x.ShippingCost}}</td></ng-container>
-              <ng-container *ngIf="r1==2 && sc1==1 && minus1==1 "><td>{{x.ShippingCost-x.Revenue}}</td></ng-container>
-             <ng-container *ngIf="q1==1 && sc1==2 && minus1==1 "><td>{{x.Quantity-x.ShippingCost}}</td></ng-container>
-             <ng-container *ngIf="q1==2 && sc1==1 && minus1==1 "><td>{{x.ShippingCost-x.Quantity}}</td></ng-container>
-             <ng-container *ngIf="q1==1 && up1==2 && minus1==1 "><td>{{x.Quantity-x.UnitPrice}}</td></ng-container> 
-             <ng-container *ngIf="q1==2 && up1==1 && minus1==1 "><td>{{x.UnitPrice-x.Quantity}}</td></ng-container>
-             <ng-container *ngIf="sc1==1 && up1==2 && minus1==1 "><td>{{x.ShippingCost-x.UnitPrice}}</td></ng-container>
-             <ng-container *ngIf="sc1==2 && up1==1 && minus1==1 "><td>{{x.UnitPrice-x.ShippingCost}}</td></ng-container> 
-   
-           <!--Divide-->
-              <!--One-->
-              <ng-container *ngIf="r1==1 && q1==2 && div1==1"><td>{{x.Revenue / x.Quantity}}</td></ng-container>
-              <ng-container *ngIf="r1==2 && q1==1 && div1==1"><td>{{x.Quantity/x.Revenue}}</td></ng-container>
-               <ng-container *ngIf="r1==1 && sc1==2 && div1==1"><td>{{x.Revenue/x.ShippingCost}}</td></ng-container>
-                <ng-container *ngIf="r1==2 && sc1==1 && div1==1 "><td>{{x.ShippingCost/x.Revenue}}</td></ng-container>
-               <ng-container *ngIf="q1==1 && sc1==2 && div1==1 "><td>{{x.Quantity/x.ShippingCost}}</td></ng-container>
-               <ng-container *ngIf="q1==2 && sc1==1 && div1==1 "><td>{{x.ShippingCost/x.Quantity}}</td></ng-container>
-               <ng-container *ngIf="q1==1 && up1==2 && div1==1"><td>{{x.Quantity/x.UnitPrice}}</td></ng-container> 
-               <ng-container *ngIf="q1==2 && up1==1 && div1==1 "><td>{{x.UnitPrice/x.Quantity}}</td></ng-container>
-               <ng-container *ngIf="sc1==1 && up1==2 && div1==1 "><td>{{x.ShippingCost/x.UnitPrice}}</td></ng-container>
-               <ng-container *ngIf="sc1==2 && up1==1 && div1==1 "><td>{{x.UnitPrice/x.ShippingCost}}</td></ng-container> 
-          
-          
-          
-            
-  
-  
-         
-            
-  
-              
-            </tr> 
-            
-        </table>
-      </ng-container>
-     
-      <!---------------------------------------------------------------------->
-    
-      <ng-container *ngIf="displatTable">
-        <table>
-          <tr >
-           
-            <td *ngIf="var1"> {{ "Category" }} </td>
-                
-            <td *ngIf="var2">{{"Month"}}</td>
-            <td  *ngIf="var3">{{ "Revenue" }}</td>
-            <td *ngIf="var4"> {{"Customer"}} </td>
-            <td *ngIf="var5">{{"OrderId"}} </td>
-            <td *ngIf="var6">{{"PaymentMethod"}}</td>
-            <td *ngIf="var7">{{"Quantity"}}</td> 
-            <td *ngIf="var8">{{"Region"}}</td>  
-            <td *ngIf="var9"> {{"Salesperson"}}</td> 
-            <td *ngIf="var10">{{"ShippingCost"}}</td>
-            <td *ngIf="var11">{{"UnitPrice"}}</td> 
-            <th>{{Field1}}</th>
-            <th>{{Field2}}</th>
-            <th>{{Field3}}</th>
-          </tr>
-            <tr *ngFor="let x of arrData">
-        
-              <td *ngIf="var1"> {{ x.Category }} </td>
-              
-             <td *ngIf="var2">{{x.Month}}</td>
-             <td  *ngIf="var3">{{ x.Revenue }}</td>
-             <td *ngIf="var4"> {{x.Customer}} </td>
-             <td *ngIf="var5">{{x.OrderId}} </td>
-             <td *ngIf="var6">{{x.PaymentMethod}}</td>
-             <td *ngIf="var7">{{x.Quantity}}</td> 
-             <td *ngIf="var8">{{x.Region}}</td>  
-             <td *ngIf="var9"> {{x.Salesperson}}</td> 
-             <td *ngIf="var10">{{x.ShippingCost}}</td>
-             <td *ngIf="var11">{{x.UnitPrice}}</td> 
-              <!--Add-->
-           <!--One-->
-           <ng-container *ngIf="r1==1 && q1==2 && plus1==1 "><td>{{x.Revenue + x.Quantity}}</td></ng-container>
-           <ng-container *ngIf="r1==2 && q1==1 && plus1==1 "><td>{{x.Quantity+x.Revenue}}</td></ng-container>
-            <ng-container *ngIf="r1==1 && sc1==2 && plus1==1 "><td>{{x.Revenue+x.ShippingCost}}</td></ng-container>
-           <ng-container *ngIf="r1==2 && sc1==1 && plus1==1 "><td>{{x.ShippingCost+x.Revenue}}</td></ng-container>
-            <ng-container *ngIf="r1==2 && up1==1 && plus1==1  "><td>{{x.UnitPrice+x.Revenue}}</td></ng-container>
-            <ng-container *ngIf="r1==1 && up1==2 && plus1==1 "><td>{{x.UnitPrice+x.Revenue}}</td></ng-container>
-            <ng-container *ngIf="q1==1 && sc1==2 && plus1==1 "><td>{{x.Quantity+x.ShippingCost}}</td></ng-container>
-            <ng-container *ngIf="q1==2 && sc1==1 && plus1==1 "><td>{{x.ShippingCost+x.Quantity}}</td></ng-container>
-            <ng-container *ngIf="q1==1 && up1==2 && plus1==1 "><td>{{x.Quantity+x.UnitPrice}}</td></ng-container> 
-            <ng-container *ngIf="q1==2 && up1==1 && plus1==1 "><td>{{x.UnitPrice+x.Quantity}}</td></ng-container>
-            <ng-container *ngIf="sc1==1 && up1==2 && plus1==1"><td>{{x.ShippingCost+x.UnitPrice}}</td></ng-container>
-            <ng-container *ngIf="sc1==2 && up1==1 && plus1==1 "><td>{{x.UnitPrice+x.ShippingCost}}</td></ng-container> 
-            
-            <!--Twoo-->
-            <ng-container *ngIf="r2==1 && q2==2 && plus2==1 "><td>{{x.Revenue + x.Quantity}}</td></ng-container>
-           <ng-container *ngIf="r2==2 && q2==1 && plus2==1 "><td>{{x.Quantity+x.Revenue}}</td></ng-container>
-            <ng-container *ngIf="r2==1 && sc2==2 && plus2==1 "><td>{{x.Revenue+x.ShippingCost}}</td></ng-container>
-           <ng-container *ngIf="r2==2 && sc2==1 && plus2==1 "><td>{{x.ShippingCost+x.Revenue}}</td></ng-container>
-            <ng-container *ngIf="r2==2 && up2==1 && plus2==1  "><td>{{x.UnitPrice+x.Revenue}}</td></ng-container>
-            <ng-container *ngIf="r2==1 && up2==2 && plus2==1 "><td>{{x.UnitPrice+x.Revenue}}</td></ng-container>
-            <ng-container *ngIf="q2==1 && sc2==2 && plus2==1 "><td>{{x.Quantity+x.ShippingCost}}</td></ng-container>
-            <ng-container *ngIf="q2==2 && sc2==1 && plus2==1 "><td>{{x.ShippingCost+x.Quantity}}</td></ng-container>
-            <ng-container *ngIf="q2==1 && up2==2 && plus2==1 "><td>{{x.Quantity+x.UnitPrice}}</td></ng-container> 
-            <ng-container *ngIf="q2==2 && up2==1 && plus2==1 "><td>{{x.UnitPrice+x.Quantity}}</td></ng-container>
-            <ng-container *ngIf="sc2==1 && up2==2 && plus2==1"><td>{{x.ShippingCost+x.UnitPrice}}</td></ng-container>
-            <ng-container *ngIf="sc2==2 && up2==1 && plus2==1 "><td>{{x.UnitPrice+x.ShippingCost}}</td></ng-container> 
-            
-            
-            <!--Multiply-->
-            <!--One-->
-            <ng-container *ngIf="r1==1 && q1==2 && mul1==1 "><td>{{x.Revenue * x.Quantity}}</td></ng-container>
-            <ng-container *ngIf="r1==2 && q1==1 && mul1==1"><td>{{x.Quantity*x.Revenue}}</td></ng-container>
-             <ng-container *ngIf="r1==1 && sc1==2 && mul1==1 "><td>{{x.Revenue*x.ShippingCost}}</td></ng-container>
-              <ng-container *ngIf="r1==2 && sc1==1 && mul1==1 "><td>{{x.ShippingCost*x.Revenue}}</td></ng-container>
-             <ng-container *ngIf="q1==1 && sc1==2 && mul1==1 "><td>{{x.Quantity*x.ShippingCost}}</td></ng-container>
-             <ng-container *ngIf="q1==2 && sc1==1 && mul1==1 "><td>{{x.ShippingCost*x.Quantity}}</td></ng-container>
-             <ng-container *ngIf="q1==1 && up1==2 && mul1==1 "><td>{{x.Quantity*x.UnitPrice}}</td></ng-container> 
-             <ng-container *ngIf="q1==2 && up1==1 && mul1==1 "><td>{{x.UnitPrice*x.Quantity}}</td></ng-container>
-             <ng-container *ngIf="sc1==1 && up1==2 && mul1==1 "><td>{{x.ShippingCost*x.UnitPrice}}</td></ng-container>
-             <ng-container *ngIf="sc1==2 && up1==1 && mul1==1 "><td>{{x.UnitPrice*x.ShippingCost}}</td></ng-container> 
-  
-             <!--Twoo-->
-             <ng-container *ngIf="r2==1 && q2==2 && mul2==1 "><td>{{x.Revenue * x.Quantity}}</td></ng-container>
-            <ng-container *ngIf="r2==2 && q2==1 && mul2==1"><td>{{x.Quantity*x.Revenue}}</td></ng-container>
-             <ng-container *ngIf="r2==1 && sc2==2 && mul2==1 "><td>{{x.Revenue*x.ShippingCost}}</td></ng-container>
-              <ng-container *ngIf="r2==2 && sc2==1 && mul2==1 "><td>{{x.ShippingCost*x.Revenue}}</td></ng-container>
-             <ng-container *ngIf="q2==1 && sc2==2 && mul2==1 "><td>{{x.Quantity*x.ShippingCost}}</td></ng-container>
-             <ng-container *ngIf="q2==2 && sc2==1 && mul2==1 "><td>{{x.ShippingCost*x.Quantity}}</td></ng-container>
-             <ng-container *ngIf="q2==1 && up2==2 && mul2==1 "><td>{{x.Quantity*x.UnitPrice}}</td></ng-container> 
-             <ng-container *ngIf="q2==2 && up2==1 && mul2==1 "><td>{{x.UnitPrice*x.Quantity}}</td></ng-container>
-             <ng-container *ngIf="sc2==1 && up2==2 && mul2==1 "><td>{{x.ShippingCost*x.UnitPrice}}</td></ng-container>
-             <ng-container *ngIf="sc2==2 && up2==1 && mul2==1 "><td>{{x.UnitPrice*x.ShippingCost}}</td></ng-container> 
-  
-  
-            <!--Subtract-->
-            <!--One-->
-           <ng-container *ngIf="r1==1 && q1==2 && minus1==1 "><td>{{x.Revenue - x.Quantity}}</td></ng-container>
-           <ng-container *ngIf="r1==2 && q1==1 && minus1==1 "><td>{{x.Quantity-x.Revenue}}</td></ng-container>
-            <ng-container *ngIf="r1==1 && sc1==2 && minus1==1 "><td>{{x.Revenue-x.ShippingCost}}</td></ng-container>
-             <ng-container *ngIf="r1==2 && sc1==1 && minus1==1 "><td>{{x.ShippingCost-x.Revenue}}</td></ng-container>
-            <ng-container *ngIf="q1==1 && sc1==2 && minus1==1 "><td>{{x.Quantity-x.ShippingCost}}</td></ng-container>
-            <ng-container *ngIf="q1==2 && sc1==1 && minus1==1 "><td>{{x.ShippingCost-x.Quantity}}</td></ng-container>
-            <ng-container *ngIf="q1==1 && up1==2 && minus1==1 "><td>{{x.Quantity-x.UnitPrice}}</td></ng-container> 
-            <ng-container *ngIf="q1==2 && up1==1 && minus1==1 "><td>{{x.UnitPrice-x.Quantity}}</td></ng-container>
-            <ng-container *ngIf="sc1==1 && up1==2 && minus1==1 "><td>{{x.ShippingCost-x.UnitPrice}}</td></ng-container>
-            <ng-container *ngIf="sc1==2 && up1==1 && minus1==1 "><td>{{x.UnitPrice-x.ShippingCost}}</td></ng-container> 
-           <!--Two-->
-           <ng-container *ngIf="r2==1 && q2==2 && minus2==1 "><td>{{x.Revenue - x.Quantity}}</td></ng-container>
-           <ng-container *ngIf="r2==2 && q2==1 && minus2==1 "><td>{{x.Quantity-x.Revenue}}</td></ng-container>
-            <ng-container *ngIf="r2==1 && sc2==2 && minus2==1 "><td>{{x.Revenue-x.ShippingCost}}</td></ng-container>
-             <ng-container *ngIf="r2==2 && sc2==1 && minus2==1 "><td>{{x.ShippingCost-x.Revenue}}</td></ng-container>
-            <ng-container *ngIf="q2==1 && sc2==2 && minus2==1 "><td>{{x.Quantity-x.ShippingCost}}</td></ng-container>
-            <ng-container *ngIf="q2==2 && sc2==1 && minus2==1 "><td>{{x.ShippingCost-x.Quantity}}</td></ng-container>
-            <ng-container *ngIf="q2==1 && up2==2 && minus2==1 "><td>{{x.Quantity-x.UnitPrice}}</td></ng-container> 
-            <ng-container *ngIf="q2==2 && up2==1 && minus2==1 "><td>{{x.UnitPrice-x.Quantity}}</td></ng-container>
-            <ng-container *ngIf="sc2==1 && up2==2 && minus2==1 "><td>{{x.ShippingCost-x.UnitPrice}}</td></ng-container>
-            <ng-container *ngIf="sc2==2 && up2==1 && minus2==1 "><td>{{x.UnitPrice-x.ShippingCost}}</td></ng-container> 
-  
-  
-              <!--Divide-->
-              <!--One-->
-            <ng-container *ngIf="r1==1 && q1==2 && div1==1"><td>{{x.Revenue / x.Quantity}}</td></ng-container>
-             <ng-container *ngIf="r1==2 && q1==1 && div1==1"><td>{{x.Quantity/x.Revenue}}</td></ng-container>
-              <ng-container *ngIf="r1==1 && sc1==2 && div1==1"><td>{{x.Revenue/x.ShippingCost}}</td></ng-container>
-               <ng-container *ngIf="r1==2 && sc1==1 && div1==1 "><td>{{x.ShippingCost/x.Revenue}}</td></ng-container>
-              <ng-container *ngIf="q1==1 && sc1==2 && div1==1 "><td>{{x.Quantity/x.ShippingCost}}</td></ng-container>
-              <ng-container *ngIf="q1==2 && sc1==1 && div1==1 "><td>{{x.ShippingCost/x.Quantity}}</td></ng-container>
-              <ng-container *ngIf="q1==1 && up1==2 && div1==1"><td>{{x.Quantity/x.UnitPrice}}</td></ng-container> 
-              <ng-container *ngIf="q1==2 && up1==1 && div1==1 "><td>{{x.UnitPrice/x.Quantity}}</td></ng-container>
-              <ng-container *ngIf="sc1==1 && up1==2 && div1==1 "><td>{{x.ShippingCost/x.UnitPrice}}</td></ng-container>
-              <ng-container *ngIf="sc1==2 && up1==1 && div1==1 "><td>{{x.UnitPrice/x.ShippingCost}}</td></ng-container> 
-             <!--Two-->
-             <ng-container *ngIf="r2==1 && q2==2 && div2==1"><td>{{x.Revenue / x.Quantity}}</td></ng-container>
-             <ng-container *ngIf="r2==2 && q2==1 && div2==1"><td>{{x.Quantity/x.Revenue}}</td></ng-container>
-             <ng-container *ngIf="r2==1 && sc2==2 && div2==1"><td>{{x.Revenue/x.ShippingCost}}</td></ng-container>
-             <ng-container *ngIf="r2==2 && sc2==1 && div2==1 "><td>{{x.ShippingCost/x.Revenue}}</td></ng-container>
-              <ng-container *ngIf="q2==1 && sc2==2 && div2==1 "><td>{{x.Quantity/x.ShippingCost}}</td></ng-container>
-              <ng-container *ngIf="q2==2 && sc2==1 && div2==1 "><td>{{x.ShippingCost/x.Quantity}}</td></ng-container>
-              <ng-container *ngIf="q2==1 && up2==2 && div2==1"><td>{{x.Quantity/x.UnitPrice}}</td></ng-container> 
-              <ng-container *ngIf="q2==2 && up2==1 && div2==1 "><td>{{x.UnitPrice/x.Quantity}}</td></ng-container>
-              <ng-container *ngIf="sc2==1 && up2==2 && div2==1 "><td>{{x.ShippingCost/x.UnitPrice}}</td></ng-container>
-              <ng-container *ngIf="sc2==2 && up2==1 && div2==1 "><td>{{x.UnitPrice/x.ShippingCost}}</td></ng-container> 
-  
-             </tr>
-             </table>    
-      </ng-container>
-
       <ng-container>
 
       </ng-container>
