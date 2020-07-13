@@ -1,14 +1,29 @@
 
+<ng-container *ngIf="">
+  
+</ng-container>
   
     <button  class="button" (click) = "popUp()">Fields</button>
     <button class="button" (click)="popUp1()">Calculator</button>
-    <button class="button" (click)="openFullscreen()">FullScreen</button> 
+    <button class="button" (click)="openFullscreen()">FullScreen</button>
+    
+    
   
+  
+    <ng-container *ngIf="show2">
+      <br>
+  <h3 style="margin: auto; border: 2px ; border-style: dotted; color: black; text-align: center;">Calculated median = {{meanCol}} </h3>>
+    </ng-container>
+    
+  <div>
+    <ng-container *ngIf="show3">
+      <br>
+      <h3 style="margin: auto; border: 2px ; border-style: dotted;  color: black; text-align: center;">  Calculated mean is {{meanCol}} </h3>
+    </ng-container>
     
   <div>
     <ng-container *ngIf="!start && !showcase">
-      <!--
-      <table style="width: 50%;">
+      <table>
         <tr >
          
           <th > {{ "Category" }} </th>
@@ -38,24 +53,11 @@
            <td > {{x.Salesperson}}</td> 
            <td >{{x.ShippingCost}}</td>
            <td >{{x.UnitPrice}}</td> </tr>
-      </table>-->
+      </table>
     </ng-container>
     
-    <table>
-      <tr>
-        <th style="background-color: lightblue;" *ngFor="let header of _object.keys(arrData[0]); let i = index">{{header}}</th>
-      </tr>
-  
-      <tr *ngFor="let row of arrData; let i = index">
-        <th *ngFor="let objKey of _object.keys(row); let j = index" >
-          <ng-container>
-            <p *ngIf="types[j]==1"> {{row[objKey]}}
-            </p>
-          </ng-container>
-          </th>
-        </tr>
-    </table>  
-      <!--<tr >
+    <table *ngIf="start && !showcase">
+      <tr >
        
         <th *ngIf="var1"> {{ "Category" }} </th>
             
@@ -83,10 +85,10 @@
          <td *ngIf="var8">{{x.Region}}</td>  
          <td *ngIf="var9"> {{x.Salesperson}}</td> 
          <td *ngIf="var10">{{x.ShippingCost}}</td>
-         <td *ngIf="var11">{{x.UnitPrice}}</td> </tr>-->
-         
+         <td *ngIf="var11">{{x.UnitPrice}}</td> </tr>
+         </table>
   </div>
-  <!--<div class="popup"> 
+  <div class="popup"> 
   <ng-container *ngIf="show">
     <button class="close" (click)="close()">X</button>
     <p id="popup"> Available Fields: </p>
@@ -105,17 +107,7 @@
        </ul> 
        
   </ng-container>
-  </div>-->
-  <p *ngIf="!show;else n"></p>
-  <ng-template #n>
-  <div style="color: black;" *ngFor="let col of displayedColumns;let i=index">
-    <mat-checkbox [checked]="col.checked" (change)="ValueChanged($event,i)">
-
-         {{ col }}
-    </mat-checkbox>                        
   </div>
-  
-  </ng-template>
   <div class="popup"> 
     <ng-container *ngIf="show1">
       <button class="close" (click)="close()">X</button>
@@ -145,6 +137,7 @@
       <button class="buttonCalculator2" (click)="Q()">Quantity</button>
       <button class="buttonCalculator3" (click)="SC()">Shipping Cost</button>
       <button class="buttonCalculator4" (click)="UP()">Unit Price</button> <br> <hr>
+      <button class="buttonCalculator4" style="width: 80%;" (click)="Clear()">Clear </button> <br> <hr>
      <!--- <p id="popup">Aggregate Functions:</p>
       <button class="buttonOperator1" (click)="Sum()"> <b> Sum() </b> </button> <hr> -->
       <p id="popup">Operators</p> 
@@ -152,7 +145,8 @@
       <button class="buttonOperator2" (click)="Minus()"><b> - </b></button> 
       <button class="buttonOperator3" (click)="Mul()"><b> * </b></button>
       <button class="buttonOperator4" (click)="Divide()"><b> / </b></button> <br>
-      
+      <button class="buttonOperator4" style="width: 80%;" (click)="Mean()"><b> Mean </b></button> <br>
+      <button class="buttonOperator4" style="width: 80%;" (click)="Median()"><b> Median </b></button> <br>
        <!--<div class="selectedText">
         <p *ngIf="revenue==1">{{Revenue}}</p>
         <p *ngIf="quantity==1">{{Quantity}}</p>
@@ -169,6 +163,7 @@
     </ng-container>
     </div>
     <div>
+
    <!--Entire Table>-->
       <ng-container *ngIf="!start">
         <table>
@@ -407,8 +402,8 @@
              <!--Two-->
              <ng-container *ngIf="r2==1 && q2==2 && div2==1"><td>{{x.Revenue / x.Quantity}}</td></ng-container>
              <ng-container *ngIf="r2==2 && q2==1 && div2==1"><td>{{x.Quantity/x.Revenue}}</td></ng-container>
-              <ng-container *ngIf="r2==1 && sc2==2 && div2==1"><td>{{x.Revenue/x.ShippingCost}}</td></ng-container>
-               <ng-container *ngIf="r2==2 && sc2==1 && div2==1 "><td>{{x.ShippingCost/x.Revenue}}</td></ng-container>
+             <ng-container *ngIf="r2==1 && sc2==2 && div2==1"><td>{{x.Revenue/x.ShippingCost}}</td></ng-container>
+             <ng-container *ngIf="r2==2 && sc2==1 && div2==1 "><td>{{x.ShippingCost/x.Revenue}}</td></ng-container>
               <ng-container *ngIf="q2==1 && sc2==2 && div2==1 "><td>{{x.Quantity/x.ShippingCost}}</td></ng-container>
               <ng-container *ngIf="q2==2 && sc2==1 && div2==1 "><td>{{x.ShippingCost/x.Quantity}}</td></ng-container>
               <ng-container *ngIf="q2==1 && up2==2 && div2==1"><td>{{x.Quantity/x.UnitPrice}}</td></ng-container> 
@@ -418,6 +413,10 @@
   
              </tr>
              </table>    
+      </ng-container>
+
+      <ng-container>
+
       </ng-container>
   
     </div>

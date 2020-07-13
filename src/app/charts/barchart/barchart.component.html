@@ -14,6 +14,14 @@
      <a href="charts/save-pdf"><button class="btn btn-primary">Save As PDF</button></a>
      &nbsp;<a href=""><button class="btn btn-primary">Home</button></a>
     </div><br><br>
+    <strong>Select X-Axis:</strong>
+   <select  style="width: 20% " class=" form-control" (change)="onColumnNameSelect($event)">
+    <option [value]="i" *ngFor="let i of displayedColumns">{{i}}</option>
+  </select>
+  <strong>Select Y-Axis:</strong>
+  <select  style="width: 20% " class=" form-control" (change)="onColumnNameSelect2($event)">
+   <option [value]="i" *ngFor="let i of displayedColumns">{{i}}</option>
+ </select>
 <div class="chart-container" style="position: relative; height:40vh; width:70vw">    
     <canvas id="canvas"></canvas>    
   </div>

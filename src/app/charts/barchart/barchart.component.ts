@@ -11,16 +11,29 @@ export class BarchartComponent implements OnInit {
   data: Data[];  
   url = 'http://localhost:4000/results';  
   Player = [];  
-  Run = [];  
-  barchart = [];  
+  Run = [];  column="";x=1;y=2;column2="";
+  barchart = [];  _object=Object; arr:string[];
+  displayedColumns;
   constructor(private http: HttpClient) { }  
-  ngOnInit() {  
-    this.http.get(this.url).subscribe((result: Data[]) => {  
+  ngOnInit() { 
+    this.http.get('/assets/appda.json').subscribe(
+      data=>{
+        this.arr=data as string[];
+        this.displayedColumns=(this._object.keys(this.arr[0]))
+        console.log(this.displayedColumns);
+        for(var i=0;i<this.arr.length;i++){
+        this.Player.push(this.arr[i][this.displayedColumns[this.x]]);  
+        this.Run.push(this.arr[i][this.displayedColumns[this.y] ]); 
+        }
+      
+    /*this.http.get(this.url).subscribe((result: string[]) => {  
+      this.arr=result as string[];
+      this.displayedColumns=(this._object.keys(this.arr[0]))
       result.forEach(x => {  
-        this.Player.push(x.month);  
-        this.Run.push(x.price);  
-      });  
-      this  
+        this.Player.push(this.displayedColumns[1]);  
+        this.Run.push(this.displayedColumns[2]);  
+      });  */
+      
       this.barchart.push(new Chart('canvas', {  
         type: 'bar',  
         data: {  
@@ -62,4 +75,14 @@ export class BarchartComponent implements OnInit {
       }));  
     });  
   }  
+
+  onColumnNameSelect(event:Event){
+    this.column=(<HTMLInputElement>event.target).value; 
+    this.x=(this.displayedColumns.indexOf(this.column));
+  }
+  onColumnNameSelect2(event:Event){
+    this.column2=(<HTMLInputElement>event.target).value; 
+    this.y=(this.displayedColumns.indexOf(this.column2));
+  }
+
 }

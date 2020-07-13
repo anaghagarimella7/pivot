@@ -33,28 +33,28 @@ export class CalculatorComponent implements OnInit {
   NewField;
   //revenue=0;
   revenue = 0;
-  r1;
+  
   r2;
   r3;
   r4;
   r5;
   r6;
  quantity=0;
- q1;
+
  q2;
  q3;
  q4;
  q5;
  q6;
  sc=0;
- sc1;
+
  sc2;
  sc3;
  sc4;
  sc5;
  sc6;
  up=0;
- up1;
+ 
  up2;
  up3;
  up4;
@@ -93,6 +93,22 @@ export class CalculatorComponent implements OnInit {
  div4;
  div5;
  div6;
+
+
+
+ // variables Ft Concerned on algorithm and edits by Prakhar Saxena 
+ r1=0;
+ mean=0;
+ median=0;
+ colsum=0;
+ sc1=0;
+ up1=0;
+ q1=0;
+ show2=false;
+ show3=false;
+ //dataSize= this.arrData.length;
+ //
+
  displatTable = 0;
  cv=0;
  op=0;
@@ -107,26 +123,24 @@ ShippingCost="ShippingCost";
 UnitPrice="UnitPrice";
  sumTimes = 0;
  agg_sum=0;
- rev_sum=708785;
- qua_sum=163550;
- sc_sum=6001.5;
- up_sum=781.78;
-  heroes = ["Category", "Revenue", "Month", "Customer","Order Id", "Payment Method", "Quantity","Region","Salesperson","Shipping Cost", "Unit Price"];
- 
+//  rev_sum=708785;
+//  qua_sum=163550;
+//  sc_sum=6001.5;
+//  up_sum=781.78;
+  heroes = ["Category", "Revenue", "Month", "Customer","Order Id", "Payment Method", "Quantity","Region","Salesperson","ShippingCost", "UnitPrice"];
+  arr:string[];
+  types= new Array();
+  displayedColumns:string[];
   start = 0;
-  display = false; displayedColumns:string[];
-  _object=Object;
-  showcase =0;  types=new Array();
-
+  display = false;
+  showcase =0;
   ngOnInit () {
-    this.httpService.get('./assets/appda.json').subscribe(
+    this.httpService.get('./assets/data.json').subscribe(
       data => {
-        this.arrData = data as string [];	 // FILL THE ARRAY WITH DATA.
-        this.displayedColumns=(this._object.keys(this.arrData[0]))
-        for(var i=0;i<this.displayedColumns.length;i++){
-          this.types.push(0);
-        }
-        //  console.log(this.arrBirds[1]);
+        this.arr = data as string [];	
+      //  this.displayedColumns=(this._object.keys(this.arr[0]))
+        this.arrData = data ;	 // FILL THE ARRAY WITH DATA.
+          console.log(data);
       },
       (err: HttpErrorResponse) => {
         console.log (err.message);
@@ -136,43 +150,40 @@ UnitPrice="UnitPrice";
     this.elem = document.documentElement;
 
 }
-ValueChanged(e,i:number){
-  if(e.checked){
-    this.types[i]=1;
-  }
-  else{
-    this.types[i]=0;
-  }
-  console.log(e.checked+" "+i+this.types);
-}
-addHero(newHero: string) {
-  if (newHero) {
-    this.NewField = newHero; 
-    this.heroes.push(newHero);
-  }
-}
-  openFullscreen() {
-    if (this.elem.requestFullscreen) {
-      this.elem.requestFullscreen();
-    } 
+
+
+
+
+
+openFullscreen() {
+  if (this.elem.requestFullscreen) {
+    this.elem.requestFullscreen();
+  } 
 else if (this.elem.mozRequestFullScreen) {
-      /* Firefox */
-      this.elem.mozRequestFullScreen();
-    } 
+    /* Firefox */
+    this.elem.mozRequestFullScreen();
+  } 
 else if (this.elem.webkitRequestFullscreen) {
-      /* Chrome, Safari and Opera */
-      this.elem.webkitRequestFullscreen();
-    } 
+    /* Chrome, Safari and Opera */
+    this.elem.webkitRequestFullscreen();
+  } 
 else if (this.elem.msRequestFullscreen) {
-      /* IE/Edge */
-      this.elem.msRequestFullscreen();
-    }
+    /* IE/Edge */
+    this.elem.msRequestFullscreen();
   }
+}
+
+
+
+
+
+
+
+  
   popUp()
   {
    this.show = !this.show;
    this.show1 = false;
-
   }
   popUp1(){
     this.show1 = !this.show1;
@@ -257,9 +268,22 @@ else if (this.elem.msRequestFullscreen) {
     
   
 }
-R()
+
+
+
+
+addHero(newHero: string) {
+  if (newHero) {
+    this.NewField = newHero; 
+    this.heroes.push(newHero);
+  }
+}
+
+
+  R()
   {
-    
+    this.r1=1;
+    console.log("R called");
       if(this.quantity==0 && this.sc==0 && this.up==0)
       {
       this.revenue = 1;
@@ -269,11 +293,7 @@ R()
       {
         this.revenue = 2;
         this.displayVal = this.displayVal + " Revenue";
-      }
-
-    
-    
-   
+      } 
     
   /*if(this.agg_sum==1){
     this.revenue =3;
@@ -286,7 +306,8 @@ R()
   }
   Q()
   {
-    
+    this.q1=1;
+    console.log("Q called");
       if(this.revenue==0 && this.sc==0 && this.up==0)
     {
       this.quantity = 1;
@@ -314,6 +335,8 @@ R()
     this.cv++;
   }
   SC(){
+    this.sc1=1;
+    console.log("SC called");
     if(this.revenue==0 && this.quantity==0 && this.up==0)
     {
       this.sc = 1;
@@ -337,6 +360,8 @@ R()
     this.cv++;
   }
   UP(){
+    this.up1=1;
+    console.log("UP called");
     if(this.revenue==0 && this.quantity==0 && this.sc==0)
     {
       this.up = 1;
@@ -391,8 +416,174 @@ R()
     this.op++;
     //alert("You Selected /")
   }
+
+ arrSize=0;
+ meanCol=0;
+ Clear(){
+  this.sc1=this.up1=this.q1=0,this.r1=0;
+  this.displayVal=" ";
+  this.show2=false;
+  this.show3=false;
+ }
+  Mean(){
+    this.mean=1;
+    this.show3=true;
+    if(this.r1==1)
+    {   this.sc1=this.up1=this.q1=0;
+        this.colsum=0;  this.arrData.forEach(element => {
+        this.colsum= this.colsum+element.Revenue;
+        this.arrSize++;
+      });}
+
+    if(this.q1==1)
+      { 
+        this.sc1=this.up1=this.r1=0;  
+        this.colsum=0;  this.arrData.forEach(element => {
+          this.colsum= this.colsum + element.Quantity;
+          this.arrSize++;
+        });}
+
+    if(this.sc1==1)
+    {   
+      this.r1=this.up1=this.q1=0;
+        this.colsum=0; console.log("mean of SC"); this.arrData.forEach(element => {
+        this.colsum= this.colsum + element.ShippingCost;
+        this.arrSize++;
+        console.log( element.ShippingCost+"mean of SC" + this.arrSize);
+      });}
+
+      if(this.up1==1)
+    {  this.sc1=this.r1=this.q1=0; 
+        this.colsum=0;   this.arrData.forEach(element => {
+        this.colsum= this.colsum + element.UnitPrice;
+        this.arrSize++;
+      });
+    }
+
+      this.meanCol=this.colsum/this.arrSize;
+      console.log(this.meanCol);
+      this.r1=this.sc1=this.up1=this.q1=0;
+    
+  }
+
+  medin(values: any[]) {
+
+    values.sort( function(a,b) {return a - b;} );
+ console.log(values);
+    var half = Math.floor(values.length/2);
+
+    if(values.length % 2)
+        return values[half];
+    else
+        return (values[half-1] + values[half]) / 2.0;
+  }
+
+//list1: number[];
+//median(list1);
+
+list1 = new Array(0); 
+Median(){
+    this.median=1;
+    this.show2=true;
+    if(this.r1==1)
+    { this.colsum=0;  this.arrData.forEach(element => {
+        this.list1.push(element.Revenue);
+        this.arrSize++;
+      });}
+
+    if(this.q1==1)
+      {  this.colsum=0;  this.arrData.forEach(element => {
+        this.list1.push(element.Quantity);
+          this.arrSize++;
+        });}
+
+    if(this.sc1==1)
+    { this.colsum=0; console.log("mean of SC"); this.arrData.forEach(element => {
+      this.list1.push(element.ShippingCost);
+        this.arrSize++;
+        console.log("mean of SC" + this.colsum);
+      });}
+
+      if(this.up1==1)
+    { this.colsum=0;   this.arrData.forEach(element => {
+      this.list1.push(element.UnitPrice);
+        this.arrSize++;
+      });
+    }
+
+      this.meanCol= this.medin(this.list1);
+      console.log(this.meanCol);
+      this.r1=this.sc1=this.up1=this.q1=0;
+    
+  }
+
+
+
+value=0;
+
+obj={};
+Cal()
+{
+  // this.mean=1;
+  // this.show3=true;
+
+  if(this.plus==1)
+  {        console.log(this.value + ' ohk' + this.heroes.length + 'done' + this.heroes[this.heroes.length-1] + '\n');
+
+    if(this.r1==1 && this.q1==1)
+    {
+      this.arrData.forEach((element,i) => {
+        this.value = element.Quantity + element.Revenue;
+        this.obj["this.heroes[this.heroes.length-1]"]= this.value;
+        console.log(this.obj);
+       // element.push(this.obj);
+        console.log(this.value + ' ohk' + this.heroes.length + 'done' + this.heroes[this.heroes.length-1] + '\n');
+      });
+    }
+  }
+  // if(this.r1==1)
+  // {   this.sc1=this.up1=this.q1=0;
+  //     this.colsum=0;  this.arrData.forEach(element => {
+  //     this.colsum= this.colsum+element.Revenue;
+  //     this.arrSize++;
+  //   });}
+
+  // if(this.q1==1)
+  //   { 
+  //     this.sc1=this.up1=this.r1=0;  
+  //     this.colsum=0;  this.arrData.forEach(element => {
+  //       this.colsum= this.colsum + element.Quantity;
+  //       this.arrSize++;
+  //     });}
+
+  if(this.sc1==1)
+  {   
+    this.r1=this.up1=this.q1=0;
+      this.colsum=0; console.log("mean of SC"); this.arrData.forEach(element => {
+      this.colsum= this.colsum + element.ShippingCost;
+      this.arrSize++;
+      console.log("mean of SC" + this.colsum);
+    });
+  }
+
+    if(this.up1==1)
+  {  this.sc1=this.r1=this.q1=0; 
+      this.colsum=0;   this.arrData.forEach(element => {
+      this.colsum= this.colsum + element.UnitPrice;
+      this.arrSize++;
+    });
+  }
+
+    this.meanCol=this.colsum/this.arrSize;
+    console.log(this.meanCol);
+    this.r1=this.sc1=this.up1=this.q1=0;
+  
+}
+
+
 Calculate(){
   var re = /RevenueRevenue/gi;
+  
  if(this.displayVal.search(re) != -1 )
  {
    alert("Inavlid Formula: operator missing");
@@ -675,12 +866,7 @@ Calculate(){
 
  
  
-
-
-
-
-
- 
+  
   this.display = !this.display;
   this.showcase = 1;
   this.displayVal="";
@@ -696,7 +882,7 @@ Calculate(){
     this.minus1=1;
     if(this.mul==1)
     this.mul1=1;
-    if(this.divide==1)
+    if(this.divide==1)  
     this.div1=1;
     if(this.revenue==1)
     this.r1=1;
@@ -808,8 +994,11 @@ Calculate(){
 }
 close(){
   this.show1=false;
+  this.show2=false;
+  this.show3=false;
   this.show = false;
   this.displayVal="";
+
  
 }
 }

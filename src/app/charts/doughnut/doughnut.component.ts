@@ -12,15 +12,22 @@ export class DoughnutComponent implements OnInit {
     url = 'http://localhost:4000/results';  
     Player = [];  
     Run = [];  
-    chart = [];  
-    constructor(private httpClient: HttpClient) { }  
-    ngOnInit() {  
-      this.httpClient.get(this.url).subscribe((result: Data[]) => {  
-        result.forEach(x => {  
-          this.Player.push(x.month);  
-          this.Run.push(x.price);  
-        });  
-        this  
+    chart = [];  column="";x=1;y=2;column2="";
+    barchart = [];  _object=Object; arr:string[];
+    displayedColumns;
+    constructor(private httpClient: HttpClient) { }
+    ngOnInit() { 
+      this.httpClient.get('/assets/appda.json').subscribe(
+        data=>{
+          this.arr=data as string[];
+          this.displayedColumns=(this._object.keys(this.arr[0]))
+          console.log(this.displayedColumns);
+          for(var i=0;i<this.arr.length;i++){
+          this.Player.push(this.arr[i][this.displayedColumns[this.x]]);  
+          this.Run.push(this.arr[i][this.displayedColumns[this.y] ]); 
+          }
+    
+      
         this.chart.push(new Chart('canvas', {  
           type: 'doughnut',  
           data: {  
