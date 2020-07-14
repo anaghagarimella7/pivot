@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';  
+import { Component, OnInit,Input } from '@angular/core';  
 import { Chart } from 'chart.js';  
 import { HttpClient } from '@angular/common/http';  
 import { Data } from '../Data';  
@@ -11,19 +11,25 @@ export class BarchartComponent implements OnInit {
   data: Data[];  
   url = 'http://localhost:4000/results';  
   Player = [];  
-  Run = [];  column="";x=1;y=2;column2="";
+  Run = [];  column="";x1=1;y1=2;column2="";
   barchart = [];  _object=Object; arr:string[];
   displayedColumns;
+  @Input() xv;
+  @Input() yv;
+
+
   constructor(private http: HttpClient) { }  
   ngOnInit() { 
+    this.x1=this.xv;
+    this.y1=this.yv;
     this.http.get('/assets/appda.json').subscribe(
       data=>{
         this.arr=data as string[];
         this.displayedColumns=(this._object.keys(this.arr[0]))
-        console.log(this.displayedColumns);
+        console.log(this.x1+" "+this.y1);
         for(var i=0;i<this.arr.length;i++){
-        this.Player.push(this.arr[i][this.displayedColumns[this.x]]);  
-        this.Run.push(this.arr[i][this.displayedColumns[this.y] ]); 
+        this.Player.push(this.arr[i][this.displayedColumns[this.x1]]);  
+        this.Run.push(this.arr[i][this.displayedColumns[this.y1] ]); 
         }
       
     /*this.http.get(this.url).subscribe((result: string[]) => {  
@@ -76,13 +82,6 @@ export class BarchartComponent implements OnInit {
     });  
   }  
 
-  onColumnNameSelect(event:Event){
-    this.column=(<HTMLInputElement>event.target).value; 
-    this.x=(this.displayedColumns.indexOf(this.column));
-  }
-  onColumnNameSelect2(event:Event){
-    this.column2=(<HTMLInputElement>event.target).value; 
-    this.y=(this.displayedColumns.indexOf(this.column2));
-  }
+ 
 
 }
