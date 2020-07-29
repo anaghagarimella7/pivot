@@ -21,6 +21,7 @@ export class DynamicComponent implements OnInit {
  
   alignment="left"; click=false; color=""; i=0; len=0;col="Revenue";str="";onlyText=true;ot=-1;
   operators=['>','<','<=','>=','='];
+  operators2=['<','<=','>=','=','>']
   fonts=['Arial','Lucida Sans Unicode','Verdana','Courier New','Tahoma','Palatino Linotype','Impact','Georgia','Times New Roman'];
   sizes=['8','10','11','12','14','16','20','25','30']; 
   col1='';
@@ -167,9 +168,17 @@ openDialog() {
   
   dialogRef.afterClosed().subscribe(result => {
     console.log('The dialog was closed');
-    console.log(dialogConfig.data.value);
+    //console.log(dialogConfig.data.value);
     this.o=dialogConfig.data.operator;
     this.v=dialogConfig.data.value;
+    if(this.o==''||this.o==' '){
+      this.o='<';
+    }
+    if(this.v==0){
+      this.error("Enter a valid number");
+      this.dialogColumn='';
+    }
+    console.log(this.o+" "+this.v);
   });
     
   }
@@ -189,21 +198,32 @@ openDialog() {
     
   dialogRef2.afterClosed().subscribe(result => {
     console.log('The dialog2 was closed');
-    console.log(dialogConfig2.data.label+" "+dialogConfig2.data.string);
+    //console.log(dialogConfig2.data.label+" "+dialogConfig2.data.string);
     this.s=dialogConfig2.data.string;
+    if(this.s==undefined){
+      this.s="Equal";
+    }
     this.l=dialogConfig2.data.label;
+    if(this.l==' '||this.l==''){
+      this.error("Enter a valid string");
+      this.dialogColumn='';
+      return;
+    }
+    console.log(this.s+" "+this.l);
   });
   }
   checkEqual(input:string,string2:string){
+    
     string2=string2.toLocaleLowerCase()
   
-    if(input.toLocaleLowerCase().match(string2)){
+    if(input.toLocaleLowerCase()==(string2)){
       return true;
     }
     else{
       return false;
     }
   }
+  
   checkBegin(input:string,s:string){
     s=s.toLocaleLowerCase()
     if(input.toLocaleLowerCase().startsWith(s)){
@@ -275,7 +295,7 @@ openDialog() {
 Condition(){
   this.sample=true;
   this.condition=true;this.ot=-1;
-  this.format=false;
+  this.format=false; this.buttonConditionApply=false;
   this.buttonDialog=false;this.d=false;this.buttonFormatApply=false;
 }
 Format(){
@@ -287,6 +307,7 @@ Format(){
 }
 conditionApply(){
   this.buttonConditionApply=true;
+  this.condition=false;
   
 }
 conditionCancel(){
@@ -298,14 +319,11 @@ onAdd(){
 onClickColumn(event:Event){
     
   this.Col=(<HTMLInputElement>event.target).value; 
+  if(this.Col==this.col1 || this.Col==this.col2){
+    this.error("Conditional Formatting already applied to the selected column");
+    this.alert=true;
+  }
   this.buttonConditionApply=false;
-  if(this.Col=='category'){
-    this.c=true;
-  }
-  if(this.Col=='month'){
-    this.m=true;
-  }
-
 }
 onFonts(event:Event){
   this.font=(<HTMLInputElement>event.target).value; 
@@ -341,7 +359,7 @@ onOp1(event:Event){
   this.op1=(<HTMLInputElement>event.target).value;    
    this.buttonConditionApply=false;
    this.buttonConditionCancel=true;
-   if(this.op1==this.op2){
+   if(this.op1==this.op2 || (this.op1=='>' && this.op2=='>=')||(this.op1=='<' && this.op2=='<=')){
    this.error("Operations can't be performed; Choose valid operators");
     this.alert=true;
   }
@@ -357,7 +375,7 @@ onOp2(event:Event){
   this.op2=(<HTMLInputElement>event.target).value; 
   this.buttonConditionApply=false;
  this.buttonConditionCancel=true;
- if(this.op1==this.op2){
+ if(this.op1==this.op2|| (this.op1=='>' && this.op2=='>=')||(this.op1=='<' && this.op2=='<=')){
    this.error("Operations can't be performed; Choose valid operators");
    this.alert=true;
  }

@@ -136,13 +136,13 @@ key;
 //  sc_sum=6001.5;
 //  up_sum=781.78;
   arr:string[];
-  types= new Array();
-  displayedColumns:string[];
+  types= new Array();t=false;
+  displayedColumns:string[]; check=new Array();
   start = 0;
   display = false;
   showcase =0;
   ngOnInit () {
-    this.httpService.get('./assets/data.json').subscribe(
+    this.httpService.get('./assets/appda.json').subscribe(
       data => {
         this.arr = data as string [];	
         this.displayedColumns=(this._object.keys(this.arr[0]));
@@ -150,6 +150,7 @@ key;
         this.len=this.displayedColumns.length;
           console.log(this.displayedColumns);
           for(this.i=0;this.i<this.len;this.i++){
+            this.check.push(1);
             if((typeof(this.arr[0][this.displayedColumns[this.i]]))=='string'){
               this.types.push(1);
             }
@@ -176,8 +177,8 @@ close(){
 }
 
 
-
 openFullscreen() {
+  this.t=false;
   if (this.elem.requestFullscreen) {
     this.elem.requestFullscreen();
   } 
@@ -198,12 +199,14 @@ else if (this.elem.msRequestFullscreen) {
 
   popUp()
   {
+    this.t=true;
    this.show = !this.show;
    this.show1 = false;
   }
   popUp1(){
     this.show1 = !this.show1;
     this.show = false;
+    this.t=false;
   }
   Close()
   {
@@ -215,6 +218,18 @@ else if (this.elem.msRequestFullscreen) {
     this.displatTable=1;
    // this.cb=1;
     }
+    
+    changeType(e,i:number){
+      if(e.target.checked){
+      this.check[i]=1;
+      }
+      else{
+        this.check[i]=0;
+      }
+      console.log(this.check);
+
+    }
+    
 
   toggleVisibility1(e,){
     this.var2= e.target.checked;

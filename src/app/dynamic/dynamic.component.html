@@ -79,7 +79,7 @@
  &nbsp;
  <strong> Operator2: </strong>
    <select  style="width: 20%; display: inline; " class=" form-control" (change)="onOp2($event)">
-    <option [value]="i" *ngFor="let i of operators">{{i}}</option>
+    <option [value]="i" *ngFor="let i of operators2">{{i}}</option>
   </select>
   &nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;
@@ -280,8 +280,8 @@
 
 <ng-template #di>
   <button class="btn btn-primary" (click)="openWidth()">Change Width
-  </button>
-  
+  </button><br><br>
+  <alert></alert>
   <p *ngIf="!buttonWidth;else width"></p>
   <ng-template #width>
     &nbsp;&nbsp;<input style="width: 20%; display: inline;" type="text" class="form-control" (input)="onWidth($event)"><br>

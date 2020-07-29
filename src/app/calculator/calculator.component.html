@@ -22,7 +22,7 @@
     </ng-container>
     
   <div>
-    <ng-container *ngIf="!start && !showcase">
+    <ng-container *ngIf="!start && !showcase &&!t">
       <table>
         <tr >
           <td *ngFor="let x of displayedColumns"> {{ x }} </td>
@@ -45,8 +45,36 @@
     <button class="close" (click)="close()">X</button>
     <p id="popup"> Available Fields: </p>
     <ul>
+    <li *ngFor="let x of displayedColumns,let i=index">
+      <input type="checkbox" data-md-icheck (change)="changeType($event,i)"checked >{{x}}
+    </li>
+    </ul>
+  </ng-container>
+  
+  
+</div>
+<p *ngIf="!t;else t2"></p>
+<ng-template #t2>
+  <table>
+    <tr >
+      <td *ngFor="let x of displayedColumns; let i=index">
+        <ng-container *ngIf="check[i]==1">
+          {{ x }} </ng-container></td>
+    </tr>
+               <tr *ngFor="let row of arr; let i=index ">
+
+        <td *ngFor="let objKey of _object.keys(row); let j=index " >
+          <ng-container *ngIf="check[j]==1">
+            <p > {{row[objKey]}}
+            </p>
+            </ng-container>
+          </td>
+
+        </tr>
+        </table>
+</ng-template>
       <!-- <li *ngFor="let x of displayedColumns, let i=index">   -->
-        <!-- <input type="checkbox"  data-md-icheck (change)="toggleVisibility1($event)"checked>{{ x }} </li> -->
+        <!-- <input type="checkbox"  data-md-icheck (change)="toggleVisibility1($event)"checked>{{ x }} </li> 
       <li> <input type="checkbox" ng-model="Category" data-md-icheck (change)="toggleVisibility1($event)"checked>Category </li>
        <li> <input type="checkbox" ng-model="Month" data-md-icheck (change)="toggleVisibility2($event)"checked>Month </li>
       <li>  <input type="checkbox" ng-model="Revenue" data-md-icheck (change)="toggleVisibility3($event)"checked>Revenue </li>
@@ -58,10 +86,9 @@
        <li> <input type="checkbox" ng-model="Salesperson" data-md-icheck (change)="toggleVisibility9($event)"checked> Salesperson</li>
        <li> <input type="checkbox" ng-model="Shipping" data-md-icheck (change)="toggleVisibility10($event)"checked> Shipping Cost</li>
        <li> <input type="checkbox" ng-model="UP" data-md-icheck (change)="toggleVisibility11($event)"checked>UnitPrice </li>
-       </ul> 
        
-  </ng-container>
-  </div>
+        -->
+  
   <div class="popup"> 
     <ng-container *ngIf="show1">
       <button class="close" (click)="close()">X</button>
