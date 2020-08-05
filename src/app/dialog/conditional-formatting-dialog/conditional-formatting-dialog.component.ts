@@ -29,8 +29,16 @@ export class ConditionalFormattingDialogComponent implements OnInit {
     }
   }
 
-  submit()
-  {
+  submit(){
+    
+  if(this.condformat.length!=0){
+    let l=this.condformat.length;
+    for(var i=0;i<l;i++){
+      if(this.condformat[i].value==''||this.condformat[i].value==undefined){
+        alert("Enter a valid numeric value"); 
+      }
+    }
+  }
     /*if(this.condformat[0].value<=0){
         alert("Enter a non zero number");
     }*/
