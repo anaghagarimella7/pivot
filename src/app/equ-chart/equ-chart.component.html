@@ -1,0 +1,35 @@
+<div class="example-viewport">
+  <label> X - Axis </label>
+  <select  class="pivot-select" [(ngModel)]='xAxis' (change)="setAxis($event,'x')">
+    <ng-container *ngFor="let col of columns">
+    <option *ngIf="col.datatype=='string'">{{col.name}}</option>
+  </ng-container>
+  </select>
+  <label> Y - Axis </label>
+  <select  class="pivot-select"  [(ngModel)]='yAxis' (change)="setAxis($event,'y')">
+    <ng-container *ngFor="let col of columns">
+    <option *ngIf="col.datatype=='number'">{{col.name}}</option>
+  </ng-container>
+  </select>
+  <span style="float: right;margin-right: 10px;">
+  <label> Filter </label>
+  <mat-select  class="pivot-select"   (selectionChange)="filterItems($event.value)">
+    <mat-option *ngFor="let col of columns;let i=index" [value]='i' >
+      <mat-icon svgIcon="filter" aria-hidden="false" aria-label="filter icon"></mat-icon>{{col.name}}
+    </mat-option>
+  </mat-select>
+</span>
+  <hr>
+  <!-- <div class="chart-wrapper"> -->
+    <canvas baseChart
+    height="80px"
+    [options]="barChartOptions"
+    [plugins]="barChartPlugins"
+    [legend]="barChartLegend"
+    [datasets]="barChart.data"
+    [labels]="barChart.label"
+    [chartType]="barChart.type">
+  </canvas>
+<!-- </div> -->
+</div>
+

@@ -1,31 +1,11 @@
-<!--
-<div>
-  <table style="color: black; width: 100%;" border="1">
-    <thead>
-      <tr>
-        <th style="background-color: lightblue;" *ngFor="let header of _object.keys(arr[0]); let i = index"><button id="i" (click)="onclick($event,i);openDialog2()">{{header}}</button></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of arr; let i = index">
-        <th  *ngFor="let objKey of _object.keys(row); let j = index" >
-              
-      {{row[objKey]}}
-        </th>
 
-      </tr>
-    </tbody>
-  </table>
-</div>-->
 
-<html>
-  <body>
+    <!--
 <button class="btn btn-primary" (click)="Condition()">Condition</button>&nbsp;
 <button class="btn btn-primary" (click)="Format()">Format</button> &nbsp;
 <button class="btn btn-primary" (click)="dialogs()">Dialog</button>&nbsp;
 <a href="charts"><button class="btn btn-primary" > Charts</button></a> &nbsp;
 <a href="calculator"><button class="btn btn-primary" > Calculator </button></a>
-
 
 <br>
 <br>
@@ -35,11 +15,8 @@
 <ng-template #temp>
  <strong> Column1:</strong>
     <select  style="width: 21%; display: inline; color: black; " class=" form-control" (change)="onCol1($event)">
-      <option [value]="i" *ngFor="let i of displayedColumns">{{i}}</option>
-    </select>
-  
-   
- 
+      <option  [value]="i" *ngFor="let i of numericColumns">{{i}}</option>
+    </select> 
  &nbsp;
  <strong> Operator1:</strong>
    <select  style="width: 20% ; display: inline;" class=" form-control" (change)="onOp1($event)">
@@ -74,7 +51,7 @@
    <strong> Column 2: </strong>
    
   <select  style="width: 21% ; display: inline;" class=" form-control" (change)="onCol2($event)">
-    <option [value]="i" *ngFor="let i of displayedColumns">{{i}}</option>
+    <option [value]="i" *ngFor="let i of numericColumns">{{i}}</option>
   </select>
  &nbsp;
  <strong> Operator2: </strong>
@@ -144,7 +121,6 @@
       <tr>
         <th style="background-color: lightblue;" *ngFor="let header of _object.keys(arr[0]); let i = index">{{header}}</th>
       </tr>
-
       <tr *ngFor="let row of arr; let i = index">
         <th *ngFor="let objKey of _object.keys(row); let j = index" >
           <ng-container>
@@ -152,6 +128,8 @@
           <p *ngIf="(types[j]==0 &&  (col2==objKey &&op2=='<' && row[objKey]<val2)||(col2==objKey &&op2=='>' && row[objKey]>val2)||(col2==objKey &&op2=='>=' && row[objKey]>=val2)||( col2==objKey &&op2=='<=' && row[objKey]<=val2)||(col2==objKey &&op2=='=' && row[objKey]==val2)); " [ngStyle]="{'background-color':fontcolor2,'font-family':font2,'font-size.px':fontsize2,color:textcolor2}">{{row[objKey]}}</p>
           <p *ngIf="types[j]==1 && Col==objKey" [ngStyle]="{'background-color':fontcolor,'text-color':textcolor,'font-family':font,'font-size.px':fontsize}">{{row[objKey]}}</p>
           <p *ngIf="Col!=objKey && col1!=objKey && col2!=objKey">{{row[objKey]}}</p>
+          <p *ngIf="(types[j]==0 && !((col1==objKey &&op1=='<' && row[objKey]<val1)||(col1==objKey &&op1=='>' && row[objKey]>val1)||(col1==objKey && op1=='>=' && row[objKey]>=val1)||(col1==objKey && op1=='<=' && row[objKey]<=val1)||(col1==objKey && op1=='=' && row[objKey]==val1)) && !((col2==objKey &&op2=='<' && row[objKey]<val2)||(col2==objKey &&op2=='>' && row[objKey]>val2)||(col2==objKey &&op2=='>=' && row[objKey]>=val2)||( col2==objKey &&op2=='<=' && row[objKey]<=val2)||(col2==objKey &&op2=='=' && row[objKey]==val2))); " >{{row[objKey]}}</p>
+
           </ng-container> 
           </th>
         </tr>
@@ -162,18 +140,18 @@
 
 <p *ngIf="!format; else for"></p>
 <ng-template #for>
-  <table style="color: black; width: 100%;" border="1">
-    <thead>
-      <tr>
-        <th style="background-color: lightblue;" *ngFor="let header of _object.keys(arr[0]); let i = index"><button class="btn btn-primary" id="i" (click)="onclick1($event,i)">{{header}}</button></th>
-      </tr>
-    </thead>
+  <ul style="display: inline-table; ">
+    <li *ngFor="let x of _object.keys(arr[0]); let i=index">
+      <button class="btn btn-primary" (click)="onclick1($event,i)" > {{x}} </button><br><br>
+    </li>
+    </ul>
+       <p  *ngFor="let header of _object.keys(arr[0]); let i = index"><button class="btn btn-primary" id="i" (click)="onclick1($event,i)">{{header}}</button></p>
     <tbody>
       <tr *ngFor="let row of arr; let i = index">
         <th  *ngFor="let objKey of _object.keys(row); let j = index" >{{ row[objKey] }} </th>
       </tr>
     </tbody>
-  </table>
+
 </ng-template>
   <p *ngIf="ot == 1 ; ">
     <ng-container>
@@ -231,7 +209,7 @@
  
 <p *ngIf="!buttonFormatApply ; else ApplyF"></p>
 <ng-template #ApplyF>
-  <table style="color: black; width: 100%;" border="1">
+  <table class="table table-bordered" style="color: black; width: 100%;" border="1">
     <thead>
       <tr>
         <th style="background-color: lightblue;" *ngFor="let header of _object.keys(arr[0]); let i = index">{{header}}</th>
@@ -254,31 +232,13 @@
     </tbody>
   </table>
 </ng-template>
+
 <p *ngIf="!buttonDialog ; else di"></p>
-<!--
-<ng-template #di>
-  <table style="color: black; width: 100%;" border="1">
-    <thead>
-      <tr>
-        <th style="background-color: lightblue;" *ngFor="let header of _object.keys(arr[0]); let i = index"><button id="i" (click)="onclick($event,i); " >
-          {{header}}</button>  
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of arr; let i = index">
-        <th  *ngFor="let objKey of _object.keys(row); let j = index" >
-              
-      {{row[objKey]}}
-        </th>
-      </tr>
-    </tbody>
-  </table>
-</ng-template>
 
-<p *ngIf="!d; else dialogbox"></p>-->
-
-<ng-template #di>
+<ng-template #di>-->
+  <html>
+    <body>
+  
   <button class="btn btn-primary" (click)="openWidth()">Change Width
   </button><br><br>
   <alert></alert>
@@ -293,7 +253,7 @@
   <button class="btn btn-danger" (click)="reset()">Reset</button>
   <div class="table-container" [style.width.%]="w">
 
-  <table id="tabled" datatable class="row-border hover" style="color: black; width: 100%;" border="1">
+  <table id="tabled" class="row-border hover" style="color: black; width: 100%;" border="1">
     <thead>
       <tr>
         <th style="resize: both; overflow: auto;">No.</th>
@@ -316,6 +276,5 @@
     </tbody>
   </table>
   </div>
-</ng-template>
 </body>
 </html>

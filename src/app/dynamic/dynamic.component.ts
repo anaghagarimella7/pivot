@@ -29,7 +29,7 @@ export class DynamicComponent implements OnInit {
   columnName=''; dialogColumn='';formatColumn='';resetbutton=false;
   thousandSeperator=',';  decimalSeperator='.';  decimalPlace='2';  formatAsPercent='false';  currency='$';
   currencies=['$','&','*','#','@']; decimals=[1,2,3,4,5];thousandSep=[',','None'];
-  op1='>';  op2='>';  val1=0;  val2=0;  font1='';  font2='';  Col=''; buttonDialog=false;
+  op1='>';  op2='<';  val1=0;  val2=0;  font1='';  font2='';  Col=''; buttonDialog=false;
  addCol=false;
  font='';w;
  fontsize=20;
@@ -52,7 +52,7 @@ export class DynamicComponent implements OnInit {
   buttonNumericFormat=false;
   buttonNonNumericFormat=false;
 
- displayedColumns:string[];
+ displayedColumns:string[]; numericColumns= new Array();
   constructor(private alertService:AlertService,private httpService: HttpClient,private dialog: MatDialog,private renderer: Renderer2) { }
   error(message: string) {
     this.alertService.error(message);
@@ -66,6 +66,8 @@ export class DynamicComponent implements OnInit {
         //for(this.i=0;this.i<this.arr.length;this.i++){
           //console.log(this.arr[this.i])
         //}
+       // this.col1=this.displayedColumns[0];
+        //this.col2=this.displayedColumns[0];
         this.dataSource=this.arr;
         this.len=this.displayedColumns.length;
         console.log(this.arr.length);
@@ -76,9 +78,10 @@ export class DynamicComponent implements OnInit {
         }
         else{
           this.types.push(0);
+          this.numericColumns.push(this.displayedColumns[this.i]);
         }
         }
-        console.log(this.types)
+        console.log(this.numericColumns)
         
 
       //this.dataSource.sort = this.sort;
@@ -133,6 +136,7 @@ reset(){
 
 onClickFormatCancel(){
   this.buttonFormatApply=false;
+  this.ot=2;
 }
 onclick1(event:Event,i:number){
   this.format=false;
@@ -146,6 +150,7 @@ onclick1(event:Event,i:number){
 }
 onClickFormatApply(){
   this.buttonFormatApply=true;
+  this.ot=2;
 }
 
 openDialog() {
@@ -312,6 +317,7 @@ conditionApply(){
 }
 conditionCancel(){
   this.buttonConditionApply=false;
+  this.condition=false;
 }
 onAdd(){
   this.addCol=true;
@@ -351,6 +357,7 @@ onTextColors(event:Event){
  onCol1(event:Event){
   this.col1=(<HTMLInputElement>event.target).value; 
   this.buttonConditionApply=false;
+  console.log("colu"+this.col1);
   this.buttonConditionCancel=true;
 }
 onOp1(event:Event){
@@ -366,6 +373,9 @@ onOp1(event:Event){
 }
 onVal1(event:Event){
  this.val1=+(<HTMLInputElement>event.target).value; 
+ if(this.col1==''){
+   this.col1=this.numericColumns[0];
+ }
  this.buttonConditionApply=false;
  this.buttonConditionCancel=true;
 
@@ -394,6 +404,9 @@ onColumn(event:Event){
 }
 onVal2(event:Event){
   this.val2=+(<HTMLInputElement>event.target).value; 
+  if(this.col2==''){
+    this.col2=this.numericColumns[0];
+  }
   this.buttonConditionApply=false;
  this.buttonConditionCancel=true;
  }

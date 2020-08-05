@@ -1,0 +1,25 @@
+<mat-dialog-title>
+  <div fxLayout="row">
+    <div fxFlex>
+      <label id="heading">Create Calculated Field</label>
+    </div>
+  </div>
+  </mat-dialog-title>
+  <hr>
+  <mat-dialog-content>
+    <cdk-virtual-scroll-viewport itemSize="50" minBufferPx="200" maxBufferPx="400" class="example-viewport">
+      <input [(ngModel)]='fieldname' type=text class="pivot-input" placeholder="Enter Field Name"> <br>
+      <label class="field-label">Fields</label><br>
+      <ng-container *ngFor="let col of data.columns">
+      <label class="sel-field" *ngIf="col.datatype=='number'"  (click)="addOperand(col.name)">{{col.name}}</label>
+    </ng-container><br>
+      <label class="field-label">Operators</label><br>
+      <label class="sel-field" *ngFor="let op of operators" (click)="addOperator(op)">{{op}}</label><br>
+      <textarea [(ngModel)]='formula' rows="4" cols="70"></textarea>
+  </cdk-virtual-scroll-viewport>
+  </mat-dialog-content>
+  <hr>
+  <mat-dialog-actions align="end"  >
+    <button   class="submit" (click)="submit()">Create</button>
+    <button   class="cancel" (click)="cancel()">Cancel</button>
+  </mat-dialog-actions>

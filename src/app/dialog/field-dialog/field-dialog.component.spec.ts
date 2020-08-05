@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InterfaceComponent } from './interface.component';
+import { FieldDialogComponent } from './field-dialog.component';
 
-describe('InterfaceComponent', () => {
-  let component: InterfaceComponent;
-  let fixture: ComponentFixture<InterfaceComponent>;
+describe('FieldDialogComponent', () => {
+  let component: FieldDialogComponent;
+  let fixture: ComponentFixture<FieldDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InterfaceComponent ]
+      declarations: [ FieldDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InterfaceComponent);
+    fixture = TestBed.createComponent(FieldDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

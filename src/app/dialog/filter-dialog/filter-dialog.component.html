@@ -1,0 +1,24 @@
+<mat-dialog-title>
+  <div fxLayout="row">
+    <div fxFlex>
+      <label id="heading">Filter Column</label>
+    </div>
+  </div>
+  </mat-dialog-title>
+  <hr>
+  <mat-dialog-content>
+    <div fxLayout="row" fxLayoutAlign="center" >
+      <select fxFlex='40' [(ngModel)]='option' class="pivot-input">
+        <option class="pivot-input" *ngFor="let op of filteroptions">{{op}}</option>
+      </select>
+      <input fxFlex='40'[(ngModel)]="value" class="pivot-input" type="text">
+    </div>
+    <div fxLayout="row"  >
+      <label fxFlex='90' class='clear-filter' (click)="clearFilter()" align="right">clear filter</label>
+      </div>
+    </mat-dialog-content>
+  <hr>
+  <mat-dialog-actions align="end"  >
+    <button   class="submit" (click)="submit()">Apply</button>
+    <button   class="cancel" (click)="cancel()">Cancel</button>
+  </mat-dialog-actions>
