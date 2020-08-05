@@ -23,7 +23,7 @@ export class EquListComponent implements OnInit {
   searchString = "";
   conditionalformat = [];
   tabularlayout = false;
-  chartsType = ['Bar', 'Pie'];
+  chartsType = ['Bar', 'Pie','Line','Doughnut'];
   chart = 'Bar';
   @ViewChild(CdkVirtualScrollViewport, { static: false }) public viewPort: CdkVirtualScrollViewport;
 
@@ -147,6 +147,19 @@ export class EquListComponent implements OnInit {
       return styleProperty;
     }
   }
+  onPreview(){
+    //window.print();
+    var printContents = document.getElementById("tabled").innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+    
+    };
+    
   styleCheck(option, value, item): boolean {
     if (option == 'Empty') {
       if (item == null || item == undefined || item == '') {
@@ -225,6 +238,9 @@ export class EquListComponent implements OnInit {
       this.tabularlayout = true;
       chart = chart;
     }
+    console.log(chart);
+    this.chart=chart;
+    console.log(this.chart);
   }
 }
 

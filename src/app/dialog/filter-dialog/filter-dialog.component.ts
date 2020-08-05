@@ -33,7 +33,7 @@ export class FilterDialogComponent implements OnInit {
     }*/
     if(this.value!=null && this.value!='' && this.value!=' ')
     {
-    this.value=this.value.toLowerCase();
+    //this.value=this.value.toLowerCase();
     const index = this.data.index;
     this.data.columns[index].filter = {
       status : true,

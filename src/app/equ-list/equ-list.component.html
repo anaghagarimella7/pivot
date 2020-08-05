@@ -1,7 +1,11 @@
+<html>
+  <body>
 <div style="color:black">
   <input type="text" placeholder="Search" [(ngModel)]="searchString" class="pivot-input"/>
   <button class="pivot-button" (click)="openFieldDialog()">Fields</button>
   <button class="pivot-button" (click)="openFullScreen()">FullScreen</button>
+ <!-- <button class="pivot-button" (click)="onPreview()">Print</button>-->
+
   <button class="cond-format-button" (click)="openConditionalFormattingDialog()">Conditional Formatting</button>
   <button   class="pivot-button" [matMenuTriggerFor]="belowMenu">Chart View</button>
   <button  *ngIf="!tabularlayout" class="pivot-button" (click)="changeViewMode()">Tabular View</button>
@@ -9,7 +13,8 @@
     <button *ngFor="let chart of chartsType" class="menu-button" (click)="changeViewMode(chart)" mat-menu-item>{{chart}}</button>
   </mat-menu>
   <cdk-virtual-scroll-viewport *ngIf="tabularlayout" itemSize="50" minBufferPx="200" maxBufferPx="400" class="example-viewport">
-<table style="width:100%" >
+<div id="tabled">
+    <table  style="width:100%" >
 <thead>
   <tr>
 <th [style.top]="inverseTranslation" class="pivot-header"><label>SNo.</label></th>
@@ -40,8 +45,11 @@
 </tr>
 </tbody>
 </table>
+</div>
 </cdk-virtual-scroll-viewport>
 <app-equ-chart *ngIf="!tabularlayout" [columns]="columns" [items]='items' [chart]='chart'>
 
 </app-equ-chart>
 </div>
+</body>
+</html>

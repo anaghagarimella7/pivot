@@ -1,4 +1,6 @@
-<div class="example-viewport">
+<html>
+  <body>
+  <div class="example-viewport">
   <label> X - Axis </label>
   <select  class="pivot-select" [(ngModel)]='xAxis' (change)="setAxis($event,'x')">
     <ng-container *ngFor="let col of columns">
@@ -13,7 +15,7 @@
   </select>
   <span style="float: right;margin-right: 10px;">
   <label> Filter </label>
-  <mat-select  class="pivot-select"   (selectionChange)="filterItems($event.value)">
+  <mat-select  class="pivot-select"  (selectionChange)="filterItems($event.value)">
     <mat-option *ngFor="let col of columns;let i=index" [value]='i' >
       <mat-icon svgIcon="filter" aria-hidden="false" aria-label="filter icon"></mat-icon>{{col.name}}
     </mat-option>
@@ -21,6 +23,7 @@
 </span>
   <hr>
   <!-- <div class="chart-wrapper"> -->
+    <ng-container *ngIf="charttype=='Bar'">
     <canvas baseChart
     height="80px"
     [options]="barChartOptions"
@@ -30,6 +33,42 @@
     [labels]="barChart.label"
     [chartType]="barChart.type">
   </canvas>
+  </ng-container>
+  <ng-container *ngIf="charttype=='Pie'">
+  <canvas baseChart
+    height="80px"
+    [options]="pieChartOptions"
+    [plugins]="pieChartPlugins"
+    [legend]="pieChartLegend"
+    [datasets]="pieChart.data"
+    [labels]="pieChart.label"
+    [chartType]="pieChart.type">
+  </canvas>
+  </ng-container>
+  <ng-container *ngIf="charttype=='Doughnut'">
+    <canvas baseChart
+      height="80px"
+      [options]="doughnutChartOptions"
+      [plugins]="doughnutChartPlugins"
+      [legend]="doughnutChartLegend"
+      [datasets]="doughnutChart.data"
+      [labels]="doughnutChart.label"
+      [chartType]="doughnutChart.type">
+    </canvas>
+    </ng-container>
+    <ng-container *ngIf="charttype=='Line'">
+      <canvas baseChart
+        height="80px"
+        [options]="lineChartOptions"
+        [plugins]="lineChartPlugins"
+        [legend]="lineChartLegend"
+        [datasets]="lineChart.data"
+        [labels]="lineChart.label"
+        [chartType]="lineChart.type">
+      </canvas>
+      </ng-container>
+ 
 <!-- </div> -->
 </div>
-
+</body>
+</html>

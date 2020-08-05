@@ -13,12 +13,15 @@ import { Label } from 'ng2-charts';
 export class EquChartComponent implements OnInit, OnChanges {
   @Input() columns;
   @Input() items;
-  @Input('chart') charttype;
+   @Input('chart') charttype;
   chartlabel = [];
   chartItem = [];
   xAxis;
   yAxis;
+  selectedVariable: any;
+
   xy = new Map();
+  
   barChartLegend = true;
   barChartPlugins = [];
   barChartOptions: ChartOptions = {
@@ -38,6 +41,64 @@ export class EquChartComponent implements OnInit, OnChanges {
       label: ['Apple', 'Banana', 'Kiwifruit', 'Blueberry', 'Orange', 'Grapes'],
       type: 'bar'
     };
+    doughnutChartLegend = true;
+  doughnutChartPlugins = [];
+  doughnutChartOptions: ChartOptions = {
+    responsive: true,
+  };
+  doughnutChartData: ChartDataSets[] = [
+    { data: [45, 37, 60, 70, 46, 33], label: 'Best Fruits' }
+  ];
+  doughnutChartLabels: Label[] = ['Apple', 'Banana', 'Kiwifruit', 'Blueberry', 'Orange', 'Grapes'];
+  doughnutChartType: ChartType = 'bar';
+  doughnutChart: {
+    data: ChartDataSets[],
+    label: Label[],
+    type: ChartType
+  } = {
+      data: [{ data: [45, 37, 60, 70, 46, 33], label: 'Best Fruits' }],
+      label: ['Apple', 'Banana', 'Kiwifruit', 'Blueberry', 'Orange', 'Grapes'],
+      type: 'bar'
+    };
+    pieChartLegend = true;
+  pieChartPlugins = [];
+  pieChartOptions: ChartOptions = {
+    responsive: true,
+  };
+  pieChartData: ChartDataSets[] = [
+    { data: [45, 37, 60, 70, 46, 33], label: 'Best Fruits' }
+  ];
+  pieChartLabels: Label[] = ['Apple', 'Banana', 'Kiwifruit', 'Blueberry', 'Orange', 'Grapes'];
+  pieChartType: ChartType = 'pie';
+  pieChart: {
+    data: ChartDataSets[],
+    label: Label[],
+    type: ChartType
+  } = {
+      data: [{ data: [45, 37, 60, 70, 46, 33], label: 'Best Fruits' }],
+      label: ['Apple', 'Banana', 'Kiwifruit', 'Blueberry', 'Orange', 'Grapes'],
+      type: 'pie'
+    };
+    lineChartLegend = true;
+  lineChartPlugins = [];
+  lineChartOptions: ChartOptions = {
+    responsive: true,
+  };
+  lineChartData: ChartDataSets[] = [
+    { data: [45, 37, 60, 70, 46, 33], label: 'Best Fruits' }
+  ];
+  lineChartLabels: Label[] = ['Apple', 'Banana', 'Kiwifruit', 'Blueberry', 'Orange', 'Grapes'];
+  lineChartType: ChartType = 'pie';
+  lineChart: {
+    data: ChartDataSets[],
+    label: Label[],
+    type: ChartType
+  } = {
+      data: [{ data: [45, 37, 60, 70, 46, 33], label: 'Best Fruits' }],
+      label: ['Apple', 'Banana', 'Kiwifruit', 'Blueberry', 'Orange', 'Grapes'],
+      type: 'pie'
+    };
+   
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,public dialog:MatDialog) {
     iconRegistry.addSvgIcon(
       'filter',
@@ -52,6 +113,7 @@ export class EquChartComponent implements OnInit, OnChanges {
       this.initializeAxis();
       this.initializseChartView();
     }
+
   }
   initializeAxis()
   {
@@ -131,8 +193,15 @@ export class EquChartComponent implements OnInit, OnChanges {
         this.createBarChart();
         break;
       case 'Pie':
-
+        this.createPieChart();
         break;
+      case 'Doughnut':
+        this.createDoughnutChart();
+        break;
+      case 'Line':
+        this.createLineChart();
+        break;
+      
     }
   }
   createBarChart() {
@@ -140,7 +209,21 @@ export class EquChartComponent implements OnInit, OnChanges {
     this.barChart.label = this.chartlabel;
     this.barChart.type = this.charttype.toLowerCase();
   }
-
+  createPieChart() {
+    this.pieChart.data = [{ data: this.chartItem, label: 'Sum of ' + this.yAxis }];
+    this.pieChart.label = this.chartlabel;
+    this.pieChart.type = this.charttype.toLowerCase();
+  }
+  createDoughnutChart() {
+    this.doughnutChart.data = [{ data: this.chartItem, label: 'Sum of ' + this.yAxis }];
+    this.doughnutChart.label = this.chartlabel;
+    this.doughnutChart.type = this.charttype.toLowerCase();
+  }
+  createLineChart() {
+    this.lineChart.data = [{ data: this.chartItem, label: 'Sum of ' + this.yAxis }];
+    this.lineChart.label = this.chartlabel;
+    this.lineChart.type = this.charttype.toLowerCase();
+  }
   filterCheck(option, value, item): boolean {
     if (item == null || item == undefined) {
       return false;
@@ -190,6 +273,8 @@ export class EquChartComponent implements OnInit, OnChanges {
     return false;
   }
   filterItems(col) {
+    console.log(this.selectedVariable);
+
     console.log(col);
     const dialogRef = this.dialog.open(FilterDialogComponent, {
       width: '50%',
