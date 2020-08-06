@@ -35,7 +35,18 @@ background-size: cover;
   transform: translate(-50%, -50%);
   text-align: center;
 }
-
+.pivot-button{
+  margin-left: 10px;
+  background-color: rgb(95, 95, 148);
+  outline: 0 !important;
+  border: 0;
+  box-shadow: 0 0 3px rgb(105, 131, 153);
+  color: white;
+  padding: 5px;
+  font-size: 12px;
+  border-radius: 5px;
+  width: 100px;
+  }
 .heading-primary {
   color: #fff;
   text-transform: uppercase;

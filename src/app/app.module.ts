@@ -45,6 +45,7 @@ import { FilterDialogComponent } from './dialog/filter-dialog/filter-dialog.comp
 import { ConditionalFormattingDialogComponent } from './dialog/conditional-formatting-dialog/conditional-formatting-dialog.component';
 import { EquChartComponent } from './equ-chart/equ-chart.component';
 import { MatMenuModule} from '@angular/material/menu';
+import { ExportAsModule } from 'ngx-export-as';
 
 const appRoutes:Routes=[
   { path : '', component:DynamicComponent } ,
@@ -97,6 +98,7 @@ DragDropModule,
 MatSelectModule,
 MatInputModule,
 MatButtonModule,
+ExportAsModule,
     AlertModule,
     HttpClientModule,
     FormsModule,

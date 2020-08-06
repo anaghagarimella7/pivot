@@ -1,11 +1,14 @@
 <html>
   <body>
-<div style="color:black">
+<div #fs style="color:black">
   <input type="text" placeholder="Search" [(ngModel)]="searchString" class="pivot-input"/>
   <button class="pivot-button" (click)="openFieldDialog()">Fields</button>
-  <button class="pivot-button" (click)="openFullScreen()">FullScreen</button>
- <!-- <button class="pivot-button" (click)="onPreview()">Print</button>-->
-
+  <button class="pivot-button" (click)="openFullScreen();">FullScreen</button>
+  <button *ngIf="tabularlayout" class="pivot-button" (click)="onPreview()">Print</button>
+  <button *ngIf="tabularlayout" class="pivot-button" [matMenuTriggerFor]="belowMenu2" > Export</button>
+  <mat-menu  #belowMenu2="matMenu" yPosition="below" [overlapTrigger]="false" class="menu-style">
+    <button *ngFor="let exp of exportsType" class="menu-button" (click)="changeExportMode(exp)" mat-menu-item>{{exp}}</button>
+  </mat-menu>
   <button class="cond-format-button" (click)="openConditionalFormattingDialog()">Conditional Formatting</button>
   <button   class="pivot-button" [matMenuTriggerFor]="belowMenu">Chart View</button>
   <button  *ngIf="!tabularlayout" class="pivot-button" (click)="changeViewMode()">Tabular View</button>
@@ -13,27 +16,30 @@
     <button *ngFor="let chart of chartsType" class="menu-button" (click)="changeViewMode(chart)" mat-menu-item>{{chart}}</button>
   </mat-menu>
   <cdk-virtual-scroll-viewport *ngIf="tabularlayout" itemSize="50" minBufferPx="200" maxBufferPx="400" class="example-viewport">
-<div id="tabled">
-    <table  style="width:100%" >
+   
+    <div id="tabled">  
+    <table style="width:100%"  >
 <thead>
   <tr>
 <th [style.top]="inverseTranslation" class="pivot-header"><label>SNo.</label></th>
 <th *ngFor="let col of columns | filterColumn;let i=index;" [style.top]="inverseTranslation"  class="pivot-header">
   <label (click)="filterItems(i)">{{col.name}}
-    <mat-icon   svgIcon="filter" aria-hidden="false" aria-label="filter icon"></mat-icon>
+    <mat-icon svgIcon="filter" aria-hidden="false" aria-label="filter icon"></mat-icon>
   </label>
-  <mat-icon *ngIf="col.asc==0" (click)="changeOrder(i)" svgIcon="arrow-up" aria-hidden="false" aria-label="ascending order"></mat-icon>
-  <mat-icon *ngIf="col.asc==1" (click)="changeOrder(i)" svgIcon="arrow-down" aria-hidden="false" aria-label="descending order"></mat-icon>
+  <mat-icon *ngIf="col.asc==0 " (click)="changeOrder(i)" svgIcon="arrow-up" aria-hidden="false" aria-label="ascending order"></mat-icon>
+  <mat-icon *ngIf="col.asc==1 " (click)="changeOrder(i)" svgIcon="arrow-down" aria-hidden="false" aria-label="descending order"></mat-icon>
 </th>
 </tr>
 </thead>
-<tbody>
+
+<tbody id="table1">
 <tr *cdkVirtualFor="let item of items | searchitems : columns:searchString;let index = index;"  class="example-item">
   <td class="pivot-column" >
   <label>{{index+1}}</label>
   </td>
+  
   <ng-container *ngFor="let col of columns |filterColumn">
-    <td *ngIf="col.datatype=='number';else nexttd"  [ngStyle]="getStyle(col.name,item[col.name])" class="pivot-column">
+    <td *ngIf="col.datatype=='number' && applyCond;else nexttd"  [ngStyle]="getStyle(col.name,item[col.name])" class="pivot-column">
       <label >{{item[col.name]}}</label>
     </td>
     <ng-template #nexttd>
@@ -42,10 +48,12 @@
       </td>
     </ng-template>
   </ng-container>
+  
 </tr>
 </tbody>
 </table>
-</div>
+
+    </div>
 </cdk-virtual-scroll-viewport>
 <app-equ-chart *ngIf="!tabularlayout" [columns]="columns" [items]='items' [chart]='chart'>
 

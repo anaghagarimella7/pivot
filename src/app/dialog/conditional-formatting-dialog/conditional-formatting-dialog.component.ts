@@ -8,7 +8,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 })
 export class ConditionalFormattingDialogComponent implements OnInit {
   condformat=new Array();
-  columns;
+  columns; 
   conditions=['Equal' , 'Not equal' , 'Less' , 'Greater' , 'Less or equal', 'Greater or equal',
    'Empty'];
    fonts=['Arial','Lucida Sans Unicode','Verdana','Courier New','Tahoma','Palatino Linotype','Impact','Georgia','Times New Roman'];
@@ -39,10 +39,10 @@ export class ConditionalFormattingDialogComponent implements OnInit {
       }
     }
   }
-    /*if(this.condformat[0].value<=0){
-        alert("Enter a non zero number");
-    }*/
+  
+    
       this.dialogRef.close(this.condformat);
+      
 
   }
   cancel()

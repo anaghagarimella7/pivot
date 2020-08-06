@@ -46,6 +46,10 @@ export class SearchPipe implements PipeTransform {
     {
       return false;
     }
+    value=value.toLowerCase();
+    if(typeof(item)=='string'){
+    item=item.toLowerCase();
+    }
     switch (option) {
       case 'Equal':
         if(value==item)

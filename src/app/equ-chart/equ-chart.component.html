@@ -15,8 +15,9 @@
   </select>
   <span style="float: right;margin-right: 10px;">
   <label> Filter </label>
-  <mat-select  class="pivot-select"  (selectionChange)="filterItems($event.value)">
-    <mat-option *ngFor="let col of columns;let i=index" [value]='i' >
+  <mat-select  class="pivot-select" (openedChange)="onSelectionChange($event)"
+  [(value)]="selectedVariable"><!-- (selectionChange)="filterItems($event.value)">-->
+    <mat-option *ngFor="let col of columns;let i=index" [value]='i+1' >
       <mat-icon svgIcon="filter" aria-hidden="false" aria-label="filter icon"></mat-icon>{{col.name}}
     </mat-option>
   </mat-select>

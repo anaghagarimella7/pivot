@@ -18,8 +18,8 @@ export class EquChartComponent implements OnInit, OnChanges {
   chartItem = [];
   xAxis;
   yAxis;
-  selectedVariable: any;
-
+  selectedVariable: 0;
+  change=false;
   xy = new Map();
   
   barChartLegend = true;
@@ -98,7 +98,7 @@ export class EquChartComponent implements OnInit, OnChanges {
       label: ['Apple', 'Banana', 'Kiwifruit', 'Blueberry', 'Orange', 'Grapes'],
       type: 'pie'
     };
-   
+
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,public dialog:MatDialog) {
     iconRegistry.addSvgIcon(
       'filter',
@@ -225,6 +225,10 @@ export class EquChartComponent implements OnInit, OnChanges {
     this.lineChart.type = this.charttype.toLowerCase();
   }
   filterCheck(option, value, item): boolean {
+    if(typeof(item)=='string'){
+      item=item.toLowerCase();
+      value=value.toLowerCase();
+    }
     if (item == null || item == undefined) {
       return false;
     }
@@ -272,8 +276,9 @@ export class EquChartComponent implements OnInit, OnChanges {
     }
     return false;
   }
+
+  
   filterItems(col) {
-    console.log(this.selectedVariable);
 
     console.log(col);
     const dialogRef = this.dialog.open(FilterDialogComponent, {
@@ -286,5 +291,16 @@ export class EquChartComponent implements OnInit, OnChanges {
       console.log(this.columns);
       this.initializseChartView();
     })
+    
+  }
+  onSelectionChange(opened: boolean) {
+    if (!opened && this.selectedVariable) {
+      if(this.selectedVariable==null){
+        this.selectedVariable=0;
+      }
+      this.filterItems(this.selectedVariable-1);
+   }
+    
+
   }
 }

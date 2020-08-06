@@ -4,12 +4,16 @@ import { FieldDialogComponent } from './../dialog/field-dialog/field-dialog.comp
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, Subscription } from 'rxjs';
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, ViewEncapsulation } from '@angular/core';
 import { DataSource } from '@angular/cdk/table';
 import { CollectionViewer } from '@angular/cdk/collections';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
+import * as jsPDF from 'jspdf'
+import * as XLSX from 'xlsx'; 
+import { saveAs } from 'file-saver';
+import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 
 @Component({
   selector: 'app-equ-list',
@@ -18,15 +22,43 @@ import { MatIconRegistry } from '@angular/material';
   encapsulation: ViewEncapsulation.None
 })
 export class EquListComponent implements OnInit {
-  items;elem;
+  exportAsConfig: ExportAsConfig = {
+    type: 'xml', 
+    elementIdOrContent: 'tabled' 
+  };
+  exportAsConfig2: ExportAsConfig = {
+    type: 'csv',
+    elementIdOrContent: 'tabled' 
+  };
+  exportAsConfig3: ExportAsConfig = {
+    type: 'txt',
+    elementIdOrContent: 'tabled' 
+  };
+  exportAsConfig4: ExportAsConfig = {
+    type: 'pdf',
+    elementIdOrContent: 'table1' 
+  };
+  items;elem;el;
   columns;
   searchString = "";
   conditionalformat = [];
   tabularlayout = false;
   chartsType = ['Bar', 'Pie','Line','Doughnut'];
   chart = 'Bar';
+  exportsType=['PDF','XML','EXCEL','CSV','TEXT'];
+  export='PDF';
+  fileName= 'pivot_excel.xlsx';  
+  applyCond=false;
+  private setting = {
+    element: {
+      dynamicDownload: null as HTMLElement
+    }
+  }
   @ViewChild(CdkVirtualScrollViewport, { static: false }) public viewPort: CdkVirtualScrollViewport;
-
+  @ViewChild('tabled', {static: false}) tabled: ElementRef;
+  @ViewChild('fs',{static: false}) fs: ElementRef;
+  isFullScreen=false;
+  print=false;
   public get inverseTranslation(): string {
     if (!this.viewPort || !this.viewPort["_renderedContentOffset"]) {
       return "-0px";
@@ -35,7 +67,7 @@ export class EquListComponent implements OnInit {
     return `-${offset}px`;
   }
   constructor(private httpService: HttpClient, public dialog: MatDialog,
-    iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+    iconRegistry: MatIconRegistry, sanitizer: DomSanitizer,private exportAsService: ExportAsService) {
     iconRegistry.addSvgIcon(
       'arrow-up',
       sanitizer.bypassSecurityTrustResourceUrl('assets/icons/arrow_drop_up-24px.svg'));
@@ -64,28 +96,26 @@ export class EquListComponent implements OnInit {
       console.log(this.items);
 
     });
-    this.elem = document.documentElement;
+    this.el = document.documentElement;
 
   }
   openFullScreen() {
-    //this.t=false;
-    if (this.elem.requestFullscreen) {
-      this.elem.requestFullscreen();
-    } 
-  else if (this.elem.mozRequestFullScreen) {
-      /* Firefox */
-      this.elem.mozRequestFullScreen();
-    } 
-  else if (this.elem.webkitRequestFullscreen) {
-      /* Chrome, Safari and Opera */
-      this.elem.webkitRequestFullscreen();
-    } 
-  else if (this.elem.msRequestFullscreen) {
-      /* IE/Edge */
-      this.elem.msRequestFullscreen();
-    }
-  }
+  // var el = document.documentElement;
+    this.isFullScreen=true;
+   // if (!document.fullscreenElement ) {  // current working methods
+      if (this.el.requestFullscreen) {
+        this.el.requestFullscreen();
+      } else if (this.el.mozRequestFullScreen) {
+        this.el.mozRequestFullScreen();
+      } else if (this.el.webkitRequestFullscreen) {
+        this.el.webkitRequestFullscreen();
+      } else if (this.el.msRequestFullscreen) {
 
+        this.el.msRequestFullscreen();
+      }
+    //}
+  }
+  
   getType(val) {
     if (typeof (val) == 'number') {
       return typeof (val);
@@ -109,20 +139,23 @@ export class EquListComponent implements OnInit {
   }
 
   openConditionalFormattingDialog() {
+    this.applyCond=false;
     const dialogRef = this.dialog.open(ConditionalFormattingDialogComponent, {
       width: '70%',
-      data: { columns: this.columns, format: this.conditionalformat },
+      data: { columns: this.columns, format: this.conditionalformat},
       disableClose: true
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result != null) {
         console.log(result);
         this.conditionalformat = [...result];
+       this.applyCond=true;
       }
     });
   }
   getStyle(name, value) {
    // console.log(this.conditionalformat);
+   //if(this.applyCond){
     if (this.conditionalformat.length == 0) {
       return {
         backgroundColor: 'white'
@@ -145,19 +178,31 @@ export class EquListComponent implements OnInit {
         }
       })
       return styleProperty;
-    }
+   // }
   }
+}
+  
   onPreview(){
-    //window.print();
-    var printContents = document.getElementById("tabled").innerHTML;
-     var originalContents = document.body.innerHTML;
+    const doc = new jsPDF();
+  
+      const specialElementHandlers = {
+        '#editor': function (element, renderer) {
+          return true;
+        }
+      };
+  
+      const pdfTable = document.getElementById("tabled").innerHTML;
+  
+      doc.fromHTML(pdfTable, 15, 15, {
+        width: 190,
+        'elementHandlers': specialElementHandlers
+      });
+      //window.open(doc.output('datauristring'));
 
-     document.body.innerHTML = printContents;
-
-     window.print();
-
-     document.body.innerHTML = originalContents;
-    
+     // doc.save('tableToPdf.pdf');
+      doc.autoPrint();
+      window.open(doc.output('bloburl'), '_blank')
+  
     };
     
   styleCheck(option, value, item): boolean {
@@ -238,9 +283,81 @@ export class EquListComponent implements OnInit {
       this.tabularlayout = true;
       chart = chart;
     }
-    console.log(chart);
     this.chart=chart;
-    console.log(this.chart);
   }
+  changeExportMode(exp) {
+     
+  switch(exp){
+    case 'PDF':
+      this.createPDF(); break;
+    case 'XML':
+      this.createXML();break;
+    case 'EXCEL':
+      this.createEXCEL();break;
+    case 'CSV':
+      this.createCSV();break;
+    case 'TEXT':
+      this.createJSON();break;
+  }
+  }
+  createPDF(){
+    this.exportAsService.save(this.exportAsConfig4, 'pivot_pdf').subscribe(() => {
+      // save started
+    });
+    /*
+      const doc = new jsPDF();
+  
+      const specialElementHandlers = {
+        '#editor': function (element, renderer) {
+          return true;
+        }
+      };
+  
+      const pdfTable = document.getElementById("tabled").innerHTML;  
+      doc.fromHTML(pdfTable, 15, 15, {
+        width: 190,
+        'elementHandlers': specialElementHandlers
+      });
+      
+
+   doc.save('tableToPdf.pdf',{ top: 32,
+      bottom: 10,
+      left: 10,
+      width: 200 });
+    */
+    
+  }
+  createXML(){
+    this.exportAsService.save(this.exportAsConfig, 'pivot_xml').subscribe(() => {
+      // save started
+    });
+  }
+  createEXCEL(){
+
+       /* table id is passed over here */   
+       let element = document.getElementById('tabled'); 
+       const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
+
+       /* generate workbook and add the worksheet */
+       const wb: XLSX.WorkBook = XLSX.utils.book_new();
+       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+       /* save to file */
+       XLSX.writeFile(wb, this.fileName);
+			
+    
+    }
+  createCSV(){
+    this.exportAsService.save(this.exportAsConfig2, 'pivot_csv').subscribe(() => {
+      // save started
+    });
+    
+   
+  }
+  createJSON(){
+   this.exportAsService.save(this.exportAsConfig3, 'pivot_text').subscribe(()=>{
+
+   });
+}
 }
 
